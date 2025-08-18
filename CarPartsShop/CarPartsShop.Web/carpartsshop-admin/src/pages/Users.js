@@ -1,34 +1,56 @@
 import { Table, Button, Form } from "react-bootstrap";
-import { useState } from "react";
-
-// Simulate logged-in user (Admin)
-const loggedInUserId = 1;
-
-const initialUsers = [
-  { id: 1, name: "You (Admin)", email: "admin@example.com", role: "Admin", isBlocked: false },
-  { id: 2, name: "Jane Smith", email: "jane@example.com", role: "SalesAssistant", isBlocked: false },
-  { id: 3, name: "Bob Marley", email: "bob@example.com", role: "Customer", isBlocked: false },
-  { id: 4, name: "Alice Johnson", email: "alice@example.com", role: "Customer", isBlocked: true },
-];
+import { useState, useEffect } from "react";
+import http from "../api/http";
+import { useAuth } from "../auth/AuthContext";
 
 const roleOptions = ["SalesAssistant", "Customer"];
 
 export default function Users() {
-  const [users, setUsers] = useState(initialUsers);
+  const [users, setUsers] = useState([]);
+  const { user: authUser } = useAuth();
+  const currentEmail = (authUser?.email || "").toLowerCase();
+
+  // Load users once
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await http.get("/api/admin/users", { params: { page: 1, pageSize: 50 } });
+        const items = Array.isArray(res.data) ? res.data : (res.data?.items ?? []);
+        const mapped = items.map((u) => {
+          const roles = u.roles || [];
+          const role =
+            roles.includes("Administrator")
+              ? "Admin"
+              : roles.includes("SalesAssistant")
+              ? "SalesAssistant"
+              : "Customer";
+          return {
+            id: u.id, // string is fine for React keys
+            name:
+              (u.firstName || u.lastName)
+                ? `${u.firstName ?? ""} ${u.lastName ?? ""}`.trim()
+                : (u.email ?? ""),
+            email: u.email ?? "",
+            role,
+            isBlocked: !!u.lockedOut,
+          };
+        });
+        setUsers(mapped);
+      } catch (err) {
+        console.error("Failed to load users:", err);
+      }
+    })();
+  }, []);
 
   const handleRoleChange = (id, newRole) => {
     setUsers((prev) =>
-      prev.map((u) =>
-        u.id === id ? { ...u, role: newRole } : u
-      )
+      prev.map((u) => (u.id === id ? { ...u, role: newRole } : u))
     );
   };
 
   const toggleBlock = (id) => {
     setUsers((prev) =>
-      prev.map((u) =>
-        u.id === id ? { ...u, isBlocked: !u.isBlocked } : u
-      )
+      prev.map((u) => (u.id === id ? { ...u, isBlocked: !u.isBlocked } : u))
     );
   };
 
@@ -51,52 +73,57 @@ export default function Users() {
           </tr>
         </thead>
         <tbody>
-          {users.map((u) => (
-            <tr key={u.id}>
-              <td>{u.id}</td>
-              <td>{u.name}</td>
-              <td>{u.email}</td>
-              <td>
-                {u.role === "Admin" ? (
-                  <strong>Admin</strong>
-                ) : (
-                  <Form.Select
-                    size="sm"
-                    value={u.role}
-                    onChange={(e) => handleRoleChange(u.id, e.target.value)}
-                  >
-                    {roleOptions.map((role) => (
-                      <option key={role} value={role}>
-                        {role}
-                      </option>
-                    ))}
-                  </Form.Select>
-                )}
-              </td>
-              <td>{u.isBlocked ? "Blocked" : "Active"}</td>
-              <td>
-                {u.id !== loggedInUserId && (
-                  <>
-                    <Button
+          {users.map((u) => {
+            const isSelf = (u.email || "").toLowerCase() === currentEmail;
+            return (
+              <tr key={u.id}>
+                <td>{u.id}</td>
+                <td>{u.name}</td>
+                <td>{u.email}</td>
+                <td>
+                  {/* Admin rows (and your own row) are not editable here */}
+                  {u.role === "Admin" || isSelf ? (
+                    <strong>{u.role === "Admin" ? "Admin" : u.role}</strong>
+                  ) : (
+                    <Form.Select
                       size="sm"
-                      variant={u.isBlocked ? "success" : "warning"}
-                      onClick={() => toggleBlock(u.id)}
-                      className="me-2"
+                      value={u.role}
+                      onChange={(e) => handleRoleChange(u.id, e.target.value)}
                     >
-                      {u.isBlocked ? "Unblock" : "Block"}
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="danger"
-                      onClick={() => deleteUser(u.id)}
-                    >
-                      Delete
-                    </Button>
-                  </>
-                )}
-              </td>
-            </tr>
-          ))}
+                      {roleOptions.map((role) => (
+                        <option key={role} value={role}>
+                          {role}
+                        </option>
+                      ))}
+                    </Form.Select>
+                  )}
+                </td>
+                <td>{u.isBlocked ? "Blocked" : "Active"}</td>
+                <td>
+                  {/* Hide all actions for your own row */}
+                  {!isSelf && (
+                    <>
+                      <Button
+                        size="sm"
+                        variant={u.isBlocked ? "success" : "warning"}
+                        onClick={() => toggleBlock(u.id)}
+                        className="me-2"
+                      >
+                        {u.isBlocked ? "Unblock" : "Block"}
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="danger"
+                        onClick={() => deleteUser(u.id)}
+                      >
+                        Delete
+                      </Button>
+                    </>
+                  )}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </Table>
     </>

@@ -82,6 +82,8 @@ namespace CarPartsShop.API.Controllers
                 })
                 .ToListAsync();
 
+            Response.Headers["X-Total-Count"] = total.ToString();
+
             return Ok(new
             {
                 page,
@@ -136,6 +138,8 @@ namespace CarPartsShop.API.Controllers
             _db.Parts.Add(part);
             await _db.SaveChangesAsync();
 
+            await LogAdminAction($"Created product {part.Name} (SKU: {part.Sku})");
+
             return CreatedAtAction(nameof(GetPartById), new { id = part.Id }, part);
         }
 
@@ -155,6 +159,9 @@ namespace CarPartsShop.API.Controllers
             part.CategoryId = dto.CategoryId;
 
             await _db.SaveChangesAsync();
+
+            await LogAdminAction($"Updated product {part.Name} (ID: {part.Id})");
+
             return Ok(dto);
         }
 
@@ -170,7 +177,25 @@ namespace CarPartsShop.API.Controllers
             _db.Parts.Remove(part);
             await _db.SaveChangesAsync();
 
+            await LogAdminAction($"Deleted product {part.Name} (ID: {part.Id})");
+
             return NoContent();
+        }
+
+        private async Task LogAdminAction(string action)
+        {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "unknown";
+            var userEmail = User.Identity?.Name ?? "unknown";
+
+            _db.AdminLogs.Add(new AdminLog
+            {
+                Timestamp = DateTime.UtcNow,
+                PerformedById = userId,
+                PerformedByEmail = userEmail,
+                Action = action
+            });
+
+            await _db.SaveChangesAsync();
         }
     }
 }

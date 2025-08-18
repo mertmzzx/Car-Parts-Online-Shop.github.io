@@ -1,4 +1,4 @@
-import { useEffect } from "react"; 
+import { useEffect, useState } from "react";
 import { Card, Row, Col, Button, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import http from "../api/http";
@@ -8,50 +8,59 @@ export default function Dashboard() {
   const { user } = useAuth();
   const navigate = useNavigate();
 
+  // --- State (live data) ---
+  const [summary, setSummary] = useState({
+    totalOrders: 0,
+    totalUsers: 0,
+    totalRevenue: 0,
+    lowStockCount: 0,
+  });
+  const [recentOrders, setRecentOrders] = useState([]);
+  const [adminLogs, setAdminLogs] = useState([]);
+
+  // --- Load dashboard data ---
   useEffect(() => {
-    http.get("/api/orders/recent?limit=1")
-      .then(res => {
-        console.log("✅ API connected. Status:", res.status);
-        console.log("Sample data:", res.data);
+    // Stats
+    http
+      .get("/api/admin/stats")
+      .then((res) => {
+        // Expecting: { totalOrders, totalUsers, totalRevenue, lowStockCount }
+        setSummary((prev) => ({ ...prev, ...(res.data || {}) }));
       })
-      .catch(err => {
-        console.error("❌ API connection failed:", err.message);
-      });
+      .catch((err) => console.error("❌ Failed to load stats", err));
+
+    // Recent orders
+    http
+      .get("/api/orders/recent?limit=5")
+      .then((res) => setRecentOrders(Array.isArray(res.data) ? res.data : []))
+      .catch((err) => console.error("❌ Failed to load recent orders", err));
+
+    // Admin logs
+    http
+      .get("/api/admin/logs?limit=10")
+      .then((res) => setAdminLogs(Array.isArray(res.data) ? res.data : []))
+      .catch((err) => console.error("❌ Failed to load admin logs", err));
   }, []);
 
-  const summary = {
-    totalOrders: 128,
-    totalUsers: 42,
-    totalRevenue: 19500.75,
-    lowStockCount: 6,
-  };
+  // --- Helpers to render with flexible DTO field names ---
+  const formatMoney = (n) =>
+    typeof n === "number" ? n.toFixed(2) : Number(n || 0).toFixed(2);
 
-  const recentOrders = [
-    { id: 101, customer: "John Doe", status: "Pending", total: 99.99, createdAt: "2025-08-13" },
-    { id: 102, customer: "Jane Smith", status: "Shipped", total: 149.99, createdAt: "2025-08-12" },
-    { id: 103, customer: "Alex Johnson", status: "Delivered", total: 89.5, createdAt: "2025-08-11" },
-  ];
+  const orderId = (o) => o.id ?? o.Id;
+  const orderCustomerText = (o) =>
+    o.customer ??
+    o.customerName ??
+    `Customer #${o.customerId ?? o.CustomerId ?? "?"}`;
+  const orderStatus = (o) => o.status ?? o.Status ?? "Unknown";
+  const orderTotal = (o) => o.total ?? o.Total ?? 0;
+  const orderDate = (o) =>
+    new Date(o.createdAt ?? o.CreatedAt ?? Date.now()).toLocaleString();
 
-  const mockAdminLogs = [
-    {
-      id: 1,
-      timestamp: "2025-08-14T12:34:56Z",
-      user: "admin@example.com",
-      action: "Changed role of john.doe@example.com from Customer to SalesAssistant"
-    },
-    {
-      id: 2,
-      timestamp: "2025-08-14T10:22:33Z",
-      user: "admin@example.com",
-      action: "Cancelled order #102"
-    },
-    {
-      id: 3,
-      timestamp: "2025-08-13T18:10:01Z",
-      user: "admin@example.com",
-      action: "Deleted user jane.doe@example.com"
-    }
-  ];
+  const logKey = (l) => l.id ?? l.Id ?? `${(l.timestamp || l.Timestamp || l.occurredAt || l.OccurredAt || "")}-${(l.user || l.userEmail || l.performedBy || l.PerformedBy || "")}-${(l.action || l.message || l.Message || "")}`;
+  const logWhen = (l) =>
+    new Date(l.timestamp ?? l.Timestamp ?? l.occurredAt ?? l.OccurredAt ?? Date.now()).toLocaleString();
+  const logUser = (l) => l.user ?? l.userEmail ?? l.performedBy ?? l.PerformedBy ?? "—";
+  const logAction = (l) => l.action ?? l.message ?? l.Message ?? "—";
 
   return (
     <div>
@@ -63,7 +72,7 @@ export default function Dashboard() {
           <Card bg="primary" text="white" className="text-center shadow-sm">
             <Card.Body>
               <Card.Title>Total Orders</Card.Title>
-              <h3>{summary.totalOrders}</h3>
+              <h3>{summary.totalOrders ?? 0}</h3>
             </Card.Body>
           </Card>
         </Col>
@@ -71,7 +80,7 @@ export default function Dashboard() {
           <Card bg="success" text="white" className="text-center shadow-sm">
             <Card.Body>
               <Card.Title>Total Users</Card.Title>
-              <h3>{summary.totalUsers}</h3>
+              <h3>{summary.totalUsers ?? 0}</h3>
             </Card.Body>
           </Card>
         </Col>
@@ -79,7 +88,7 @@ export default function Dashboard() {
           <Card bg="warning" text="dark" className="text-center shadow-sm">
             <Card.Body>
               <Card.Title>Total Revenue</Card.Title>
-              <h3>${summary.totalRevenue.toFixed(2)}</h3>
+              <h3>${formatMoney(summary.totalRevenue)}</h3>
             </Card.Body>
           </Card>
         </Col>
@@ -87,7 +96,7 @@ export default function Dashboard() {
           <Card bg="danger" text="white" className="text-center shadow-sm">
             <Card.Body>
               <Card.Title>Low Stock</Card.Title>
-              <h3>{summary.lowStockCount}</h3>
+              <h3>{summary.lowStockCount ?? 0}</h3>
             </Card.Body>
           </Card>
         </Col>
@@ -113,15 +122,23 @@ export default function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              {recentOrders.map((order) => (
-                <tr key={order.id}>
-                  <td>#{order.id}</td>
-                  <td>{order.customer}</td>
-                  <td>{order.status}</td>
-                  <td>${order.total.toFixed(2)}</td>
-                  <td>{order.createdAt}</td>
+              {recentOrders.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="text-center text-muted">
+                    No recent orders.
+                  </td>
                 </tr>
-              ))}
+              ) : (
+                recentOrders.map((o) => (
+                  <tr key={orderId(o)}>
+                    <td>#{orderId(o)}</td>
+                    <td>{orderCustomerText(o)}</td>
+                    <td>{orderStatus(o)}</td>
+                    <td>${formatMoney(orderTotal(o))}</td>
+                    <td>{orderDate(o)}</td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </Table>
         </Card.Body>
@@ -133,19 +150,22 @@ export default function Dashboard() {
           <h5>🚀 Quick Access</h5>
         </Card.Header>
         <Card.Body className="d-flex gap-3 flex-wrap">
-
           {user?.roles?.includes("Administrator") && (
-          <Button variant="primary" onClick={() => navigate("/users")}>
-          Manage Users
-          </Button>
+            <Button variant="primary" onClick={() => navigate("/users")}>
+              Manage Users
+            </Button>
           )}
-
-          <Button variant="success" onClick={() => navigate("/products")}>Manage Products</Button>
-          <Button variant="info" onClick={() => navigate("/orders")}>Manage Orders</Button>
+          <Button variant="success" onClick={() => navigate("/products")}>
+            Manage Products
+          </Button>
+          <Button variant="info" onClick={() => navigate("/orders")}>
+            Manage Orders
+          </Button>
         </Card.Body>
       </Card>
 
       {/* Admin Logs */}
+      {user?.roles?.includes("Administrator") && (
       <Card className="shadow-sm">
         <Card.Header>
           <h5>📝 Admin Logs</h5>
@@ -160,17 +180,26 @@ export default function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              {mockAdminLogs.map((log) => (
-                <tr key={log.id}>
-                  <td>{new Date(log.timestamp).toLocaleString()}</td>
-                  <td>{log.user}</td>
-                  <td>{log.action}</td>
+              {adminLogs.length === 0 ? (
+                <tr>
+                  <td colSpan={3} className="text-center text-muted">
+                    No recent admin activity.
+                  </td>
                 </tr>
-              ))}
+              ) : (
+                adminLogs.map((log) => (
+                  <tr key={logKey(log)}>
+                    <td>{logWhen(log)}</td>
+                    <td>{logUser(log)}</td>
+                    <td>{logAction(log)}</td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </Table>
         </Card.Body>
       </Card>
+      )}
     </div>
   );
 }

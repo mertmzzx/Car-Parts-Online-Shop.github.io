@@ -406,7 +406,24 @@ namespace CarPartsShop.API.Controllers
             order.Status = newStatus;
             await _db.SaveChangesAsync();
 
+            await LogAdminAction($"Changed order #{order.Id} status to {dto.Status}");
+
             return NoContent();
+        }
+        private async Task LogAdminAction(string action)
+        {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "unknown";
+            var userEmail = User.Identity?.Name ?? "unknown";
+
+            _db.AdminLogs.Add(new AdminLog
+            {
+                Timestamp = DateTime.UtcNow,
+                PerformedById = userId,
+                PerformedByEmail = userEmail,
+                Action = action
+            });
+
+            await _db.SaveChangesAsync();
         }
     }
 }

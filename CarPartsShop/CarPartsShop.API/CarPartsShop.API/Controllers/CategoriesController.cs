@@ -1,5 +1,6 @@
 ﻿using CarPartsShop.API.Data;
 using CarPartsShop.API.DTOs.Categories;
+using CarPartsShop.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -48,5 +49,22 @@ namespace CarPartsShop.API.Controllers
             if (cat == null) return NotFound();
             return Ok(cat);
         }
+
+        private async Task LogAdminAction(string action)
+        {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "unknown";
+            var userEmail = User.Identity?.Name ?? "unknown";
+
+            _db.AdminLogs.Add(new AdminLog
+            {
+                Timestamp = DateTime.UtcNow,
+                PerformedById = userId,
+                PerformedByEmail = userEmail,
+                Action = action
+            });
+
+            await _db.SaveChangesAsync();
+        }
+
     }
 }

@@ -16,6 +16,8 @@ namespace CarPartsShop.API.Data
         public DbSet<Order> Orders => Set<Order>();
         public DbSet<OrderItem> OrderItems => Set<OrderItem>();
         public DbSet<OrderStatusHistory> OrderStatusHistory => Set<OrderStatusHistory>();
+        public DbSet<AdminLog> AdminLogs => Set<AdminLog>();
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

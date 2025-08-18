@@ -1,24 +1,83 @@
-import { useState } from "react";
-import { Table, Button, Modal, Form, InputGroup } from "react-bootstrap";
-import { useAuth } from "../auth/AuthContext";     // ← NEW: to read roles
-import http from "../api/http";                    // ← NEW: to call API
-
-const initialProducts = [
-  { id: 1, name: "Oil Filter", sku: "OF123", price: 12.5, stock: 100 },
-  { id: 2, name: "Brake Pads", sku: "BP456", price: 45.0, stock: 40 },
-  { id: 3, name: "Spark Plug", sku: "SP789", price: 9.99, stock: 200 },
-];
+import { useEffect, useMemo, useState } from "react";
+import { Table, Button, Modal, Form, InputGroup, Pagination } from "react-bootstrap";
+import { useAuth } from "../auth/AuthContext";
+import http from "../api/http";
 
 export default function Products() {
-  const { user } = useAuth();                       // ← NEW
-  const roles = user?.roles || [];                  // ← NEW
-  const isAdmin = roles.includes("Administrator");  // ← NEW
-  const canEdit = isAdmin || roles.includes("SalesAssistant"); // ← NEW
+  // Roles / permissions
+  const { user } = useAuth();
+  const roles = user?.roles || [];
+  const isAdmin = roles.includes("Administrator");
+  const canEdit = isAdmin || roles.includes("SalesAssistant");
 
-  const [products, setProducts] = useState(initialProducts);
+  // Data
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [search, setSearch] = useState("");
+
+  // Pagination state
+  const [page, setPage] = useState(1);
+  const [pageSize] = useState(10);
+  const [total, setTotal] = useState(0);
+
+  // Modal
   const [showModal, setShowModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
+
+  // --- Load categories ---
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await http.get("/api/categories");
+        const items = Array.isArray(res.data) ? res.data : res.data?.items ?? [];
+        setCategories(
+          items.map((c) => ({
+            id: c.id ?? c.Id,
+            name: c.name ?? c.Name,
+          }))
+        );
+      } catch (err) {
+        console.error("Failed to load categories:", err);
+      }
+    })();
+  }, []);
+
+  // --- Load products (with pagination) ---
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await http.get("/api/parts", { params: { page, pageSize } });
+        let totalCount = Number(res.headers?.["x-total-count"]);
+
+        if (!Number.isFinite(totalCount) || totalCount <= 0 ) {
+            const bodyTotal = res.data?.total ?? res.data?.Total;
+            totalCount = Number(bodyTotal) || 0;
+        }
+
+        setTotal(totalCount);
+
+        const items = Array.isArray(res.data) ? res.data : res.data?.items ?? [];
+        const mapped = items.map((p) => ({
+          id: p.id ?? p.Id,
+          name: p.name ?? p.Name,
+          sku: p.sku ?? p.Sku,
+          description: p.description ?? p.Description ?? "",
+          price: p.price ?? p.Price,
+          quantityInStock: p.quantityInStock ?? p.QuantityInStock,
+          categoryId: p.categoryId ?? p.CategoryId,
+          categoryName:
+            p.categoryName ?? p.CategoryName ??
+            p.category?.name ?? p.Category?.Name ?? "",
+        }));
+
+        setProducts(mapped);
+      } catch (err) {
+        console.error("Failed to load products:", err);
+      }
+    })();
+  }, [page, pageSize]);
+
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
   const openModal = (product = null) => {
     setEditingProduct(product);
@@ -30,52 +89,87 @@ export default function Products() {
     setEditingProduct(null);
   };
 
-  const handleSave = (e) => {
-    e.preventDefault();
+  function readApiError(err) {
+  const r = err?.response;
+  if (!r) return err?.message || "Network error";
+  // Try common shapes
+  if (typeof r.data === "string") return r.data;
+  if (r.data?.message) return r.data.message;
+  if (r.data?.title) return r.data.title;
+  try { return JSON.stringify(r.data); } catch { return `HTTP ${r.status}`; }
+}
 
-    const form = e.target;
-    const newProduct = {
-      id: editingProduct?.id || Date.now(),
-      name: form.name.value,
-      sku: form.sku.value,
-      price: parseFloat(form.price.value),
-      stock: parseInt(form.stock.value),
-    };
 
+const handleSave = async (e) => {
+  e.preventDefault();
+
+  const form = e.target;
+
+  // Make sure these `name=` values exist in your form controls
+  const payload = {
+    id: editingProduct?.id,                                    // number
+    name: form.name.value.trim(),
+    sku: form.sku.value.trim(),
+    description: (form.description?.value || "").trim(),
+    price: Number(form.price.value),                           // number
+    quantityInStock: Number(form.stock.value),                 // number
+    categoryId: Number(form.categoryId.value),                 // number
+  };
+
+  // quick client-side checks
+  if (!payload.name || !payload.sku) {
+    alert("Name and SKU are required.");
+    return;
+  }
+  if (!Number.isFinite(payload.price) || !Number.isInteger(payload.categoryId)) {
+    alert("Price must be a number and a category must be selected.");
+    return;
+  }
+
+  try {
     if (editingProduct) {
-      setProducts(products.map((p) => (p.id === editingProduct.id ? newProduct : p)));
+      // UPDATE existing part
+      // NOTE: use /api/parts (not /api/products)
+      const { data: updated } = await http.put(`/api/parts/${editingProduct.id}`, payload);
+
+      // Update local list with what server returns (prefer server’s echo)
+      setProducts(prev =>
+        prev.map(p => (p.id === editingProduct.id ? { ...p, ...updated } : p))
+      );
     } else {
-      setProducts([...products, newProduct]);
+      // CREATE new part
+      const { data: created } = await http.post("/api/parts", payload);
+      setProducts(prev => [...prev, created]);
     }
 
     closeModal();
-  };
+  } catch (err) {
+    console.error("❌ Save failed:", err);
+    alert(`Error saving product: ${readApiError(err)}`);
+  }
+};
 
-  // UPDATED: call API to let backend enforce admin-only delete (403 for SA)
-  const deleteProduct = async (id) => {
-    if (!window.confirm("Delete this product?")) return;
+const deleteProduct = async (id) => {
+  if (!window.confirm("Delete this product?")) return;
+  try {
+    await http.delete(`/api/parts/${id}`);
+    setProducts(prev => prev.filter(p => p.id !== id));
+  } catch (err) {
+    console.error("❌ Delete failed:", err);
+    alert(`Error deleting product: ${readApiError(err)}`);
+  }
+};
 
-    try {
-      // Adjust path if your backend route differs (e.g., /api/products/{id})
-      await http.delete(`/api/parts/${id}`);
-      // If server accepted, reflect change in UI
-      setProducts(products.filter((p) => p.id !== id));
-    } catch (err) {
-      const status = err?.response?.status;
-      if (status === 403) {
-        alert("Forbidden: only administrators can delete products.");
-      } else if (status === 404) {
-        alert("Product not found on server.");
-      } else {
-        alert(err?.response?.data || "Delete failed.");
-      }
-    }
-  };
-
-  const filteredProducts = products.filter((p) =>
-    p.name.toLowerCase().includes(search.toLowerCase()) ||
-    p.sku.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredProducts = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    if (!q) return products;
+    return products.filter((p) =>
+      (p.name || "").toLowerCase().includes(q) ||
+      (p.sku || "").toLowerCase().includes(q) ||
+      (p.categoryName || "").toLowerCase().includes(q) ||
+      (p.description || "").toLowerCase().includes(q)
+    );
+  }, [products, search]);
 
   return (
     <>
@@ -90,11 +184,20 @@ export default function Products() {
 
       <InputGroup className="mb-3">
         <Form.Control
-          placeholder="Search by name or SKU"
+          placeholder="Search by name, SKU, category, or description"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
       </InputGroup>
+
+      {/* Pagination Controls */}
+      <Pagination className="mb-3">
+        <Pagination.First disabled={page === 1} onClick={() => setPage(1)} />
+        <Pagination.Prev disabled={page === 1} onClick={() => setPage(p => Math.max(1, p - 1))} />
+        <Pagination.Item active>{page}</Pagination.Item>
+        <Pagination.Next disabled={page === totalPages} onClick={() => setPage(p => Math.min(totalPages, p + 1))} />
+        <Pagination.Last disabled={page === totalPages} onClick={() => setPage(totalPages)} />
+      </Pagination>
 
       <Table striped bordered hover responsive>
         <thead>
@@ -102,19 +205,21 @@ export default function Products() {
             <th>ID</th>
             <th>Name</th>
             <th>SKU</th>
+            <th>Category</th>
             <th>Price</th>
             <th>Stock</th>
-            <th>Actions</th>
+            <th style={{ width: 200 }}>Actions</th>
           </tr>
         </thead>
         <tbody>
           {filteredProducts.map((p) => (
             <tr key={p.id}>
               <td>{p.id}</td>
-              <td>{p.name}</td>
+              <td title={p.description}>{p.name}</td>
               <td>{p.sku}</td>
-              <td>${p.price.toFixed(2)}</td>
-              <td>{p.stock}</td>
+              <td>{p.categoryName || "-"}</td>
+              <td>${Number(p.price).toFixed(2)}</td>
+              <td>{p.quantityInStock}</td>
               <td>
                 {canEdit && (
                   <Button
@@ -126,8 +231,6 @@ export default function Products() {
                     Edit
                   </Button>
                 )}
-
-                {/* Delete shown only for Admins; API still enforces 403 anyway */}
                 {isAdmin && (
                   <Button
                     size="sm"
@@ -143,7 +246,8 @@ export default function Products() {
         </tbody>
       </Table>
 
-      <Modal show={showModal} onHide={closeModal}>
+      {/* Modal for add/edit (local state only for now) */}
+      <Modal show={showModal} onHide={closeModal} centered>
         <Form onSubmit={handleSave}>
           <Modal.Header closeButton>
             <Modal.Title>{editingProduct ? "Edit Product" : "New Product"}</Modal.Title>
@@ -151,24 +255,77 @@ export default function Products() {
           <Modal.Body>
             <Form.Group className="mb-3">
               <Form.Label>Name</Form.Label>
-              <Form.Control name="name" defaultValue={editingProduct?.name || ""} required />
+              <Form.Control
+                name="name"
+                defaultValue={editingProduct?.name || ""}
+                required
+              />
             </Form.Group>
+
             <Form.Group className="mb-3">
               <Form.Label>SKU</Form.Label>
-              <Form.Control name="sku" defaultValue={editingProduct?.sku || ""} required />
+              <Form.Control
+                name="sku"
+                defaultValue={editingProduct?.sku || ""}
+                required
+              />
             </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={2}
+                name="description"
+                defaultValue={editingProduct?.description || ""}
+                placeholder="Optional"
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Category</Form.Label>
+              <Form.Select
+                name="categoryId"
+                defaultValue={editingProduct?.categoryId ?? ""}
+                required
+              >
+                <option value="" disabled>Select a category…</option>
+                {categories.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
+
             <Form.Group className="mb-3">
               <Form.Label>Price</Form.Label>
-              <Form.Control type="number" step="0.01" name="price" defaultValue={editingProduct?.price || ""} required />
+              <Form.Control
+                type="number"
+                step="0.01"
+                name="price"
+                defaultValue={editingProduct?.price ?? ""}
+                required
+              />
             </Form.Group>
+
             <Form.Group>
               <Form.Label>Stock</Form.Label>
-              <Form.Control type="number" name="stock" defaultValue={editingProduct?.stock || ""} required />
+              <Form.Control
+                type="number"
+                name="stock"
+                defaultValue={editingProduct?.quantityInStock ?? ""}
+                required
+              />
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={closeModal}>Cancel</Button>
-            <Button variant="primary" type="submit">Save</Button>
+            <Button variant="secondary" onClick={closeModal}>
+              Cancel
+            </Button>
+            <Button variant="primary" type="submit">
+              Save
+            </Button>
           </Modal.Footer>
         </Form>
       </Modal>

@@ -1,30 +1,45 @@
-import { useState } from "react";
-import { Accordion, Table, Button, Badge, Dropdown } from "react-bootstrap";
-
-const mockOrders = [
-  {
-    id: 1,
-    customerId: 101,
-    createdAt: "2025-08-14T10:30:00Z",
-    status: "Pending",
-    total: 79.98,
-    items: [
-      { partId: 1, partName: "Oil Filter", sku: "OF123", quantity: 2, unitPrice: 19.99 },
-      { partId: 2, partName: "Brake Pads", sku: "BP456", quantity: 1, unitPrice: 39.99 },
-    ],
-  },
-  {
-    id: 2,
-    customerId: 102,
-    createdAt: "2025-08-13T15:45:00Z",
-    status: "Shipped",
-    total: 45.0,
-    items: [{ partId: 3, partName: "Spark Plug", sku: "SP789", quantity: 5, unitPrice: 9.0 }],
-  },
-];
+import { Accordion, Table, Button, Badge, Dropdown, Pagination } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import http from "../api/http";
 
 export default function Orders() {
-  const [orders, setOrders] = useState(mockOrders);
+  const [orders, setOrders] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageSize] = useState(10); // how many per page
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await http.get("/api/orders", { params: { page, pageSize } });
+
+        // read X-Total-Count header (API must expose it in CORS)
+        const totalCount = parseInt(res.headers["x-total-count"] ?? "0", 10);
+        setTotal(Number.isNaN(totalCount) ? 0 : totalCount);
+
+        const data = Array.isArray(res.data) ? res.data : (res.data?.items ?? []);
+        const mapped = data.map(o => ({
+          id: o.id,
+          customerId: o.customerId,
+          createdAt: o.createdAt,
+          status: o.status || "Pending",
+          total: o.total ?? 0,
+          items: (o.items || []).map(i => ({
+            partId: i.partId,
+            partName: i.partName,
+            sku: i.sku,
+            quantity: i.quantity,
+            unitPrice: i.unitPrice
+          }))
+        }));
+        setOrders(mapped);
+      } catch (err) {
+        console.error("Failed to load orders:", err);
+      }
+    })();
+  }, [page, pageSize]);
+
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
   const getStatusVariant = (status) => {
     switch (status.toLowerCase()) {
@@ -58,7 +73,15 @@ export default function Orders() {
         <h2>Orders</h2>
       </div>
 
-      {/* defaultActiveKey opens the first item initially; remove if you want all collapsed */}
+      {/* Pagination Controls */}
+      <Pagination className="mb-3">
+        <Pagination.First disabled={page === 1} onClick={() => setPage(1)} />
+        <Pagination.Prev disabled={page === 1} onClick={() => setPage(p => Math.max(1, p - 1))} />
+        <Pagination.Item active>{page}</Pagination.Item>
+        <Pagination.Next disabled={page === totalPages} onClick={() => setPage(p => Math.min(totalPages, p + 1))} />
+        <Pagination.Last disabled={page === totalPages} onClick={() => setPage(totalPages)} />
+      </Pagination>
+
       <Accordion defaultActiveKey="0" alwaysOpen={false}>
         {orders.map((order, idx) => (
           <Accordion.Item eventKey={String(idx)} key={order.id}>

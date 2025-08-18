@@ -1,9 +1,9 @@
 using System.Text;
-using CarPartsShop.API.Auth;                 // Roles constants (Point 6)
-using CarPartsShop.API.Data;                 // AppDbContext + SeedAsync (Point 6)
+using CarPartsShop.API.Auth;                 // Roles constants 
+using CarPartsShop.API.Data;                 // AppDbContext + SeedAsync 
 using CarPartsShop.API.Data.Seed;
 using CarPartsShop.API.Models.Identity;      // AppUser/AppRole
-using CarPartsShop.API.Services;             // JwtTokenService (Point 7)
+using CarPartsShop.API.Services;             // JwtTokenService 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -64,10 +64,11 @@ builder.Services.AddCors(opt =>
     opt.AddPolicy("DevCors", policy =>
     {
         policy
-            .WithOrigins("http://localhost:5173", "http://127.0.0.1:5173") // Vite or any dev UI
+            .WithOrigins("http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:3000") 
             .AllowAnyHeader()
             .AllowAnyMethod()
-            .AllowCredentials();
+            .AllowCredentials()
+            .WithExposedHeaders("X-Total-Count");
     });
 });
 

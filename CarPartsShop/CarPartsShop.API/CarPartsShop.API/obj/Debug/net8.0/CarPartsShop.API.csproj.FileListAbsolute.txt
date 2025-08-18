@@ -158,12 +158,6 @@ C:\Users\Mert\CarPartsShop\CarPartsShop.API\CarPartsShop.API\obj\Debug\net8.0\sc
 C:\Users\Mert\CarPartsShop\CarPartsShop.API\CarPartsShop.API\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\Mert\CarPartsShop\CarPartsShop.API\CarPartsShop.API\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\Mert\CarPartsShop\CarPartsShop.API\CarPartsShop.API\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\Mert\CarPartsShop\CarPartsShop.API\CarPartsShop.API\obj\Debug\net8.0\staticwebassets\msbuild.CarPartsShop.API.Microsoft.AspNetCore.StaticWebAssets.props
-C:\Users\Mert\CarPartsShop\CarPartsShop.API\CarPartsShop.API\obj\Debug\net8.0\staticwebassets\msbuild.CarPartsShop.API.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
-C:\Users\Mert\CarPartsShop\CarPartsShop.API\CarPartsShop.API\obj\Debug\net8.0\staticwebassets\msbuild.build.CarPartsShop.API.props
-C:\Users\Mert\CarPartsShop\CarPartsShop.API\CarPartsShop.API\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.CarPartsShop.API.props
-C:\Users\Mert\CarPartsShop\CarPartsShop.API\CarPartsShop.API\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.CarPartsShop.API.props
-C:\Users\Mert\CarPartsShop\CarPartsShop.API\CarPartsShop.API\obj\Debug\net8.0\staticwebassets.pack.json
 C:\Users\Mert\CarPartsShop\CarPartsShop.API\CarPartsShop.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\Mert\CarPartsShop\CarPartsShop.API\CarPartsShop.API\obj\Debug\net8.0\CarParts.4AE3686D.Up2Date
 C:\Users\Mert\CarPartsShop\CarPartsShop.API\CarPartsShop.API\obj\Debug\net8.0\CarPartsShop.API.dll
@@ -178,3 +172,8 @@ C:\Users\Mert\CarPartsShop\CarPartsShop.API\CarPartsShop.API\bin\Debug\net8.0\Mi
 C:\Users\Mert\CarPartsShop\CarPartsShop.API\CarPartsShop.API\bin\Debug\net8.0\Microsoft.Extensions.Identity.Core.dll
 C:\Users\Mert\CarPartsShop\CarPartsShop.API\CarPartsShop.API\bin\Debug\net8.0\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\Mert\CarPartsShop\CarPartsShop.API\CarPartsShop.API\bin\Debug\net8.0\Microsoft.Identity.Abstractions.dll
+C:\Users\Mert\CarPartsShop\CarPartsShop.API\CarPartsShop.API\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\Users\Mert\CarPartsShop\CarPartsShop.API\CarPartsShop.API\obj\Debug\net8.0\rjimswa.dswa.cache.json
+C:\Users\Mert\CarPartsShop\CarPartsShop.API\CarPartsShop.API\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+C:\Users\Mert\CarPartsShop\CarPartsShop.API\CarPartsShop.API\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
+C:\Users\Mert\CarPartsShop\CarPartsShop.API\CarPartsShop.API\obj\Debug\net8.0\staticwebassets.build.json.cache
