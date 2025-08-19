@@ -18,20 +18,60 @@ export default function Orders() {
         setTotal(Number.isNaN(totalCount) ? 0 : totalCount);
 
         const data = Array.isArray(res.data) ? res.data : (res.data?.items ?? []);
-        const mapped = data.map(o => ({
-          id: o.id,
-          customerId: o.customerId,
-          createdAt: o.createdAt,
-          status: o.status || "Pending",
-          total: o.total ?? 0,
-          items: (o.items || []).map(i => ({
-            partId: i.partId,
-            partName: i.partName,
-            sku: i.sku,
-            quantity: i.quantity,
-            unitPrice: i.unitPrice
-          }))
-        }));
+
+        const mapped = data.map(o => {
+          // Try multiple shapes for customer
+          const c = o.customer || {};
+          const customerFirst = o.customerFirstName ?? c.firstName ?? "";
+          const customerLast  = o.customerLastName  ?? c.lastName  ?? "";
+
+          // build a full name safely
+          const fullName = [customerFirst, customerLast].filter(Boolean).join(" ").trim();
+
+          // prefer explicit name from API, otherwise our fullName, then fallback to c.name, then ""
+          const customerName =
+          o.customerName ?? (fullName || c.name || "");
+
+          const customerEmail = o.customerEmail ?? c.email ?? "";
+          const customerPhone = o.customerPhone ?? c.phone ?? c.phoneNumber ?? "";
+
+          // Delivery info: use combined field if present, else stitch from parts
+          const deliveryAddress =
+            o.deliveryAddress ??
+            o.shippingAddress ??
+            [
+              o.addressLine1 ?? c.addressLine1,
+              o.addressLine2 ?? c.addressLine2,
+              [o.city ?? c.city, o.state ?? c.state].filter(Boolean).join(", "),
+              (o.postalCode ?? c.postalCode),
+              (o.country ?? c.country),
+            ]
+              .filter(Boolean)
+              .join(" • ");
+
+          return {
+            id: o.id,
+            customerId: o.customerId,
+            createdAt: o.createdAt,
+            status: o.status || "Pending",
+            total: o.total ?? 0,
+
+            // NEW (optional info, safe if API doesn’t send it)
+            customerName: customerName || "-",
+            customerEmail: customerEmail || "-",
+            customerPhone: customerPhone || "-",
+            deliveryAddress: deliveryAddress || "-",
+
+            items: (o.items || []).map(i => ({
+              partId: i.partId,
+              partName: i.partName,
+              sku: i.sku,
+              quantity: i.quantity,
+              unitPrice: i.unitPrice
+            }))
+          };
+        });
+
         setOrders(mapped);
       } catch (err) {
         console.error("Failed to load orders:", err);
@@ -128,6 +168,14 @@ export default function Orders() {
             </Accordion.Header>
 
             <Accordion.Body>
+              {/* NEW: Customer & Delivery info */}
+              <div className="mb-3">
+                <div><strong>Customer:</strong> {order.customerName}</div>
+                <div><strong>Email:</strong> {order.customerEmail}</div>
+                <div><strong>Phone:</strong> {order.customerPhone}</div>
+                <div><strong>Delivery:</strong> {order.deliveryAddress}</div>
+              </div>
+
               <Table striped bordered size="sm" responsive>
                 <thead>
                   <tr>

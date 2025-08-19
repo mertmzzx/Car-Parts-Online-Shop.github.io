@@ -1,75 +1,230 @@
-import { Table, Button, Form } from "react-bootstrap";
+import { Table, Button, Form, InputGroup, Pagination } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import http from "../api/http";
 import { useAuth } from "../auth/AuthContext";
 
 const roleOptions = ["SalesAssistant", "Customer"];
 
+function readApiError(err) {
+  const r = err?.response;
+  if (!r) return err?.message || "Network error";
+  if (typeof r.data === "string") return r.data;
+  if (r.data?.detail) return r.data.detail;   // ProblemDetails pattern
+  if (r.data?.message) return r.data.message;
+  if (r.data?.title) return r.data.title;
+  try { return JSON.stringify(r.data); } catch { return `HTTP ${r.status}`; }
+}
+
 export default function Users() {
   const [users, setUsers] = useState([]);
   const { user: authUser } = useAuth();
   const currentEmail = (authUser?.email || "").toLowerCase();
 
-  // Load users once
+  // --- Search (debounced) ---
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedSearch(search), 400);
+    return () => clearTimeout(t);
+  }, [search]);
+
+  // --- Pagination state ---
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [total, setTotal] = useState(0);
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+
+  // Helper: nicer error messages
+  function readApiError(err) {
+    const r = err?.response;
+    if (!r) return err?.message || "Network error";
+    if (typeof r.data === "string") return r.data;
+    if (r.data?.message) return r.data.message;
+    if (r.data?.title) return r.data.title;
+    try {
+      return JSON.stringify(r.data);
+    } catch {
+      return `HTTP ${r.status}`;
+    }
+  }
+
+  // Turn UI role into server role name just in case
+  function toServerRole(uiRole) {
+  return uiRole === "Admin" ? "Administrator" : uiRole;
+}
+
+
+  // Load users (reacts to debounced search + pagination)
   useEffect(() => {
     (async () => {
       try {
-        const res = await http.get("/api/admin/users", { params: { page: 1, pageSize: 50 } });
-        const items = Array.isArray(res.data) ? res.data : (res.data?.items ?? []);
+        const res = await http.get("/api/admin/users", {
+          params: { page, pageSize, search: debouncedSearch || undefined },
+        });
+
+        const items = Array.isArray(res.data)
+          ? res.data
+          : res.data?.items ?? [];
+
         const mapped = items.map((u) => {
           const roles = u.roles || [];
-          const role =
-            roles.includes("Administrator")
-              ? "Admin"
-              : roles.includes("SalesAssistant")
-              ? "SalesAssistant"
-              : "Customer";
+          const role = roles.includes("Administrator")
+            ? "Admin"
+            : roles.includes("SalesAssistant")
+            ? "SalesAssistant"
+            : "Customer";
           return {
             id: u.id, // string is fine for React keys
             name:
-              (u.firstName || u.lastName)
+              u.firstName || u.lastName
                 ? `${u.firstName ?? ""} ${u.lastName ?? ""}`.trim()
-                : (u.email ?? ""),
+                : u.email ?? "",
             email: u.email ?? "",
             role,
             isBlocked: !!u.lockedOut,
           };
         });
         setUsers(mapped);
+
+        // total from header or body
+        const headerTotal = res.headers["x-total-count"];
+        setTotal(
+          headerTotal ? Number(headerTotal) : Number(res.data?.total ?? mapped.length)
+        );
       } catch (err) {
         console.error("Failed to load users:", err);
       }
     })();
-  }, []);
+  }, [debouncedSearch, page, pageSize]);
 
-  const handleRoleChange = (id, newRole) => {
-    setUsers((prev) =>
-      prev.map((u) => (u.id === id ? { ...u, role: newRole } : u))
+  // Role change (local only; server update handled elsewhere if desired)
+ const handleRoleChange = async (id, newRole) => {
+  const row = users.find(u => u.id === id);
+  if (!row) return;
+
+  // Only allow switching to these from the dropdown (as you already do)
+  const serverRole = toServerRole(newRole);
+
+  try {
+    await http.patch(`/api/admin/users/${id}/role`, { role: serverRole });
+    // Update local state on success
+    setUsers(prev =>
+      prev.map(u => (u.id === id ? { ...u, role: newRole } : u))
     );
-  };
+  } catch (err) {
+    const status = err?.response?.status;
+    if (status === 403) {
+      alert("You cannot change your own role.");
+    } else if (status === 400) {
+      alert(err?.response?.data?.detail || "Invalid role change.");
+    } else {
+      alert(`Failed to change role: ${readApiError(err)}`);
+    }
+    console.error("changeRole failed:", err);
+  }
+};
 
-  const toggleBlock = (id) => {
+  const toggleBlock = async (id) => {
+  // find the current row to know which way we’re toggling
+  const u = users.find((x) => x.id === id);
+  if (!u) return;
+
+  const nextLocked = !u.isBlocked;
+
+  try {
+    await http.patch(`/api/admin/users/${id}/lock`, { locked: nextLocked });
+    // optimistic UI update on success
     setUsers((prev) =>
-      prev.map((u) => (u.id === id ? { ...u, isBlocked: !u.isBlocked } : u))
+      prev.map((row) => (row.id === id ? { ...row, isBlocked: nextLocked } : row))
     );
-  };
+  } catch (err) {
+    alert(`Failed to ${nextLocked ? "block" : "unblock"} user: ${readApiError(err)}`);
+    console.error("toggleBlock failed:", err);
+  }
+};
 
-  const deleteUser = (id) => {
+  const deleteUser = async (id) => {
+  if (!window.confirm("Delete this user? This cannot be undone.")) return;
+
+  try {
+    await http.delete(`/api/admin/users/${id}`);
+    // remove from UI on success
     setUsers((prev) => prev.filter((u) => u.id !== id));
-  };
+  } catch (err) {
+    const status = err?.response?.status;
+    if (status === 409) {
+      // backend should return a ProblemDetails with .detail; we also try generic parser
+      alert(err?.response?.data?.detail || "User has orders and cannot be deleted.");
+    } else {
+      alert(`Failed to delete user: ${readApiError(err)}`);
+    }
+    console.error("deleteUser failed:", err);
+  }
+};
+
+  // Pagination handlers
+  const goPrev = () => setPage((p) => Math.max(1, p - 1));
+  const goNext = () => setPage((p) => Math.min(totalPages, p + 1));
+
+  const firstItem = total === 0 ? 0 : (page - 1) * pageSize + 1;
+  const lastItem = Math.min(page * pageSize, total);
 
   return (
     <>
-      <h2>User Management</h2>
+      <div className="d-flex justify-content-between align-items-end flex-wrap gap-2">
+        <h2 className="mb-0">User Management</h2>
+        {/* Search bar */}
+        <div className="d-flex align-items-end gap-2">
+          <InputGroup style={{ maxWidth: 360 }}>
+            <Form.Control
+              placeholder="Search by ID, email, or name…"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setPage(1); // reset to first page on new search
+              }}
+            />
+            {search && (
+              <Button
+                variant="outline-secondary"
+                onClick={() => {
+                  setSearch("");
+                  setPage(1);
+                }}
+              >
+                Clear
+              </Button>
+            )}
+          </InputGroup>
+
+          {/* Page size select */}
+          <Form.Select
+            size="sm"
+            value={pageSize}
+            onChange={(e) => {
+              setPageSize(Number(e.target.value));
+              setPage(1);
+            }}
+            style={{ width: 110 }}
+          >
+            {[10, 20, 50, 100].map((n) => (
+              <option key={n} value={n}>
+                {n}/page
+              </option>
+            ))}
+          </Form.Select>
+        </div>
+      </div>
+
       <Table striped bordered hover responsive className="mt-3">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Status</th>
-            <th>Actions</th>
+            <th style={{ minWidth: 120 }}>ID</th>
+            <th style={{ minWidth: 160 }}>Name</th>
+            <th style={{ minWidth: 200 }}>Email</th>
+            <th style={{ minWidth: 140 }}>Role</th>
+            <th style={{ minWidth: 100 }}>Status</th>
+            <th style={{ minWidth: 180 }}>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -124,8 +279,32 @@ export default function Users() {
               </tr>
             );
           })}
+          {users.length === 0 && (
+            <tr>
+              <td colSpan={6} className="text-center text-muted">
+                No users found.
+              </td>
+            </tr>
+          )}
         </tbody>
       </Table>
+
+      {/* Pagination controls */}
+      <div className="d-flex justify-content-between align-items-center">
+        <small className="text-muted">
+          Showing {firstItem}-{lastItem} of {total}
+        </small>
+        <Pagination className="mb-0">
+          <Pagination.First disabled={page === 1} onClick={() => setPage(1)} />
+          <Pagination.Prev disabled={page === 1} onClick={goPrev} />
+          <Pagination.Item active>{page}</Pagination.Item>
+          <Pagination.Next disabled={page === totalPages} onClick={goNext} />
+          <Pagination.Last
+            disabled={page === totalPages}
+            onClick={() => setPage(totalPages)}
+          />
+        </Pagination>
+      </div>
     </>
   );
 }

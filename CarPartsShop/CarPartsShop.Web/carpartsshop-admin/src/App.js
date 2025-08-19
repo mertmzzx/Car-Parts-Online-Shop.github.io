@@ -9,6 +9,7 @@ import Orders from "./pages/Orders";
 import Products from "./pages/Products";
 import Users from "./pages/Users";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Routes>
           {/* Public: no layout here */}
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
           {/* Protected: AdminLayout wraps everything below */}
           <Route
