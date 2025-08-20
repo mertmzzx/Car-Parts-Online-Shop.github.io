@@ -27,5 +27,10 @@
         public string Status { get; set; } = default!;
         public List<OrderItemResponseDto> Items { get; set; } = new();
         public List<OrderStatusHistoryDto>? StatusHistory { get; set; }
+
+        public string CustomerName { get; set; } = "";
+        public string CustomerEmail { get; set; } = "";
+        public string CustomerPhone { get; set; } = "";
+        public string DeliveryAddress { get; set; } = "";
     }
 }

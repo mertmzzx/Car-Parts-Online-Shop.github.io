@@ -39,6 +39,7 @@ namespace CarPartsShop.API.Controllers
             var orders = await _db.Orders
                 .AsNoTracking()
                 .Where(o => o.CustomerId == customer.Id)
+                .Include(o => o.Customer)
                 .Include(o => o.Items)
                 .OrderByDescending(o => o.CreatedAt)
                 .ToListAsync();
@@ -79,6 +80,7 @@ namespace CarPartsShop.API.Controllers
         {
             var orders = await _db.Orders
                 .Include(o => o.Items)
+                .Include(o => o.Customer)
                 .OrderByDescending(o => o.CreatedAt)
                 .Take(limit)
                 .ToListAsync();
@@ -192,6 +194,8 @@ namespace CarPartsShop.API.Controllers
         }
             };
 
+            order.Customer = customer;
+
             using var tx = await _db.Database.BeginTransactionAsync();
             try
             {
@@ -236,6 +240,7 @@ namespace CarPartsShop.API.Controllers
         public async Task<ActionResult<OrderResponseDto>> GetOrderById(int id, [FromQuery] bool includeHistory = false)
         {
             IQueryable<Order> query = _db.Orders
+                .Include(o => o.Customer)
                 .Include(o => o.Items); // Always include Items
 
             if (includeHistory)
@@ -292,6 +297,7 @@ namespace CarPartsShop.API.Controllers
             var orders = await _db.Orders
                 .AsNoTracking()
                 .Where(o => o.CustomerId == customerId)
+                .Include(o => o.Customer)
                 .Include(o => o.Items)
                 .OrderByDescending(o => o.CreatedAt)
                 .ToListAsync();

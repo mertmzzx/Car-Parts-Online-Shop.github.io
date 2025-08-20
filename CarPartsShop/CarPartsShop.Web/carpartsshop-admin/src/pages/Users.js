@@ -5,16 +5,6 @@ import { useAuth } from "../auth/AuthContext";
 
 const roleOptions = ["SalesAssistant", "Customer"];
 
-function readApiError(err) {
-  const r = err?.response;
-  if (!r) return err?.message || "Network error";
-  if (typeof r.data === "string") return r.data;
-  if (r.data?.detail) return r.data.detail;   // ProblemDetails pattern
-  if (r.data?.message) return r.data.message;
-  if (r.data?.title) return r.data.title;
-  try { return JSON.stringify(r.data); } catch { return `HTTP ${r.status}`; }
-}
-
 export default function Users() {
   const [users, setUsers] = useState([]);
   const { user: authUser } = useAuth();
@@ -47,12 +37,6 @@ export default function Users() {
       return `HTTP ${r.status}`;
     }
   }
-
-  // Turn UI role into server role name just in case
-  function toServerRole(uiRole) {
-  return uiRole === "Admin" ? "Administrator" : uiRole;
-}
-
 
   // Load users (reacts to debounced search + pagination)
   useEffect(() => {
@@ -97,32 +81,30 @@ export default function Users() {
     })();
   }, [debouncedSearch, page, pageSize]);
 
-  // Role change (local only; server update handled elsewhere if desired)
- const handleRoleChange = async (id, newRole) => {
-  const row = users.find(u => u.id === id);
-  if (!row) return;
-
-  // Only allow switching to these from the dropdown (as you already do)
-  const serverRole = toServerRole(newRole);
+// replace your handleRoleChange with this version
+const handleRoleChange = async (id, newRole) => {
+  if (!window.confirm(`Change this user's role to ${newRole}?`)) return;
 
   try {
-    await http.patch(`/api/admin/users/${id}/role`, { role: serverRole });
-    // Update local state on success
+    await http.patch(`/api/admin/users/${id}/role`, { role: newRole });
     setUsers(prev =>
       prev.map(u => (u.id === id ? { ...u, role: newRole } : u))
     );
+    alert("Role updated. The user must log out and log back in to receive the new permissions.");
   } catch (err) {
     const status = err?.response?.status;
-    if (status === 403) {
-      alert("You cannot change your own role.");
-    } else if (status === 400) {
-      alert(err?.response?.data?.detail || "Invalid role change.");
+    if (status === 400) {
+      alert(err.response?.data || "Invalid role.");
+    } else if (status === 403) {
+      alert("You are not allowed to change this user's role.");
+    } else if (status === 404) {
+      alert("User not found.");
     } else {
-      alert(`Failed to change role: ${readApiError(err)}`);
+      alert("Failed to change role.");
     }
-    console.error("changeRole failed:", err);
   }
 };
+
 
   const toggleBlock = async (id) => {
   // find the current row to know which way we’re toggling
