@@ -2,6 +2,7 @@ import { Table, Button, Form, InputGroup, Pagination } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import http from "../api/http";
 import { useAuth } from "../auth/AuthContext";
+import RoleBadge from "../components/RoleBadge.js";
 
 const roleOptions = ["SalesAssistant", "Customer"];
 
@@ -55,8 +56,8 @@ export default function Users() {
           const role = roles.includes("Administrator")
             ? "Admin"
             : roles.includes("SalesAssistant")
-            ? "SalesAssistant"
-            : "Customer";
+              ? "SalesAssistant"
+              : "Customer";
           return {
             id: u.id, // string is fine for React keys
             name:
@@ -81,68 +82,68 @@ export default function Users() {
     })();
   }, [debouncedSearch, page, pageSize]);
 
-// replace your handleRoleChange with this version
-const handleRoleChange = async (id, newRole) => {
-  if (!window.confirm(`Change this user's role to ${newRole}?`)) return;
+  // replace your handleRoleChange with this version
+  const handleRoleChange = async (id, newRole) => {
+    if (!window.confirm(`Change this user's role to ${newRole}?`)) return;
 
-  try {
-    await http.patch(`/api/admin/users/${id}/role`, { role: newRole });
-    setUsers(prev =>
-      prev.map(u => (u.id === id ? { ...u, role: newRole } : u))
-    );
-    alert("Role updated. The user must log out and log back in to receive the new permissions.");
-  } catch (err) {
-    const status = err?.response?.status;
-    if (status === 400) {
-      alert(err.response?.data || "Invalid role.");
-    } else if (status === 403) {
-      alert("You are not allowed to change this user's role.");
-    } else if (status === 404) {
-      alert("User not found.");
-    } else {
-      alert("Failed to change role.");
+    try {
+      await http.patch(`/api/admin/users/${id}/role`, { role: newRole });
+      setUsers(prev =>
+        prev.map(u => (u.id === id ? { ...u, role: newRole } : u))
+      );
+      alert("Role updated. The user must log out and log back in to receive the new permissions.");
+    } catch (err) {
+      const status = err?.response?.status;
+      if (status === 400) {
+        alert(err.response?.data || "Invalid role.");
+      } else if (status === 403) {
+        alert("You are not allowed to change this user's role.");
+      } else if (status === 404) {
+        alert("User not found.");
+      } else {
+        alert("Failed to change role.");
+      }
     }
-  }
-};
+  };
 
 
   const toggleBlock = async (id) => {
-  // find the current row to know which way we’re toggling
-  const u = users.find((x) => x.id === id);
-  if (!u) return;
+    // find the current row to know which way we’re toggling
+    const u = users.find((x) => x.id === id);
+    if (!u) return;
 
-  const nextLocked = !u.isBlocked;
+    const nextLocked = !u.isBlocked;
 
-  try {
-    await http.patch(`/api/admin/users/${id}/lock`, { locked: nextLocked });
-    // optimistic UI update on success
-    setUsers((prev) =>
-      prev.map((row) => (row.id === id ? { ...row, isBlocked: nextLocked } : row))
-    );
-  } catch (err) {
-    alert(`Failed to ${nextLocked ? "block" : "unblock"} user: ${readApiError(err)}`);
-    console.error("toggleBlock failed:", err);
-  }
-};
+    try {
+      await http.patch(`/api/admin/users/${id}/lock`, { locked: nextLocked });
+      // optimistic UI update on success
+      setUsers((prev) =>
+        prev.map((row) => (row.id === id ? { ...row, isBlocked: nextLocked } : row))
+      );
+    } catch (err) {
+      alert(`Failed to ${nextLocked ? "block" : "unblock"} user: ${readApiError(err)}`);
+      console.error("toggleBlock failed:", err);
+    }
+  };
 
   const deleteUser = async (id) => {
-  if (!window.confirm("Delete this user? This cannot be undone.")) return;
+    if (!window.confirm("Delete this user? This cannot be undone.")) return;
 
-  try {
-    await http.delete(`/api/admin/users/${id}`);
-    // remove from UI on success
-    setUsers((prev) => prev.filter((u) => u.id !== id));
-  } catch (err) {
-    const status = err?.response?.status;
-    if (status === 409) {
-      // backend should return a ProblemDetails with .detail; we also try generic parser
-      alert(err?.response?.data?.detail || "User has orders and cannot be deleted.");
-    } else {
-      alert(`Failed to delete user: ${readApiError(err)}`);
+    try {
+      await http.delete(`/api/admin/users/${id}`);
+      // remove from UI on success
+      setUsers((prev) => prev.filter((u) => u.id !== id));
+    } catch (err) {
+      const status = err?.response?.status;
+      if (status === 409) {
+        // backend should return a ProblemDetails with .detail; we also try generic parser
+        alert(err?.response?.data?.detail || "User has orders and cannot be deleted.");
+      } else {
+        alert(`Failed to delete user: ${readApiError(err)}`);
+      }
+      console.error("deleteUser failed:", err);
     }
-    console.error("deleteUser failed:", err);
-  }
-};
+  };
 
   // Pagination handlers
   const goPrev = () => setPage((p) => Math.max(1, p - 1));
@@ -218,10 +219,11 @@ const handleRoleChange = async (id, newRole) => {
                 <td>{u.name}</td>
                 <td>{u.email}</td>
                 <td>
-                  {/* Admin rows (and your own row) are not editable here */}
                   {u.role === "Admin" || isSelf ? (
-                    <strong>{u.role === "Admin" ? "Admin" : u.role}</strong>
+                    // Display-only: show the color badge
+                    <RoleBadge role={u.role === "Admin" ? "Administrator" : u.role} />
                   ) : (
+                    // Editable: keep the select as-is
                     <Form.Select
                       size="sm"
                       value={u.role}
@@ -234,6 +236,7 @@ const handleRoleChange = async (id, newRole) => {
                       ))}
                     </Form.Select>
                   )}
+
                 </td>
                 <td>{u.isBlocked ? "Blocked" : "Active"}</td>
                 <td>

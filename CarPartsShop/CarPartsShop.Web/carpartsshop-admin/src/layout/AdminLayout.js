@@ -1,177 +1,118 @@
 // src/layout/AdminLayout.jsx
 import { useMemo, useState } from "react";
-import { Outlet, NavLink } from "react-router-dom";
-import {
-  Container,
-  Row,
-  Col,
-  Navbar,
-  Nav,
-  Offcanvas,
-  Button,
-  Badge,
-} from "react-bootstrap";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
+import { Badge } from "react-bootstrap";
 import { useAuth } from "../auth/AuthContext";
+
+import {
+  FiGrid,
+  FiFileText,
+  FiPackage,
+  FiUsers,
+  FiLogOut,
+  FiMenu,
+  FiUser,
+} from "react-icons/fi";
+
+// tiny, inline color-coded role pill
+const RolePill = ({ role }) => {
+  if (!role) return null;
+  const key = String(role).toLowerCase(); // "administrator" | "salesassistant" | "customer"
+  return <span className={`role-badge role-${key}`}>{role}</span>;
+};
 
 export default function AdminLayout() {
   const { user, logout } = useAuth();
-  const [showMenu, setShowMenu] = useState(false);
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
 
-  const roles = useMemo(
-    () => (Array.isArray(user?.roles) ? user.roles : []),
-    [user]
-  );
+  const roles = useMemo(() => (Array.isArray(user?.roles) ? user.roles : []), [user]);
   const isAdmin = roles.includes("Administrator");
 
-  const linkClass = ({ isActive }) =>
-    "list-group-item list-group-item-action py-2" +
-    (isActive ? " active" : "");
+  const navItems = [
+    { to: "/dashboard", label: "Dashboard", icon: <FiGrid /> },
+    { to: "/orders", label: "Orders", icon: <FiFileText /> },
+    { to: "/products", label: "Products", icon: <FiPackage /> },
+    ...(isAdmin ? [{ to: "/users", label: "Users", icon: <FiUsers /> }] : []),
+  ];
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login", { replace: true });
+  };
 
   return (
-    <>
-      <Navbar bg="dark" variant="dark" expand="md" className="shadow-sm">
-        <Container fluid>
-          <Navbar.Brand>CarPartsShop Admin</Navbar.Brand>
+    <div className={`adm-shell ${open ? "is-open" : ""}`}>
+      {/* Sidebar */}
+      <aside className="adm-sidebar">
+        <div className="adm-brand">
+          <button
+            className="adm-burger d-md-none"
+            aria-label="Close menu"
+            onClick={() => setOpen(false)}
+          >
+            <FiMenu />
+          </button>
+          <div className="adm-logo">
+            CarParts<span>Shop</span>
+          </div>
+        </div>
 
-          {/* Right side (desktop) */}
-          <Nav className="ms-auto d-none d-md-flex align-items-center gap-3">
-            {user ? (
-              <>
-                <span className="text-light small">
-                  Signed in as: <strong>{user.email}</strong>
-                </span>
-                {roles.length > 0 && <Badge bg="info">{roles.join(", ")}</Badge>}
-                <Button size="sm" variant="outline-light" onClick={logout}>
-                  Logout
-                </Button>
-              </>
-            ) : (
-              <>
-                <NavLink to="/login" className="nav-link text-light">
-                  Login
+        {user ? (
+          <>
+            <nav className="adm-nav">
+              {navItems.map((it) => (
+                <NavLink
+                  key={it.to}
+                  to={it.to}
+                  className={({ isActive }) =>
+                    "adm-link" + (isActive ? " active" : "")
+                  }
+                  onClick={() => setOpen(false)}
+                >
+                  <span className="icon">{it.icon}</span>
+                  <span className="label">{it.label}</span>
                 </NavLink>
-                <NavLink to="/register" className="btn btn-outline-light btn-sm">
-                  Register
-                </NavLink>
-              </>
-            )}
-          </Nav>
+              ))}
+            </nav>
 
-          {/* Mobile menu toggle always visible */}
-          <Navbar.Toggle onClick={() => setShowMenu(true)} />
-        </Container>
-      </Navbar>
-
-      {/* Offcanvas (mobile) */}
-      <Offcanvas
-        show={showMenu}
-        onHide={() => setShowMenu(false)}
-        placement="start"
-      >
-        <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Menu</Offcanvas.Title>
-        </Offcanvas.Header>
-        <Offcanvas.Body className="p-0">
-          {user ? (
-            <>
-              <Nav className="flex-column list-group list-group-flush">
-                <NavLink
-                  to="/dashboard"
-                  className={linkClass}
-                  onClick={() => setShowMenu(false)}
-                >
-                  Dashboard
-                </NavLink>
-                <NavLink
-                  to="/orders"
-                  className={linkClass}
-                  onClick={() => setShowMenu(false)}
-                >
-                  Orders
-                </NavLink>
-                <NavLink
-                  to="/products"
-                  className={linkClass}
-                  onClick={() => setShowMenu(false)}
-                >
-                  Products
-                </NavLink>
-                {isAdmin && (
-                  <NavLink
-                    to="/users"
-                    className={linkClass}
-                    onClick={() => setShowMenu(false)}
-                  >
-                    Users
-                  </NavLink>
-                )}
-              </Nav>
-              <div className="p-3 border-top">
-                <div className="small mb-2">
-                  <div className="fw-semibold">{user.email}</div>
-                  {roles.length > 0 && (
-                    <Badge bg="secondary">{roles.join(", ")}</Badge>
-                  )}
+            {/* Restyled footer user card */}
+            <div className="adm-footer">
+              <div className="adm-user-card">
+                <div className="adm-user-avatar">
+                  <FiUser />
                 </div>
-                <Button variant="outline-danger" size="sm" onClick={logout}>
-                  Logout
-                </Button>
+                <div className="adm-user-info">
+                  <div className="email">{user?.email}</div>
+
+                  {/* Color-coded role badges */}
+                  <div className="d-flex flex-wrap gap-1">
+                    {(Array.isArray(roles) ? roles : []).map((r) => (
+                      <RolePill key={r} role={r === "Admin" ? "Administrator" : r} />
+                    ))}
+                  </div>
+                </div>
               </div>
-            </>
-          ) : (
-            // Public offcanvas when not logged in
-            <div className="p-3">
-              <Nav className="flex-column gap-2">
-                <NavLink
-                  to="/login"
-                  className="btn btn-outline-primary"
-                  onClick={() => setShowMenu(false)}
-                >
-                  Login
-                </NavLink>
-                <NavLink
-                  to="/register"
-                  className="btn btn-primary"
-                  onClick={() => setShowMenu(false)}
-                >
-                  Register
-                </NavLink>
-              </Nav>
+
+              <button className="adm-logout" onClick={handleLogout}>
+                <FiLogOut />
+                <span>Logout</span>
+              </button>
             </div>
-          )}
-        </Offcanvas.Body>
-      </Offcanvas>
+          </>
+        ) : null}
+      </aside>
 
-      <Container fluid className="mt-3">
-        <Row>
-          {/* Sidebar only when logged in */}
-          {user && (
-            <Col md={2} className="d-none d-md-block">
-              <div className="list-group sticky-top" style={{ top: 16 }}>
-                <NavLink to="/dashboard" className={linkClass}>
-                  Dashboard
-                </NavLink>
-                <NavLink to="/orders" className={linkClass}>
-                  Orders
-                </NavLink>
-                <NavLink to="/products" className={linkClass}>
-                  Products
-                </NavLink>
-                {isAdmin && (
-                  <NavLink to="/users" className={linkClass}>
-                    Users
-                  </NavLink>
-                )}
-              </div>
-            </Col>
-          )}
+      {/* Content area */}
+      <main className="adm-content">
+        <Outlet />
+      </main>
 
-          <Col xs={12} md={user ? 10 : 12}>
-            {/* If this layout ever renders while logged-out, users can still see public pages like /register */}
-            <Outlet />
-          </Col>
-        </Row>
-      </Container>
-    </>
+      {/* Backdrop for mobile */}
+      <div
+        className="adm-backdrop d-md-none"
+        onClick={() => setOpen(false)}
+      />
+    </div>
   );
 }

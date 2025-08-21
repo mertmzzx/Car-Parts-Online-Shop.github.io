@@ -96,15 +96,38 @@ export default function Orders() {
     }
   };
 
-  const handleStatusChange = (orderId, newStatus) => {
-    setOrders((prev) =>
-      prev.map((o) => (o.id === orderId ? { ...o, status: newStatus } : o))
-    );
+    // helper to show meaningful API errors
+  const readApiError = (err) => {
+    const r = err?.response;
+    if (!r) return err?.message || "Network error";
+    if (typeof r.data === "string") return r.data;
+    if (r.data?.detail) return r.data.detail;
+    if (r.data?.message) return r.data.message;
+    if (r.data?.title) return r.data.title;
+    try { return JSON.stringify(r.data); } catch { return `HTTP ${r.status}`; }
   };
 
-  const handleDelete = (orderId) => {
+  // Persist status change to API (optimistic UI with revert on error)
+  const handleStatusChange = async (orderId, newStatus) => {
+    const prev = orders;
+    setOrders(prev => prev.map(o => (o.id === orderId ? { ...o, status: newStatus } : o)));
+    try {
+      await http.patch(`/api/orders/${orderId}/status`, { status: newStatus });
+    } catch (err) {
+      setOrders(prev); // revert
+      alert(`Failed to update status: ${readApiError(err)}`);
+    }
+  };
+
+  // Cancel order (soft delete) via API, then remove from list
+  const handleDelete = async (orderId) => {
     if (!window.confirm("Cancel this order?")) return;
-    setOrders((prev) => prev.filter((o) => o.id !== orderId));
+    try {
+      await http.delete(`/api/orders/${orderId}`);
+      setOrders(prev => prev.filter(o => o.id !== orderId));
+    } catch (err) {
+      alert(`Failed to cancel order: ${readApiError(err)}`);
+    }
   };
 
   return (

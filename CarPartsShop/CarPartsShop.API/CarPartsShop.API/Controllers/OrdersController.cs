@@ -19,6 +19,63 @@ namespace CarPartsShop.API.Controllers
 
         public OrdersController(AppDbContext db) => _db = db;
 
+        // --- helpers 
+
+        private async Task<IActionResult> CancelOrderCore(Order order)
+        {
+            // business rules
+            if (order.Status == OrderStatus.Shipped || order.Status == OrderStatus.Delivered)
+                return BadRequest("This order has already been shipped/delivered and cannot be cancelled.");
+
+            if (order.Status == OrderStatus.Cancelled)
+                return NoContent(); // idempotent
+
+            // Restock items
+            var partIds = order.Items.Select(i => i.PartId).Distinct().ToList();
+            var parts = await _db.Parts.Where(p => partIds.Contains(p.Id))
+                                       .ToDictionaryAsync(p => p.Id);
+
+            foreach (var item in order.Items)
+                if (parts.TryGetValue(item.PartId, out var part))
+                    part.QuantityInStock += item.Quantity;
+
+            // Update status + history
+            order.Status = OrderStatus.Cancelled;
+            order.StatusHistory.Add(new OrderStatusHistory
+            {
+                Status = OrderStatus.Cancelled,
+                ChangedAt = DateTime.UtcNow
+            });
+
+            await _db.SaveChangesAsync();
+            await LogAdminAction($"Cancelled order #{order.Id}");
+            return NoContent();
+        }
+        private static (string name, string email, string phone, string address) MapCustomer(Customer? c)
+        {
+            if (c == null) return ("-", "-", "-", "-");
+
+            var name = string.Join(" ", new[] { c.FirstName, c.LastName }
+                .Where(s => !string.IsNullOrWhiteSpace(s)));
+
+            var address = string.Join(" • ", new[]
+            {
+        c.AddressLine1,
+        c.AddressLine2,
+        string.Join(", ", new[] { c.City, c.State }.Where(s => !string.IsNullOrWhiteSpace(s))),
+        c.PostalCode,
+        c.Country
+    }.Where(s => !string.IsNullOrWhiteSpace(s)));
+
+            return (
+                string.IsNullOrWhiteSpace(name) ? "-" : name,
+                string.IsNullOrWhiteSpace(c.Email) ? "-" : c.Email!,
+                string.IsNullOrWhiteSpace(c.Phone) ? "-" : c.Phone!,
+                string.IsNullOrWhiteSpace(address) ? "-" : address
+            );
+        }
+
+
         // GET: /api/orders/my
         [HttpGet("my")]
         [Authorize(Roles = Roles.Customer)]
@@ -49,24 +106,34 @@ namespace CarPartsShop.API.Controllers
                 .Where(p => partIds.Contains(p.Id))
                 .ToDictionaryAsync(p => p.Id);
 
-            var result = orders.Select(order => new OrderResponseDto
+            var result = orders.Select(order =>
             {
-                Id = order.Id,
-                CustomerId = order.CustomerId,
-                CreatedAt = order.CreatedAt,
-                Subtotal = order.Subtotal,
-                Tax = order.Tax,
-                Total = order.Total,
-                Status = order.Status.ToString(),
-                Items = order.Items.Select(oi => new OrderItemResponseDto
+                var (name, email, phone, addr) = MapCustomer(order.Customer);
+
+                return new OrderResponseDto
                 {
-                    PartId = oi.PartId,
-                    PartName = parts[oi.PartId].Name,
-                    Sku = parts[oi.PartId].Sku,
-                    UnitPrice = oi.UnitPrice,
-                    Quantity = oi.Quantity,
-                    LineTotal = oi.UnitPrice * oi.Quantity
-                }).ToList()
+                    Id = order.Id,
+                    CustomerId = order.CustomerId,
+                    CreatedAt = order.CreatedAt,
+                    Subtotal = order.Subtotal,
+                    Tax = order.Tax,
+                    Total = order.Total,
+                    Status = order.Status.ToString(),
+                    Items = order.Items.Select(oi => new OrderItemResponseDto
+                    {
+                        PartId = oi.PartId,
+                        PartName = parts[oi.PartId].Name,
+                        Sku = parts[oi.PartId].Sku,
+                        UnitPrice = oi.UnitPrice,
+                        Quantity = oi.Quantity,
+                        LineTotal = oi.UnitPrice * oi.Quantity
+                    }).ToList(),
+
+                    CustomerName = name,
+                    CustomerEmail = email,
+                    CustomerPhone = phone,
+                    DeliveryAddress = addr
+                };
             });
 
             return Ok(result);
@@ -88,25 +155,36 @@ namespace CarPartsShop.API.Controllers
             var partIds = orders.SelectMany(o => o.Items.Select(i => i.PartId)).Distinct().ToList();
             var parts = await _db.Parts.Where(p => partIds.Contains(p.Id)).ToDictionaryAsync(p => p.Id);
 
-            var result = orders.Select(order => new OrderResponseDto
+            var result = orders.Select(order =>
             {
-                Id = order.Id,
-                CustomerId = order.CustomerId,
-                CreatedAt = order.CreatedAt,
-                Subtotal = order.Subtotal,
-                Tax = order.Tax,
-                Total = order.Total,
-                Status = order.Status.ToString(),
-                Items = order.Items.Select(oi => new OrderItemResponseDto
+                var (name, email, phone, addr) = MapCustomer(order.Customer);
+
+                return new OrderResponseDto
                 {
-                    PartId = oi.PartId,
-                    PartName = parts[oi.PartId].Name,
-                    Sku = parts[oi.PartId].Sku,
-                    UnitPrice = oi.UnitPrice,
-                    Quantity = oi.Quantity,
-                    LineTotal = oi.UnitPrice * oi.Quantity
-                }).ToList()
+                    Id = order.Id,
+                    CustomerId = order.CustomerId,
+                    CreatedAt = order.CreatedAt,
+                    Subtotal = order.Subtotal,
+                    Tax = order.Tax,
+                    Total = order.Total,
+                    Status = order.Status.ToString(),
+                    Items = order.Items.Select(oi => new OrderItemResponseDto
+                    {
+                        PartId = oi.PartId,
+                        PartName = parts[oi.PartId].Name,
+                        Sku = parts[oi.PartId].Sku,
+                        UnitPrice = oi.UnitPrice,
+                        Quantity = oi.Quantity,
+                        LineTotal = oi.UnitPrice * oi.Quantity
+                    }).ToList(),
+
+                    CustomerName = name,
+                    CustomerEmail = email,
+                    CustomerPhone = phone,
+                    DeliveryAddress = addr
+                };
             });
+
 
             return Ok(result);
         }
@@ -209,6 +287,8 @@ namespace CarPartsShop.API.Controllers
                 throw;
             }
 
+            var (name, email, phone, addr) = MapCustomer(order.Customer);
+
             var response = new OrderResponseDto
             {
                 Id = order.Id,
@@ -226,11 +306,42 @@ namespace CarPartsShop.API.Controllers
                     UnitPrice = oi.UnitPrice,
                     Quantity = oi.Quantity,
                     LineTotal = oi.UnitPrice * oi.Quantity
-                }).ToList()
+                }).ToList(),
+
+                // NEW
+                CustomerName = name,
+                CustomerEmail = email,
+                CustomerPhone = phone,
+                DeliveryAddress = addr
             };
+
 
             return CreatedAtAction(nameof(GetOrderById), new { id = order.Id }, response);
         }
+
+        // DELETE: /api/orders/{id}
+        [HttpDelete("{id:int}")]
+        [Authorize(Roles = $"{Roles.Administrator},{Roles.SalesAssistant},{Roles.Customer}")]
+        public async Task<IActionResult> CancelOrder(int id)
+        {
+            var order = await _db.Orders
+                .Include(o => o.Items)
+                .Include(o => o.Customer)
+                .FirstOrDefaultAsync(o => o.Id == id);
+
+            if (order == null) return NotFound();
+
+            // Customers can cancel only their own orders
+            if (User.IsInRole(Roles.Customer))
+            {
+                var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId) || order.Customer?.UserId != userId)
+                    return Forbid();
+            }
+
+            return await CancelOrderCore(order);
+        }
+
 
         // GET: /api/orders/{id}?includeHistory=true
         [HttpGet("{id:int}")]
@@ -254,6 +365,8 @@ namespace CarPartsShop.API.Controllers
                 .Where(p => partIds.Contains(p.Id))
                 .ToDictionaryAsync(p => p.Id);
 
+            var (name, email, phone, addr) = MapCustomer(order.Customer);
+
             var dto = new OrderResponseDto
             {
                 Id = order.Id,
@@ -273,15 +386,19 @@ namespace CarPartsShop.API.Controllers
                     LineTotal = oi.UnitPrice * oi.Quantity
                 }).ToList(),
                 StatusHistory = includeHistory
-                    ? order.StatusHistory
-                        .OrderBy(h => h.ChangedAt)
-                        .Select(h => new OrderStatusHistoryDto
-                        {
-                            Status = h.Status.ToString(),
-                            ChangedAt = h.ChangedAt
-                        }).ToList()
-                    : null
+                    ? order.StatusHistory.OrderBy(h => h.ChangedAt).Select(h => new OrderStatusHistoryDto
+                    {
+                        Status = h.Status.ToString(),
+                        ChangedAt = h.ChangedAt
+                    }).ToList()
+                    : null,
+
+                CustomerName = name,
+                CustomerEmail = email,
+                CustomerPhone = phone,
+                DeliveryAddress = addr
             };
+
 
             return Ok(dto);
         }
@@ -306,25 +423,36 @@ namespace CarPartsShop.API.Controllers
             var parts = await _db.Parts.Where(p => partIds.Contains(p.Id))
                                        .ToDictionaryAsync(p => p.Id);
 
-            var result = orders.Select(order => new OrderResponseDto
+            var result = orders.Select(order =>
             {
-                Id = order.Id,
-                CustomerId = order.CustomerId,
-                CreatedAt = order.CreatedAt,
-                Subtotal = order.Subtotal,
-                Tax = order.Tax,
-                Total = order.Total,
-                Status = order.Status.ToString(),
-                Items = order.Items.Select(oi => new OrderItemResponseDto
+                var (name, email, phone, addr) = MapCustomer(order.Customer);
+
+                return new OrderResponseDto
                 {
-                    PartId = oi.PartId,
-                    PartName = parts[oi.PartId].Name,
-                    Sku = parts[oi.PartId].Sku,
-                    UnitPrice = oi.UnitPrice,
-                    Quantity = oi.Quantity,
-                    LineTotal = oi.UnitPrice * oi.Quantity
-                }).ToList()
+                    Id = order.Id,
+                    CustomerId = order.CustomerId,
+                    CreatedAt = order.CreatedAt,
+                    Subtotal = order.Subtotal,
+                    Tax = order.Tax,
+                    Total = order.Total,
+                    Status = order.Status.ToString(),
+                    Items = order.Items.Select(oi => new OrderItemResponseDto
+                    {
+                        PartId = oi.PartId,
+                        PartName = parts[oi.PartId].Name,
+                        Sku = parts[oi.PartId].Sku,
+                        UnitPrice = oi.UnitPrice,
+                        Quantity = oi.Quantity,
+                        LineTotal = oi.UnitPrice * oi.Quantity
+                    }).ToList(),
+
+                    CustomerName = name,
+                    CustomerEmail = email,
+                    CustomerPhone = phone,
+                    DeliveryAddress = addr
+                };
             });
+
 
             return Ok(result);
         }
@@ -369,24 +497,34 @@ namespace CarPartsShop.API.Controllers
             var partIds = orders.SelectMany(o => o.Items.Select(i => i.PartId)).Distinct();
             var parts = await _db.Parts.Where(p => partIds.Contains(p.Id)).ToDictionaryAsync(p => p.Id);
 
-            var results = orders.Select(order => new OrderResponseDto
+            var results = orders.Select(order =>
             {
-                Id = order.Id,
-                CustomerId = order.CustomerId,
-                CreatedAt = order.CreatedAt,
-                Subtotal = order.Subtotal,
-                Tax = order.Tax,
-                Total = order.Total,
-                Status = order.Status.ToString(),
-                Items = order.Items.Select(oi => new OrderItemResponseDto
+                var (name, email, phone, addr) = MapCustomer(order.Customer);
+
+                return new OrderResponseDto
                 {
-                    PartId = oi.PartId,
-                    PartName = parts[oi.PartId].Name,
-                    Sku = parts[oi.PartId].Sku,
-                    UnitPrice = oi.UnitPrice,
-                    Quantity = oi.Quantity,
-                    LineTotal = oi.UnitPrice * oi.Quantity
-                }).ToList()
+                    Id = order.Id,
+                    CustomerId = order.CustomerId,
+                    CreatedAt = order.CreatedAt,
+                    Subtotal = order.Subtotal,
+                    Tax = order.Tax,
+                    Total = order.Total,
+                    Status = order.Status.ToString(),
+                    Items = order.Items.Select(oi => new OrderItemResponseDto
+                    {
+                        PartId = oi.PartId,
+                        PartName = parts[oi.PartId].Name,
+                        Sku = parts[oi.PartId].Sku,
+                        UnitPrice = oi.UnitPrice,
+                        Quantity = oi.Quantity,
+                        LineTotal = oi.UnitPrice * oi.Quantity
+                    }).ToList(),
+
+                    CustomerName = name,
+                    CustomerEmail = email,
+                    CustomerPhone = phone,
+                    DeliveryAddress = addr
+                };
             });
 
             Response.Headers.Add("X-Total-Count", total.ToString());
@@ -397,25 +535,46 @@ namespace CarPartsShop.API.Controllers
         // PATCH: /api/orders/{id}/status
         [HttpPatch("{id:int}/status")]
         [Authorize(Roles = $"{Roles.Administrator},{Roles.SalesAssistant}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateOrderStatus(int id, [FromBody] UpdateOrderStatusDto dto)
         {
             if (!Enum.TryParse<OrderStatus>(dto.Status, true, out var newStatus))
                 return BadRequest("Invalid status value.");
 
-            var order = await _db.Orders.FindAsync(id);
-            if (order == null)
-                return NotFound();
+            var order = await _db.Orders
+                .Include(o => o.Items)
+                .FirstOrDefaultAsync(o => o.Id == id);
 
+            if (order == null) return NotFound();
+
+            // Idempotent
+            if (order.Status == newStatus) return NoContent();
+
+            // If we're setting to Cancelled, reuse the cancel logic (restock, history, etc.)
+            if (newStatus == OrderStatus.Cancelled)
+                return await CancelOrderCore(order);
+
+            // Cannot change a cancelled order to any other status
+            if (order.Status == OrderStatus.Cancelled)
+                return BadRequest("A cancelled order cannot change status.");
+
+            // Example business rule: you can't move backward from Delivered
+            if (order.Status == OrderStatus.Delivered && newStatus != OrderStatus.Delivered)
+                return BadRequest("Delivered orders cannot change status.");
+
+            // Apply status + history
             order.Status = newStatus;
-            await _db.SaveChangesAsync();
+            order.StatusHistory.Add(new OrderStatusHistory
+            {
+                Status = newStatus,
+                ChangedAt = DateTime.UtcNow
+            });
 
-            await LogAdminAction($"Changed order #{order.Id} status to {dto.Status}");
+            await _db.SaveChangesAsync();
+            await LogAdminAction($"Changed order #{order.Id} status to {newStatus}");
 
             return NoContent();
         }
+
         private async Task LogAdminAction(string action)
         {
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "unknown";
