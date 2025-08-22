@@ -54,7 +54,7 @@ export default function AdminLayout() {
             <FiMenu />
           </button>
           <div className="adm-logo">
-            CarParts<span>Shop</span>
+            Silver Star <span>Parts</span>
           </div>
         </div>
 

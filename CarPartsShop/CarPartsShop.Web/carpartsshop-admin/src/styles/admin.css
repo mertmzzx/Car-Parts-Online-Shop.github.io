@@ -51,7 +51,7 @@
   font-weight: 800;
   letter-spacing:.2px;
   color: var(--sidebar-fg-active);
-  font-size: 18px;
+  font-size: 25px;
 }
 .adm-logo span{ color: var(--brand); }
 
@@ -241,3 +241,99 @@
 .role-administrator { background: #e11d48; } /* red */
 .role-salesassistant { background: #16a34a; } /* green */
 .role-customer { background: #2563eb; }      /* blue */
+
+/* --- Modern table --- */
+.table-modern {
+  --tbl-bg: #fff;
+  --tbl-head-bg: #f3f6ff;
+  --tbl-head-fg: #334155;
+  --tbl-border: #e7eaf3;
+
+  width: 100%;
+  border-collapse: separate !important;
+  border-spacing: 0;
+  background: var(--tbl-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden; /* clip rounded corners */
+}
+
+/* Header */
+.table-modern thead th {
+  background: var(--tbl-head-bg);
+  color: var(--tbl-head-fg);
+  font-weight: 700;
+  letter-spacing: .2px;
+  border-bottom: 1px solid var(--tbl-border);
+  padding: 12px 14px;
+  white-space: nowrap;
+}
+
+/* Cells */
+.table-modern tbody td {
+  border-bottom: 1px solid var(--tbl-border);
+  padding: 12px 14px;
+  vertical-align: middle;
+  color: var(--text);
+}
+
+/* Zebra + hover */
+.table-modern tbody tr:nth-child(odd) { background: #fafbff; }
+.table-modern tbody tr:hover { background: #eef4ff; }
+
+/* Remove last border */
+.table-modern tbody tr:last-child td { border-bottom: 0; }
+
+/* Compact variant (optional) */
+.table-modern.table-compact thead th,
+.table-modern.table-compact tbody td {
+  padding: 10px 12px;
+} 
+
+/* Sticky header (for long lists inside a fixed-height container) */
+.table-sticky-head {
+  max-height: 520px; /* set to your panel height */
+  overflow: auto;
+}
+.table-sticky-head thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* Soft “chip” for statuses or SKUs */
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: .85rem; font-weight: 600;
+  background: #eef2ff; color: #1f5ccd;
+}
+.chip-muted  { background:#f1f5f9; color:#334155; }
+.chip-green  { background:#e8f7f0; color:#16a34a; }
+.chip-amber  { background:#fff7e6; color:#b45309; }
+.chip-red    { background:#feecee; color:#b91c1c; }
+.chip-gray   { background:#eceff4; color:#475569; }
+
+/* Empty state */
+.table-empty {
+  text-align:center; padding: 28px 12px; color: var(--muted);
+}
+
+/* Optional: make react-bootstrap Table integrate nicely */
+.table-modern.table { margin-bottom: 0; background: transparent; }
+
+/* Mobile stacked rows (optional, enables card-like rows under 680px) */
+@media (max-width: 680px) {
+  .table-modern thead { display: none; }
+  .table-modern tbody, .table-modern tr, .table-modern td { display: block; width: 100%; }
+  .table-modern tbody tr { background: #fff; margin: 10px 0; border-radius: 12px; box-shadow: var(--shadow); }
+  .table-modern tbody td {
+    border: 0 !important; padding: 10px 14px;
+    display: flex; justify-content: space-between; gap: 12px;
+  }
+  .table-modern tbody td::before {
+    content: attr(data-label);
+    font-weight: 600; color: var(--muted);
+  }
+}

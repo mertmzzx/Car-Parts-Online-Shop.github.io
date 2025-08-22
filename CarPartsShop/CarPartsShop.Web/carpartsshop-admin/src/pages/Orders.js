@@ -1,4 +1,4 @@
-import { Accordion, Table, Button, Badge, Dropdown, Pagination } from "react-bootstrap";
+import { Accordion, Table, Button, Badge, Dropdown, Pagination, Card } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import http from "../api/http";
 
@@ -23,14 +23,13 @@ export default function Orders() {
           // Try multiple shapes for customer
           const c = o.customer || {};
           const customerFirst = o.customerFirstName ?? c.firstName ?? "";
-          const customerLast  = o.customerLastName  ?? c.lastName  ?? "";
+          const customerLast = o.customerLastName ?? c.lastName ?? "";
 
           // build a full name safely
           const fullName = [customerFirst, customerLast].filter(Boolean).join(" ").trim();
 
           // prefer explicit name from API, otherwise our fullName, then fallback to c.name, then ""
-          const customerName =
-          o.customerName ?? (fullName || c.name || "");
+          const customerName = o.customerName ?? (fullName || c.name || "");
 
           const customerEmail = o.customerEmail ?? c.email ?? "";
           const customerPhone = o.customerPhone ?? c.phone ?? c.phoneNumber ?? "";
@@ -56,7 +55,7 @@ export default function Orders() {
             status: o.status || "Pending",
             total: o.total ?? 0,
 
-            // NEW (optional info, safe if API doesn’t send it)
+            // optional info
             customerName: customerName || "-",
             customerEmail: customerEmail || "-",
             customerPhone: customerPhone || "-",
@@ -82,7 +81,7 @@ export default function Orders() {
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
   const getStatusVariant = (status) => {
-    switch (status.toLowerCase()) {
+    switch (String(status).toLowerCase()) {
       case "pending":
         return "secondary";
       case "shipped":
@@ -96,7 +95,7 @@ export default function Orders() {
     }
   };
 
-    // helper to show meaningful API errors
+  // helper to show meaningful API errors
   const readApiError = (err) => {
     const r = err?.response;
     if (!r) return err?.message || "Network error";
@@ -191,7 +190,7 @@ export default function Orders() {
             </Accordion.Header>
 
             <Accordion.Body>
-              {/* NEW: Customer & Delivery info */}
+              {/* Customer & Delivery info */}
               <div className="mb-3">
                 <div><strong>Customer:</strong> {order.customerName}</div>
                 <div><strong>Email:</strong> {order.customerEmail}</div>
@@ -199,28 +198,33 @@ export default function Orders() {
                 <div><strong>Delivery:</strong> {order.deliveryAddress}</div>
               </div>
 
-              <Table striped bordered size="sm" responsive>
-                <thead>
-                  <tr>
-                    <th>Part</th>
-                    <th>SKU</th>
-                    <th>Quantity</th>
-                    <th>Unit Price</th>
-                    <th>Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {order.items.map((item, i) => (
-                    <tr key={i}>
-                      <td>{item.partName}</td>
-                      <td>{item.sku}</td>
-                      <td>{item.quantity}</td>
-                      <td>${item.unitPrice.toFixed(2)}</td>
-                      <td>${(item.unitPrice * item.quantity).toFixed(2)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
+              <Card className="shadow-sm border-0">
+                <Card.Header className="bg-light fw-bold">Order Items</Card.Header>
+                <Card.Body className="p-0">
+                  <Table hover responsive className="mb-0 align-middle">
+                    <thead className="table-light">
+                      <tr>
+                        <th>Part</th>
+                        <th>SKU</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {order.items.map((item, i) => (
+                        <tr key={i}>
+                          <td>{item.partName}</td>
+                          <td>{item.sku}</td>
+                          <td>{item.quantity}</td>
+                          <td>${item.unitPrice.toFixed(2)}</td>
+                          <td>${(item.unitPrice * item.quantity).toFixed(2)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </Card.Body>
+              </Card>
             </Accordion.Body>
           </Accordion.Item>
         ))}
