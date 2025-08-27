@@ -1,0 +1,42 @@
+/* ---- Base / Reset-ish ---- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #fff;
+}
+
+/* ---- Typography ---- */
+body, button, input, select, textarea {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: 1.5;
+  color: #212529; /* Bootstrap body color */
+}
+
+h1, h2, h3, h4, h5, h6 { margin-top: 0; }
+
+/* ---- Links ---- */
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ---- Layout helpers ---- */
+main.container { min-height: calc(100vh - 160px); } /* header+footer spacing */
+
+/* ---- Utilities (tiny set; extend later) ---- */
+.cursor-pointer { cursor: pointer; }
+.text-muted-small { color: #6c757d; font-size: 0.9rem; }
+
+/* ---- Components polish (optional) ---- */
+.navbar-brand,
+.nav-link.active { font-weight: 600; }
+
+.card.hoverable:hover {
+  transform: translateY(-2px);
+  transition: transform 120ms ease;
+}
