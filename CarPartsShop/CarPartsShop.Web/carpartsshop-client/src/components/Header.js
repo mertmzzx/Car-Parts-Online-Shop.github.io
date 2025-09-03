@@ -4,7 +4,7 @@ import { Link, NavLink } from "react-router-dom";
 export default function Header() {
   return (
     <Navbar bg="light" expand="md">
-      <Container>
+      <Container fluid className="px-3 px-md-4">
         <Navbar.Brand as={Link} to="/">Car Parts Shop</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse>

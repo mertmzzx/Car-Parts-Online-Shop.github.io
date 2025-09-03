@@ -1,15 +1,39 @@
 import api from "./http";
 
-// 👇 matches Swagger: GET /api/Parts, GET /api/Parts/{id}
+// Endpoints & param keys
 const PRODUCTS_PATH = "/api/Parts";
-const PAGE_PARAM   = "page";
-const SIZE_PARAM   = "pageSize";
-const SEARCH_PARAM = "q";
+const PAGE_PARAM    = "page";
+const SIZE_PARAM    = "pageSize";
+const SEARCH_PARAM  = "q";
 
-/** List parts (products) */
-export async function getProducts({ page = 1, size = 12, search = "" } = {}) {
-  const params = { [PAGE_PARAM]: page, [SIZE_PARAM]: size };
-  if (search) params[SEARCH_PARAM] = search;
+/**
+ * List parts (products)
+ * Supports:
+ * - page, size
+ * - search (q)
+ * - categoryId
+ * - minPrice, maxPrice
+ * - sort: "newest" | "name" | "price" | "price_desc"
+ */
+export async function getProducts({
+  page = 1,
+  size = 12,
+  search = "",
+  categoryId = null,
+  minPrice = null,
+  maxPrice = null,
+  sort = "newest",
+} = {}) {
+  const params = {
+    [PAGE_PARAM]: page,
+    [SIZE_PARAM]: size,
+  };
+
+  if (search && search.trim()) params[SEARCH_PARAM] = search.trim();
+  if (categoryId != null) params.categoryId = categoryId;
+  if (minPrice != null && minPrice !== "") params.minPrice = minPrice;
+  if (maxPrice != null && maxPrice !== "") params.maxPrice = maxPrice;
+  if (sort) params.sort = sort;
 
   const res = await api.get(PRODUCTS_PATH, { params });
 

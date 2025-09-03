@@ -60,6 +60,7 @@ namespace CarPartsShop.API.Controllers
             {
                 "name" => query.OrderBy(p => p.Name),
                 "price" => query.OrderBy(p => p.Price),
+                "price_desc" => query.OrderByDescending(p => p.Price),
                 "newest" => query.OrderByDescending(p => p.Id),
                 _ => query.OrderBy(p => p.Id)
             };
@@ -75,6 +76,7 @@ namespace CarPartsShop.API.Controllers
                     Name = p.Name,
                     Sku = p.Sku,
                     Description = p.Description,
+                    ImageUrl = p.ImageUrl,
                     Price = p.Price,
                     QuantityInStock = p.QuantityInStock,
                     CategoryId = p.CategoryId,
@@ -107,6 +109,7 @@ namespace CarPartsShop.API.Controllers
                     Name = p.Name,
                     Sku = p.Sku,
                     Description = p.Description,
+                    ImageUrl = p.ImageUrl,
                     Price = p.Price,
                     QuantityInStock = p.QuantityInStock,
                     CategoryId = p.CategoryId,
@@ -130,6 +133,7 @@ namespace CarPartsShop.API.Controllers
                 Name = dto.Name,
                 Sku = dto.Sku,
                 Description = dto.Description,
+                ImageUrl = dto.ImageUrl,
                 Price = dto.Price,
                 QuantityInStock = dto.QuantityInStock,
                 CategoryId = dto.CategoryId
@@ -154,6 +158,7 @@ namespace CarPartsShop.API.Controllers
 
             part.Name = dto.Name;
             part.Description = dto.Description;
+            part.ImageUrl = dto.ImageUrl;
             part.Price = dto.Price;
             part.QuantityInStock = dto.QuantityInStock;
             part.CategoryId = dto.CategoryId;
