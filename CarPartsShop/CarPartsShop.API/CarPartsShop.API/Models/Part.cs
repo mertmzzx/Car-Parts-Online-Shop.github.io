@@ -17,11 +17,15 @@ namespace CarPartsShop.API.Models
         [MaxLength(2000)]
         public string? Description { get; set; }
 
+        [MaxLength(1024)]
+        public string? ImageUrl { get; set; }
+
         [Precision(18, 2)]
         public decimal Price { get; set; }
 
         [Range(0, int.MaxValue)]
         public int QuantityInStock { get; set; }
+
 
         // FK
         [Required]

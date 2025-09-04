@@ -4,6 +4,7 @@ import RoutesConfig from "./routes";
 import Providers from "./providers";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import CartFab from "../components/CartFab"; 
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
             <RoutesConfig />
           </main>
           <Footer />
+          <CartFab /> {/* 👈 floating cart always visible */}
         </div>
       </BrowserRouter>
     </Providers>

@@ -38,6 +38,7 @@ namespace CarPartsShop.API.Data
                 e.Property(x => x.Sku).IsRequired().HasMaxLength(64);
                 e.HasIndex(x => x.Sku).IsUnique();
 
+                e.Property(x => x.ImageUrl).HasMaxLength(1024);
                 e.Property(x => x.Price).HasColumnType("decimal(18,2)");
 
                 e.HasOne(p => p.Category)

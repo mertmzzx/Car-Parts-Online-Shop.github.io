@@ -27,7 +27,7 @@ export default function CategoriesSidebar({
     selectedCategoryId !== null && selectedCategoryId !== undefined;
 
   return (
-    <Card className="sidebar-card shadow-sm sticky-md-top" style={{ top: "1rem" }}>
+    <Card className="sidebar-card shadow-sm">
       <Card.Header className="d-flex align-items-center justify-content-between">
         <span className="fw-semibold">Categories</span>
         {/* Mobile toggle only */}
@@ -54,7 +54,6 @@ export default function CategoriesSidebar({
                 className="d-flex justify-content-between align-items-center"
               >
                 <span className="text-truncate">All</span>
-                <span className="badge bg-light text-dark">{sumCounts(sorted)}</span>
               </ListGroup.Item>
 
               {sorted.map((c) => (
@@ -67,9 +66,6 @@ export default function CategoriesSidebar({
                   title={c.name}
                 >
                   <span className="text-truncate">{c.name || "Unnamed"}</span>
-                  {typeof c.count === "number" && (
-                    <span className="badge bg-light text-dark">{c.count}</span>
-                  )}
                 </ListGroup.Item>
               ))}
             </ListGroup>
@@ -80,8 +76,8 @@ export default function CategoriesSidebar({
   );
 }
 
-function sumCounts(arr) {
+/*function sumCounts(arr) {
   let n = 0;
   for (const x of arr) if (typeof x?.count === "number") n += x.count;
   return n;
-}
+} */

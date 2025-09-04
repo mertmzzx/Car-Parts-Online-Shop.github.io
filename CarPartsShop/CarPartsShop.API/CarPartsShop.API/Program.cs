@@ -135,24 +135,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// Hook to seed roles/admin (actual seeder comes in Point 6)
 await app.Services.SeedAsync(builder.Configuration);
-
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var config = services.GetRequiredService<IConfiguration>();
-
-    // Seed Identity (Admin + Roles)
-    await services.SeedAsync(config);
-
-    // Seed Categories, Parts, Customers
-    var userManager = services.GetRequiredService<UserManager<AppUser>>();
-    var testUser = await userManager.FindByEmailAsync("test@example.com");
-
-    var context = services.GetRequiredService<AppDbContext>();
-    DbInitializer.Initialize(context, testUser?.Id); // ← testUser?.Id is string?
-
-}
 
 app.Run();

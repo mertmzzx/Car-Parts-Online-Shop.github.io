@@ -60,12 +60,12 @@ namespace CarPartsShop.API.Controllers
 
             var address = string.Join(" • ", new[]
             {
-        c.AddressLine1,
-        c.AddressLine2,
-        string.Join(", ", new[] { c.City, c.State }.Where(s => !string.IsNullOrWhiteSpace(s))),
-        c.PostalCode,
-        c.Country
-    }.Where(s => !string.IsNullOrWhiteSpace(s)));
+                c.AddressLine1,
+                c.AddressLine2,
+                string.Join(", ", new[] { c.City, c.State }.Where(s => !string.IsNullOrWhiteSpace(s))),
+                c.PostalCode,
+                c.Country
+            }  .Where(s => !string.IsNullOrWhiteSpace(s)));
 
             return (
                 string.IsNullOrWhiteSpace(name) ? "-" : name,

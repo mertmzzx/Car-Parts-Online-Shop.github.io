@@ -116,7 +116,7 @@ export default function Products() {
 
   return (
     <>
-      <h1 className="h3 mb-3">Catalog</h1>
+      <div className="header-gap" />
 
       <Row className="g-3">
         <Col xs={12} md={3} lg={2}>

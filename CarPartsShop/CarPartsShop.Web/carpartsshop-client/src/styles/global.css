@@ -5,6 +5,12 @@
 
 html, body, #root { height: 100%; }
 
+:root {
+  --header-height: 64px;   /* adjust if your header is taller/shorter */
+  --sidebar-width: 260px;  /* desired fixed width for the categories panel */
+  --sidebar-left-gap: 24px;/* inset from the very left edge */
+}
+
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
@@ -39,6 +45,11 @@ main.container { min-height: calc(100vh - 160px); } /* header+footer spacing */
 .card.hoverable:hover {
   transform: translateY(-2px);
   transition: transform 120ms ease;
+}
+
+/* Products header gap */
+.header-gap {
+  height: 12px; /* tweak 8–16px as you like */
 }
 
 /* Categories sidebar */
@@ -79,6 +90,28 @@ main.container { min-height: calc(100vh - 160px); } /* header+footer spacing */
 .sidebar-card .sidebar-list::-webkit-scrollbar-thumb {
   background-color: rgba(0,0,0,0.15);
   border-radius: 4px;
+}
+
+/* Fixed categories sidebar on md+ */
+@media (min-width: 768px) {
+  .categories-fixed {
+    position: fixed;
+    top: calc(var(--header-height) + 12px);
+    left: var(--sidebar-left-gap);
+    width: var(--sidebar-width);
+    z-index: 1020; /* float above content but below navbar/cart */
+  }
+
+  /* Push main content to the right so it doesn't go under the fixed sidebar */
+  .products-main {
+    margin-left: calc(var(--sidebar-width) + var(--sidebar-left-gap) + 24px);
+  }
+}
+
+/* Make sure the component's old sticky class doesn't interfere */
+.categories-fixed .sticky-md-top {
+  position: static !important;
+  top: auto !important;
 }
 
 /* PriceRangeSlider styles */
@@ -150,3 +183,165 @@ main.container { min-height: calc(100vh - 160px); } /* header+footer spacing */
   background: transparent;
   border: none;
 }
+
+/* Bigger brand so the nav reads as a subcontainer */
+.brand-strong {
+  font-size: 1.55rem;      /* tweak 1.5–1.7 to taste */
+  font-weight: 700;
+  letter-spacing: .2px;
+  line-height: 1;
+  padding: .35rem 0;       /* reduces visual cramp with a larger title */
+}
+
+/* Remove any underline from nav links, always */
+.navbar .nav-link,
+.navbar .nav-link:hover,
+.navbar .nav-link:focus,
+.nav-polished .nav-link,
+.nav-polished .nav-link:hover,
+.nav-polished .nav-link:focus {
+  text-decoration: none !important;
+  outline: none !important;
+}
+
+/* Keep your clean color/active styles (no underline) */
+.nav-polished .nav-link {
+  color: #2b2f33;
+  font-weight: 500;
+  padding: 0.6rem .8rem;
+  position: relative;
+  transition: color 120ms ease;
+}
+.nav-polished .nav-link:hover {
+  color: #0d6efd;
+}
+.nav-polished .nav-link.active {
+  color: #0d6efd;
+  font-weight: 600;
+}
+/* (optional) active indicator bar—this is not text underline; remove if you don't want it */
+.nav-polished .nav-link.active::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -8px;
+  width: 24px;
+  height: 2px;
+  background: #0d6efd;
+  border-radius: 2px;
+}
+
+/* --- Floating (hovering) sticky cart button --- */
+.cart-fab {
+  position: fixed;
+  right: 18px;                                        /* bottom-right */
+  bottom: calc(var(--footer-height, 64px) + 16px);    /* sit above footer */
+  z-index: 1040;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 9999px;
+  background: #ffffff;
+  color: #2b2f33;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  text-decoration: none;
+  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+
+.cart-fab:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+  border-color: rgba(0,0,0,0.12);
+  color: #0d6efd;
+}
+
+.cart-fab:active {
+  transform: translateY(0);
+}
+
+/* Badge for item count */
+.cart-fab-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+  color: #fff;
+  background: #dc3545; /* danger */
+  border-radius: 999px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+/* Responsive tweaks: keep bottom-right and keep clear of footer */
+@media (max-width: 991.98px) {
+  .cart-fab { right: 16px; bottom: calc(var(--footer-height, 64px) + 14px); }
+}
+@media (max-width: 575.98px) {
+  .cart-fab { right: 12px; bottom: calc(var(--footer-height, 64px) + 12px); }
+}
+
+/* Optional: respect iOS safe-area at the bottom */
+@supports (bottom: env(safe-area-inset-bottom)) {
+  .cart-fab {
+    bottom: calc(var(--footer-height, 64px) + 16px + env(safe-area-inset-bottom));
+  }
+}
+
+/* Breadcrumb polish */
+.product-breadcrumb {
+  font-size: 0.9rem;
+}
+.product-breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+  content: "›";
+  color: #6c757d;
+}
+.product-breadcrumb .breadcrumb-item a {
+  color: #6c757d;
+  text-decoration: none;
+}
+.product-breadcrumb .breadcrumb-item a:hover {
+  color: #0d6efd;
+  text-decoration: underline;
+}
+
+/* Product detail image */
+.pd-image-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #f7f7f8;
+}
+.pd-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 200ms ease;
+}
+.pd-image-wrapper:hover .pd-image {
+  transform: scale(1.02);
+}
+
+/* The “small” variant used here — tweak these to change size */
+.pd-image-wrapper.small {
+  max-width: 420px;   /* increase/decrease to resize */
+  max-height: 420px;  /* increase/decrease to resize, or remove to unlock height */
+  margin: 0 auto;
+}
+.pd-image-wrapper.small img {
+  object-fit: contain;
+}
+
+/* Mild top spacing under sticky header (optional) */
+.product-detail-page {
+  margin-top: 8px;
+}
+
+
