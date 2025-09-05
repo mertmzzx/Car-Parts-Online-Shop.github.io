@@ -344,4 +344,20 @@ main.container { min-height: calc(100vh - 160px); } /* header+footer spacing */
   margin-top: 8px;
 }
 
+/* Cart table tweaks */
+table.table tr td,
+table.table tr th {
+  vertical-align: middle;
+}
+
+/* Add To Cart Animation */
+@keyframes cart-pop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+.cart-pop-anim {
+  animation: cart-pop 0.4s ease;
+}
 

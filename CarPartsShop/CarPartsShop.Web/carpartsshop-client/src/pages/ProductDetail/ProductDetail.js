@@ -1,5 +1,5 @@
 // src/pages/ProductDetail/ProductDetail.js
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import {
   Row,
@@ -14,6 +14,7 @@ import {
 import { getProductById, getProducts } from "../../services/productService";
 import { useCart } from "../../context/CartContext";
 import ProductCard from "../../components/ProductCard";
+import { flyToCart } from "../../utils/flyToCart"; 
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -26,6 +27,8 @@ export default function ProductDetail() {
   const [error, setError] = useState("");
 
   const [related, setRelated] = useState([]);
+
+  const imgRef = useRef(null); 
 
   useEffect(() => {
     let ignore = false;
@@ -92,6 +95,10 @@ export default function ProductDetail() {
   function addToCart() {
     if (!p) return;
     add(p, qty);
+
+    if (imgRef.current) {
+      flyToCart(imageUrl, imgRef.current);
+    }
   }
 
   if (loading) {
@@ -134,6 +141,7 @@ export default function ProductDetail() {
           <Col md={5} lg={4}>
             <div className="pd-image-wrapper small">
               <img
+                ref={imgRef}   
                 src={imageUrl}
                 alt={p.name}
                 className="pd-image"
