@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import api from "../services/http";
-import { flyToCart } from "../utils/flyToCart"; // 👈 add this
+import { flyToCart } from "../utilities/flyToCart"; // 👈 add this
 
 /** Local inline SVG placeholder (works offline) */
 function svgPlaceholder(text = "Part") {

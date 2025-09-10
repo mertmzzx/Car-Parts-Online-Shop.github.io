@@ -14,7 +14,7 @@ import {
 import { getProductById, getProducts } from "../../services/productService";
 import { useCart } from "../../context/CartContext";
 import ProductCard from "../../components/ProductCard";
-import { flyToCart } from "../../utils/flyToCart"; 
+import { flyToCart } from "../../utilities/flyToCart"; 
 
 export default function ProductDetail() {
   const { id } = useParams();

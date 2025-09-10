@@ -361,3 +361,11 @@ table.table tr th {
   animation: cart-pop 0.4s ease;
 }
 
+/* Make active link in the account sidebar bold and clear */
+.account-nav .nav-link.active {
+  background: #0d6efd;
+  color: #fff;
+  font-weight: 600;
+}
+
+

@@ -1,10 +1,21 @@
-// src/pages/Register.js
+// src/pages/Auth/Register.js
 import { useState } from "react";
-import { Card, Form, Button, Alert, Spinner } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import http from "../api/http";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  InputGroup,
+  Row,
+  Spinner,
+  Alert,
+} from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Register() {
+  const { register } = useAuth();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -15,46 +26,22 @@ export default function Register() {
     confirmPassword: "",
   });
 
+  const [showPwd, setShowPwd] = useState(false);
+  const [showPwd2, setShowPwd2] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
-  const onChange = (e) => {
-    setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
-  };
+  function onChange(e) {
+    const { name, value } = e.target;
+    setForm((f) => ({ ...f, [name]: value }));
+  }
 
-  const normalizeError = (err) => {
-    // Try to extract a helpful message from typical ASP.NET Core responses
-    const r = err?.response;
-    if (!r) return err?.message || "Network error";
-
-    if (typeof r.data === "string") return r.data;
-
-    if (r.data?.errors) {
-      // ModelState-style: { errors: { Field: ["msg", ...], ... } }
-      const firstKey = Object.keys(r.data.errors)[0];
-      const firstMsg = r.data.errors[firstKey]?.[0];
-      if (firstMsg) return firstMsg;
-    }
-    if (r.data?.title) return r.data.title;
-    if (r.data?.detail) return r.data.detail;
-
-    try {
-      return JSON.stringify(r.data);
-    } catch {
-      return `HTTP ${r.status}`;
-    }
-  };
-
-  const onSubmit = async (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
     setError("");
 
-    if (!form.firstName.trim() || !form.lastName.trim() || !form.email.trim()) {
-      setError("Please fill all required fields.");
-      return;
-    }
-    if (form.password.length < 6) {
-      setError("Password must be at least 6 characters.");
+    if (!form.firstName.trim() || !form.lastName.trim()) {
+      setError("Please enter your first and last name.");
       return;
     }
     if (form.password !== form.confirmPassword) {
@@ -64,97 +51,165 @@ export default function Register() {
 
     setSubmitting(true);
     try {
-      // Backend expects: { firstName, lastName, email, password, confirmPassword }
-      await http.post("/api/auth/register", {
+      // Your API assigns role = Customer by default (as we set up)
+      await register({
         firstName: form.firstName.trim(),
         lastName: form.lastName.trim(),
         email: form.email.trim(),
         password: form.password,
         confirmPassword: form.confirmPassword,
       });
-
-      // Success: send users to login
-      navigate("/login", { replace: true, state: { registered: true } });
+      navigate("/account", { replace: true });
     } catch (err) {
-      setError(normalizeError(err) || "Registration failed.");
+      const msg =
+        err?.response?.data?.title ||
+        err?.response?.data ||
+        err?.message ||
+        "Registration failed.";
+      setError(typeof msg === "string" ? msg : "Registration failed.");
     } finally {
       setSubmitting(false);
     }
-  };
+  }
 
   return (
-    <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "80vh" }}>
-      <Card style={{ width: 420 }}>
-        <Card.Body>
-          <Card.Title className="mb-3">Create account</Card.Title>
+    <Container fluid className="py-5">
+      <Row className="justify-content-center">
+        <Col xs={12} sm={10} md={8} lg={6} xl={5}>
+          <Card className="shadow-sm border-0">
+            <Card.Body className="p-4 p-md-5">
+              <div className="mb-4">
+                <h1 className="h3 mb-1">Create your account</h1>
+                <div className="text-muted">
+                  Sign up to shop and track your orders
+                </div>
+              </div>
 
-          {error && <Alert variant="danger" className="py-2">{error}</Alert>}
+              {error && (
+                <Alert variant="danger" className="py-2">
+                  {error}
+                </Alert>
+              )}
 
-          <Form onSubmit={onSubmit}>
-            <Form.Group className="mb-3" controlId="firstName">
-              <Form.Label>First name</Form.Label>
-              <Form.Control
-                name="firstName"
-                value={form.firstName}
-                onChange={onChange}
-                autoFocus
-                required
-              />
-            </Form.Group>
+              <Form onSubmit={handleSubmit} noValidate>
+                <Row className="g-3">
+                  <Col md={6}>
+                    <Form.Group controlId="regFirstName">
+                      <Form.Label>First name</Form.Label>
+                      <Form.Control
+                        name="firstName"
+                        value={form.firstName}
+                        onChange={onChange}
+                        placeholder="John"
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group controlId="regLastName">
+                      <Form.Label>Last name</Form.Label>
+                      <Form.Control
+                        name="lastName"
+                        value={form.lastName}
+                        onChange={onChange}
+                        placeholder="Doe"
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
 
-            <Form.Group className="mb-3" controlId="lastName">
-              <Form.Label>Last name</Form.Label>
-              <Form.Control
-                name="lastName"
-                value={form.lastName}
-                onChange={onChange}
-                required
-              />
-            </Form.Group>
+                  <Col xs={12}>
+                    <Form.Group controlId="regEmail">
+                      <Form.Label>Email</Form.Label>
+                      <Form.Control
+                        type="email"
+                        name="email"
+                        value={form.email}
+                        onChange={onChange}
+                        placeholder="you@example.com"
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
 
-            <Form.Group className="mb-3" controlId="email">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={onChange}
-                required
-              />
-            </Form.Group>
+                  <Col xs={12}>
+                    <Form.Group controlId="regPassword" className="mb-0">
+                      <Form.Label>Password</Form.Label>
+                      <InputGroup>
+                        <Form.Control
+                          type={showPwd ? "text" : "password"}
+                          name="password"
+                          value={form.password}
+                          onChange={onChange}
+                          placeholder="••••••••"
+                          required
+                        />
+                        <Button
+                          variant="outline-secondary"
+                          onClick={() => setShowPwd((s) => !s)}
+                          tabIndex={-1}
+                        >
+                          {showPwd ? "Hide" : "Show"}
+                        </Button>
+                      </InputGroup>
+                      <Form.Text className="text-muted">
+                        At least 8 characters, include a number.
+                      </Form.Text>
+                    </Form.Group>
+                  </Col>
 
-            <Form.Group className="mb-3" controlId="password">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={onChange}
-                required
-              />
-            </Form.Group>
+                  <Col xs={12}>
+                    <Form.Group controlId="regPassword2">
+                      <Form.Label>Confirm password</Form.Label>
+                      <InputGroup>
+                        <Form.Control
+                          type={showPwd2 ? "text" : "password"}
+                          name="confirmPassword"
+                          value={form.confirmPassword}
+                          onChange={onChange}
+                          placeholder="••••••••"
+                          required
+                        />
+                        <Button
+                          variant="outline-secondary"
+                          onClick={() => setShowPwd2((s) => !s)}
+                          tabIndex={-1}
+                        >
+                          {showPwd2 ? "Hide" : "Show"}
+                        </Button>
+                      </InputGroup>
+                    </Form.Group>
+                  </Col>
 
-            <Form.Group className="mb-4" controlId="confirmPassword">
-              <Form.Label>Confirm password</Form.Label>
-              <Form.Control
-                type="password"
-                name="confirmPassword"
-                value={form.confirmPassword}
-                onChange={onChange}
-                required
-                isInvalid={!!form.confirmPassword && form.password !== form.confirmPassword}
-              />
-              <Form.Control.Feedback type="invalid">
-                Passwords do not match.
-              </Form.Control.Feedback>
-            </Form.Group>
+                  <Col xs={12} className="pt-2">
+                    <div className="d-grid gap-2">
+                      <Button type="submit" disabled={submitting}>
+                        {submitting ? (
+                          <>
+                            <Spinner
+                              as="span"
+                              animation="border"
+                              size="sm"
+                              className="me-2"
+                            />
+                            Creating account…
+                          </>
+                        ) : (
+                          "Create account"
+                        )}
+                      </Button>
+                    </div>
+                  </Col>
+                </Row>
+              </Form>
 
-            <Button type="submit" className="w-100" disabled={submitting}>
-              {submitting ? <Spinner size="sm" animation="border" /> : "Register"}
-            </Button>
-          </Form>
-        </Card.Body>
-      </Card>
-    </div>
+              <div className="mt-4 text-center text-muted">
+                Already have an account? <Link to="/login">Sign in</Link>
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 }

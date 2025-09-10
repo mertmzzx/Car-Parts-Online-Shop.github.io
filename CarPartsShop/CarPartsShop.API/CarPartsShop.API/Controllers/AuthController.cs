@@ -67,7 +67,9 @@ namespace CarPartsShop.API.Controllers
             {
                 Token = token,
                 Role = role,
-                UserName = user.UserName! // equals email
+                UserName = user.UserName!, // equals email
+                FirstName = user.FirstName ?? "",
+                LastName = user.LastName ?? ""
             });
         }
 
@@ -91,7 +93,9 @@ namespace CarPartsShop.API.Controllers
             {
                 Token = token,
                 Role = role,
-                UserName = user.UserName!
+                UserName = user.UserName!,
+                FirstName = user.FirstName ?? "",
+                LastName = user.LastName ?? "",
             });
         }
     }
