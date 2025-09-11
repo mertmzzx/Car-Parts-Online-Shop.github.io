@@ -1,4 +1,3 @@
-// src/context/AuthContext.js
 import { createContext, useContext, useEffect, useMemo, useState, useCallback } from "react";
 import api from "../services/http";
 import { login as apiLogin, register as apiRegister } from "../services/authService";
@@ -56,22 +55,58 @@ export function AuthProvider({ children }) {
     else localStorage.removeItem(STORAGE_KEY);
   }, [auth]);
 
-  // ---- Stable callbacks ----
-  const login = useCallback(async ({ email, password }) => {
+// ---- Stable callbacks ----
+const login = useCallback(async ({ email, password }) => {
+  try {
     const res = await apiLogin({ email, password });
     const normalized = normalizeAuth(res);
-    if (!normalized) throw new Error("Invalid auth response.");
+    if (!normalized?.token) {
+      // bubble up any backend text or validation payload if present
+      const msg =
+        (typeof res === "string" && res) ||
+        res?.message ||
+        "Invalid auth response.";
+      throw new Error(msg);
+    }
     setAuth(normalized);
     return normalized;
-  }, []);
+  } catch (err) {
+    // map axios/HTTP errors to a readable message
+    const msg =
+      err?.response?.data?.title ||       // ProblemDetails.Title
+      err?.response?.data?.error ||       // custom error
+      err?.response?.data ||              // plain text or object
+      err?.message || "Login failed.";
+    throw new Error(
+      typeof msg === "string" ? msg : "Login failed."
+    );
+  }
+}, []);
 
-  const register = useCallback(async (payload) => {
+const register = useCallback(async (payload) => {
+  try {
     const res = await apiRegister(payload);
     const normalized = normalizeAuth(res);
-    if (!normalized) throw new Error("Invalid auth response.");
+    if (!normalized?.token) {
+      const msg =
+        (typeof res === "string" && res) ||
+        res?.message ||
+        "Invalid auth response.";
+      throw new Error(msg);
+    }
     setAuth(normalized);
     return normalized;
-  }, []);
+  } catch (err) {
+    const msg =
+      err?.response?.data?.title ||
+      err?.response?.data?.error ||
+      err?.response?.data ||
+      err?.message || "Registration failed.";
+    throw new Error(
+      typeof msg === "string" ? msg : "Registration failed."
+    );
+  }
+}, []);
 
   const logout = useCallback(() => {
     setAuth(null);
@@ -91,6 +126,13 @@ export function AuthProvider({ children }) {
     [auth]
   );
 
+  // ✅ NEW: allow updating just parts of the user object
+  const updateUser = useCallback((patch) => {
+    setAuth((a) =>
+      a ? { ...a, user: { ...a.user, ...patch } } : a
+    );
+  }, []);
+
   const value = useMemo(
     () => ({
       auth,
@@ -102,8 +144,9 @@ export function AuthProvider({ children }) {
       logout,
       isInRole,
       hasAnyRole,
+      updateUser, // ✅ expose it
     }),
-    [auth, login, register, logout, isInRole, hasAnyRole]
+    [auth, login, register, logout, isInRole, hasAnyRole, updateUser]
   );
 
   return <AuthCtx.Provider value={value}>{children}</AuthCtx.Provider>;

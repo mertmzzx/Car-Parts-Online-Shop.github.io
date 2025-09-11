@@ -9,6 +9,8 @@ export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const reason = new URLSearchParams(location.search).get("reason");
+
   const redirectTo = location.state?.from?.pathname || "/account";
 
   const [email, setEmail] = useState("");
@@ -29,7 +31,7 @@ export default function Login() {
     setSubmitting(true);
 
     try {
-      await login({email: email.trim(), password});
+      await login({ email: email.trim(), password });
       navigate(redirectTo, { replace: true });
     } catch (err) {
       // Try to surface server error messages nicely
@@ -54,6 +56,12 @@ export default function Login() {
                 <h1 className="h3 mb-1">Welcome back</h1>
                 <div className="text-muted">Log into your account</div>
               </div>
+
+              {reason === "expired" && (
+                <Alert variant="warning" className="py-2">
+                  Your session expired. Please sign in again.
+                </Alert>
+              )}
 
               {error && (
                 <Alert variant="danger" className="py-2">
