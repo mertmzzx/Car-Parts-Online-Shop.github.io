@@ -1,3 +1,4 @@
+// src/context/AuthContext.js
 import { createContext, useContext, useEffect, useMemo, useState, useCallback } from "react";
 import api from "../services/http";
 import { login as apiLogin, register as apiRegister } from "../services/authService";
@@ -7,7 +8,26 @@ const STORAGE_KEY = "cps_auth_client_v1";
 const AuthCtx = createContext(null);
 export const useAuth = () => useContext(AuthCtx);
 
-// Normalize your API response -> { token, user: { email, roles: [role] } }
+// --- helpers ---------------------------------------------------------------
+
+// safe base64url decode -> JSON
+function decodeJwt(token) {
+  try {
+    const [, payload] = token.split(".");
+    if (!payload) return null;
+    const json = atob(payload.replace(/-/g, "+").replace(/_/g, "/"));
+    return JSON.parse(decodeURIComponent(escape(json)));
+  } catch {
+    return null;
+  }
+}
+function getJwtExpMillis(token) {
+  const payload = decodeJwt(token);
+  // exp is in seconds since epoch
+  const expSec = payload?.exp;
+  return typeof expSec === "number" ? expSec * 1000 : null;
+}
+
 function normalizeAuth(payload) {
   if (!payload) return null;
   const token = payload.Token ?? payload.token;
@@ -29,6 +49,8 @@ function normalizeAuth(payload) {
   };
 }
 
+// --------------------------------------------------------------------------
+
 export function AuthProvider({ children }) {
   const [auth, setAuth] = useState(() => {
     try {
@@ -49,64 +71,28 @@ export function AuthProvider({ children }) {
     }
   }, [auth?.token]);
 
-  // Persist
+  // Persist to storage
   useEffect(() => {
     if (auth) localStorage.setItem(STORAGE_KEY, JSON.stringify(auth));
     else localStorage.removeItem(STORAGE_KEY);
   }, [auth]);
 
-// ---- Stable callbacks ----
-const login = useCallback(async ({ email, password }) => {
-  try {
+  // ---- Stable callbacks ----
+  const login = useCallback(async ({ email, password }) => {
     const res = await apiLogin({ email, password });
     const normalized = normalizeAuth(res);
-    if (!normalized?.token) {
-      // bubble up any backend text or validation payload if present
-      const msg =
-        (typeof res === "string" && res) ||
-        res?.message ||
-        "Invalid auth response.";
-      throw new Error(msg);
-    }
+    if (!normalized) throw new Error("Invalid auth response.");
     setAuth(normalized);
     return normalized;
-  } catch (err) {
-    // map axios/HTTP errors to a readable message
-    const msg =
-      err?.response?.data?.title ||       // ProblemDetails.Title
-      err?.response?.data?.error ||       // custom error
-      err?.response?.data ||              // plain text or object
-      err?.message || "Login failed.";
-    throw new Error(
-      typeof msg === "string" ? msg : "Login failed."
-    );
-  }
-}, []);
+  }, []);
 
-const register = useCallback(async (payload) => {
-  try {
+  const register = useCallback(async (payload) => {
     const res = await apiRegister(payload);
     const normalized = normalizeAuth(res);
-    if (!normalized?.token) {
-      const msg =
-        (typeof res === "string" && res) ||
-        res?.message ||
-        "Invalid auth response.";
-      throw new Error(msg);
-    }
+    if (!normalized) throw new Error("Invalid auth response.");
     setAuth(normalized);
     return normalized;
-  } catch (err) {
-    const msg =
-      err?.response?.data?.title ||
-      err?.response?.data?.error ||
-      err?.response?.data ||
-      err?.message || "Registration failed.";
-    throw new Error(
-      typeof msg === "string" ? msg : "Registration failed."
-    );
-  }
-}, []);
+  }, []);
 
   const logout = useCallback(() => {
     setAuth(null);
@@ -126,12 +112,57 @@ const register = useCallback(async (payload) => {
     [auth]
   );
 
-  // ✅ NEW: allow updating just parts of the user object
+  // allow updating just parts of the user object
   const updateUser = useCallback((patch) => {
-    setAuth((a) =>
-      a ? { ...a, user: { ...a.user, ...patch } } : a
-    );
+    setAuth((a) => (a ? { ...a, user: { ...a.user, ...patch } } : a));
   }, []);
+
+  // --- NEW: auto-logout when token expires (timer-based) -------------------
+  useEffect(() => {
+    if (!auth?.token) return;
+
+    const expMs = getJwtExpMillis(auth.token);
+    if (!expMs) return; // token has no exp, skip
+
+    // logout 5s before expiration
+    const now = Date.now();
+    const delay = Math.max(0, expMs - now - 5000);
+
+    const timer = setTimeout(() => {
+      logout();
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [auth?.token, logout]);
+
+  // --- NEW: auto-logout on 401 invalid/expired token (response interceptor)
+  useEffect(() => {
+    const id = api.interceptors.response.use(
+      (resp) => resp,
+      (error) => {
+        const status = error?.response?.status;
+        if (status === 401) {
+          // Try to pick hints from body or WWW-Authenticate header
+          const body = error?.response?.data;
+          const hdr = error?.response?.headers?.["www-authenticate"] || "";
+          const message =
+            (typeof body === "string" ? body : "") +
+            " " +
+            (typeof body?.error_description === "string" ? body.error_description : "") +
+            " " +
+            hdr;
+
+          // Look for common indicators
+          if (/invalid[_\s-]?token|expired|token expired|jwt/i.test(message)) {
+            logout();
+          }
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    return () => api.interceptors.response.eject(id);
+  }, [logout]);
 
   const value = useMemo(
     () => ({
@@ -144,7 +175,7 @@ const register = useCallback(async (payload) => {
       logout,
       isInRole,
       hasAnyRole,
-      updateUser, // ✅ expose it
+      updateUser,
     }),
     [auth, login, register, logout, isInRole, hasAnyRole, updateUser]
   );
