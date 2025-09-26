@@ -12,7 +12,7 @@ export function getAuthHeader() {
 
 export async function getMyAddress() {
   const res = await api.get("/api/customers/me/address");
-  if (res.status === 200) return null;   // explicitly handle 204
+  if (res.status === 204) return null;   
   return res.data ?? null;
 }
 

@@ -1,6 +1,44 @@
 // src/services/orderService.js
 import api from "./http";
 
+// Robust mapper: supports {id|partId} and {quantity|qty}, coerces to positive ints
+function toOrderItems(items = []) {
+  return items
+    .map((i) => {
+      const partId = i.partId ?? i.id;
+      const rawQty = i.quantity ?? i.qty;
+      const qtyNum = Number(rawQty);
+
+      return {
+        partId,
+        quantity: Number.isFinite(qtyNum) && qtyNum > 0 ? qtyNum : 1, // fallback to 1 (never 0)
+      };
+    })
+    .filter((x) => Number.isFinite(x.partId)); // discard any malformed entries
+}
+
+// items: [{ partId, quantity }]
+// useSavedAddress: boolean
+// addressOverride: { firstName,lastName,addressLine1,addressLine2,city,state,postalCode,country,phone }  (when not using saved)
+// shippingMethod: "Standard" | "Express" (string)
+export async function placeOrder({ items, useSavedAddress, addressOverride, shippingMethod, paymentMethod }) {
+  const orderItems = toOrderItems(items);
+  if (!orderItems.length) {
+    throw new Error("Your cart is empty or invalid.");
+  }
+
+  const payload = {
+    items: orderItems,
+    useSavedAddress: !!useSavedAddress,
+    shippingMethod: shippingMethod || "Standard",
+    shippingAddressOverride: useSavedAddress ? null : addressOverride || null,
+    paymentMethod: paymentMethod || "Cash",
+  };
+
+  const { data } = await api.post("/api/orders", payload);
+  return data; // OrderResponseDto
+}
+
 /** Normalize an order coming from the API into a camelCased object */
 function normalizeOrder(o) {
   if (!o) return null;
@@ -27,7 +65,7 @@ function normalizeOrder(o) {
   };
 }
 
-/** GET /api/Orders/my – returns [] if no customer profile / no orders yet */
+
 export async function getMyOrders() {
   try {
     const { data } = await api.get("/api/Orders/my");
@@ -40,4 +78,10 @@ export async function getMyOrders() {
     }
     throw err;
   }
+}
+
+// ✅ NEW: fetch a single order by id (customers can access their own order)
+export async function getOrderById(id) {
+  const { data } = await api.get(`/api/orders/${id}`);
+  return normalizeOrder(data);
 }

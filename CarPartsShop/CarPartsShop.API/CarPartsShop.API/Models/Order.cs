@@ -34,5 +34,20 @@ namespace CarPartsShop.API.Models
 
         [Timestamp]
         public byte[]? RowVersion { get; set; }
+
+
+        // Shipping snapshot – captures the address used at the time of checkout
+
+        public string? ShipFirstName { get; set; }
+        public string? ShipLastName { get; set; }
+        public string? ShipAddressLine1 { get; set; }
+        public string? ShipAddressLine2 { get; set; }
+        public string? ShipCity { get; set; }
+        public string? ShipState { get; set; }
+        public string? ShipPostalCode { get; set; }
+        public string? ShipCountry { get; set; }
+        public string? ShipPhone { get; set; }
+
+        public string ShippingMethod { get; set; } = "Standard";
     }
 }

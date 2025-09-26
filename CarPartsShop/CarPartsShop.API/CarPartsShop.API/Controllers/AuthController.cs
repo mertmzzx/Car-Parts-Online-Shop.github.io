@@ -1,5 +1,7 @@
 ﻿using CarPartsShop.API.Auth;
+using CarPartsShop.API.Data;
 using CarPartsShop.API.DTOs.Auth;
+using CarPartsShop.API.Models;
 using CarPartsShop.API.Models.Identity;
 using CarPartsShop.API.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -15,12 +17,14 @@ namespace CarPartsShop.API.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly JwtTokenService _tokenService;
+        private readonly AppDbContext _db;
 
-        public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, JwtTokenService tokenService)
+        public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, JwtTokenService tokenService, AppDbContext db)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenService = tokenService;
+            _db = db;
         }
 
         // POST: /api/auth/register
@@ -58,6 +62,18 @@ namespace CarPartsShop.API.Controllers
 
             // Assign default Customer role
             await _userManager.AddToRoleAsync(user, Roles.Customer);
+
+            // 👇 Create the Customer row immediately after registering
+            var customer = new Customer
+            {
+                UserId = user.Id,
+                Email = user.Email!,
+                FirstName = user.FirstName ?? "",
+                LastName = user.LastName ?? ""
+                // Address fields remain null until the user fills them
+            };
+            _db.Customers.Add(customer);
+            await _db.SaveChangesAsync();
 
             // Issue token (you can ignore it on the frontend and redirect to /login)
             var token = await _tokenService.CreateTokenAsync(user);

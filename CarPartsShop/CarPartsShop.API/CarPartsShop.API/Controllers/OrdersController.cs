@@ -76,68 +76,68 @@ namespace CarPartsShop.API.Controllers
         }
 
 
-        // GET: /api/orders/my
-        [HttpGet("my")]
-        [Authorize(Roles = Roles.Customer)]
-        [ProducesResponseType(typeof(IEnumerable<OrderResponseDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<OrderResponseDto>>> GetMyOrders()
-        {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrEmpty(userId)) return Unauthorized();
-
-            var customer = await _db.Customers
-                .AsNoTracking()
-                .FirstOrDefaultAsync(c => c.UserId == userId);
-
-            if (customer == null)
-                return NotFound("Customer profile not found.");
-
-            var orders = await _db.Orders
-                .AsNoTracking()
-                .Where(o => o.CustomerId == customer.Id)
-                .Include(o => o.Customer)
-                .Include(o => o.Items)
-                .OrderByDescending(o => o.CreatedAt)
-                .ToListAsync();
-
-            var partIds = orders.SelectMany(o => o.Items.Select(i => i.PartId)).Distinct().ToList();
-            var parts = await _db.Parts
-                .Where(p => partIds.Contains(p.Id))
-                .ToDictionaryAsync(p => p.Id);
-
-            var result = orders.Select(order =>
+            // GET: /api/orders/my
+            [HttpGet("my")]
+            [Authorize(Roles = Roles.Customer)]
+            [ProducesResponseType(typeof(IEnumerable<OrderResponseDto>), StatusCodes.Status200OK)]
+            [ProducesResponseType(StatusCodes.Status404NotFound)]
+            public async Task<ActionResult<IEnumerable<OrderResponseDto>>> GetMyOrders()
             {
-                var (name, email, phone, addr) = MapCustomer(order.Customer);
+                var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId)) return Unauthorized();
 
-                return new OrderResponseDto
+                var customer = await _db.Customers
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(c => c.UserId == userId);
+
+                if (customer == null)
+                    return NotFound("Customer profile not found.");
+
+                var orders = await _db.Orders
+                    .AsNoTracking()
+                    .Where(o => o.CustomerId == customer.Id)
+                    .Include(o => o.Customer)
+                    .Include(o => o.Items)
+                    .OrderByDescending(o => o.CreatedAt)
+                    .ToListAsync();
+
+                var partIds = orders.SelectMany(o => o.Items.Select(i => i.PartId)).Distinct().ToList();
+                var parts = await _db.Parts
+                    .Where(p => partIds.Contains(p.Id))
+                    .ToDictionaryAsync(p => p.Id);
+
+                var result = orders.Select(order =>
                 {
-                    Id = order.Id,
-                    CustomerId = order.CustomerId,
-                    CreatedAt = order.CreatedAt,
-                    Subtotal = order.Subtotal,
-                    Tax = order.Tax,
-                    Total = order.Total,
-                    Status = order.Status.ToString(),
-                    Items = order.Items.Select(oi => new OrderItemResponseDto
+                    var (name, email, phone, addr) = MapCustomer(order.Customer);
+
+                    return new OrderResponseDto
                     {
-                        PartId = oi.PartId,
-                        PartName = parts[oi.PartId].Name,
-                        Sku = parts[oi.PartId].Sku,
-                        UnitPrice = oi.UnitPrice,
-                        Quantity = oi.Quantity,
-                        LineTotal = oi.UnitPrice * oi.Quantity
-                    }).ToList(),
+                        Id = order.Id,
+                        CustomerId = order.CustomerId,
+                        CreatedAt = order.CreatedAt,
+                        Subtotal = order.Subtotal,
+                        Tax = order.Tax,
+                        Total = order.Total,
+                        Status = order.Status.ToString(),
+                        Items = order.Items.Select(oi => new OrderItemResponseDto
+                        {
+                            PartId = oi.PartId,
+                            PartName = parts[oi.PartId].Name,
+                            Sku = parts[oi.PartId].Sku,
+                            UnitPrice = oi.UnitPrice,
+                            Quantity = oi.Quantity,
+                            LineTotal = oi.UnitPrice * oi.Quantity
+                        }).ToList(),
 
-                    CustomerName = name,
-                    CustomerEmail = email,
-                    CustomerPhone = phone,
-                    DeliveryAddress = addr
-                };
-            });
+                        CustomerName = name,
+                        CustomerEmail = email,
+                        CustomerPhone = phone,
+                        DeliveryAddress = addr
+                    };
+                });
 
-            return Ok(result);
-        }
+                return Ok(result);
+            }
 
         // GET: /api/orders/recent?limit=10
         [HttpGet("recent")]
@@ -196,45 +196,34 @@ namespace CarPartsShop.API.Controllers
         [ProducesResponseType(typeof(OrderResponseDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpPost]
-        [Authorize(Roles = Roles.Customer)] // only Customers can place orders
-        [ProducesResponseType(typeof(OrderResponseDto), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<OrderResponseDto>> CreateOrder([FromBody] CreateOrderDto dto)
         {
             if (dto.Items == null || dto.Items.Count == 0)
                 return BadRequest("Order must contain at least one item.");
 
-            // Get current user ID from JWT
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId)) return Unauthorized();
 
-            // Find the matching customer record by UserId
             var customer = await _db.Customers.FirstOrDefaultAsync(c => c.UserId == userId);
             if (customer == null) return NotFound("Customer profile not found.");
 
+            // Validate parts & stock
             var partIds = dto.Items.Select(i => i.PartId).Distinct().ToList();
-            var parts = await _db.Parts
-                .Where(p => partIds.Contains(p.Id))
-                .ToDictionaryAsync(p => p.Id);
+            var parts = await _db.Parts.Where(p => partIds.Contains(p.Id)).ToDictionaryAsync(p => p.Id);
 
             foreach (var item in dto.Items)
             {
                 if (!parts.ContainsKey(item.PartId))
                     return NotFound($"Part {item.PartId} not found.");
-
                 if (item.Quantity <= 0)
                     return BadRequest("Quantity must be positive.");
-
-                var part = parts[item.PartId];
-                if (part.QuantityInStock < item.Quantity)
-                    return BadRequest($"Not enough stock for PartId {item.PartId}. Requested {item.Quantity}, available {part.QuantityInStock}.");
+                if (parts[item.PartId].QuantityInStock < item.Quantity)
+                    return BadRequest($"Not enough stock for PartId {item.PartId}. Requested {item.Quantity}, available {parts[item.PartId].QuantityInStock}.");
             }
 
+            // Totals + order items
             decimal subtotal = 0m;
             var orderItems = new List<OrderItem>();
-
             foreach (var item in dto.Items)
             {
                 var part = parts[item.PartId];
@@ -247,11 +236,63 @@ namespace CarPartsShop.API.Controllers
                     UnitPrice = part.Price
                 });
 
-                part.QuantityInStock -= item.Quantity; // Decrease stock
+                part.QuantityInStock -= item.Quantity; // decrement stock
             }
 
+            const decimal TAX_RATE = 0.20m;
             var tax = Math.Round(subtotal * TAX_RATE, 2, MidpointRounding.AwayFromZero);
             var total = subtotal + tax;
+
+            // -------- NEW: shipping snapshot --------
+            string? shipFirst = null, shipLast = null, shipLine1 = null, shipLine2 = null,
+                    shipCity = null, shipState = null, shipPostal = null, shipCountry = null, shipPhone = null;
+
+            if (dto.UseSavedAddress)
+            {
+                var hasSaved =
+                    !string.IsNullOrWhiteSpace(customer.AddressLine1) ||
+                    !string.IsNullOrWhiteSpace(customer.City) ||
+                    !string.IsNullOrWhiteSpace(customer.PostalCode) ||
+                    !string.IsNullOrWhiteSpace(customer.Country);
+
+                if (!hasSaved)
+                    return BadRequest("No saved address on file.");
+
+                shipFirst = customer.FirstName;
+                shipLast = customer.LastName;
+                shipLine1 = customer.AddressLine1;
+                shipLine2 = customer.AddressLine2;
+                shipCity = customer.City;
+                shipState = customer.State;
+                shipPostal = customer.PostalCode;
+                shipCountry = customer.Country;
+                shipPhone = customer.Phone;
+            }
+            else
+            {
+                var a = dto.ShippingAddressOverride;
+                if (a is null)
+                    return BadRequest("Shipping address is required.");
+
+                // minimal required fields for a real shipment:
+                if (string.IsNullOrWhiteSpace(a.AddressLine1) ||
+                    string.IsNullOrWhiteSpace(a.City) ||
+                    string.IsNullOrWhiteSpace(a.PostalCode) ||
+                    string.IsNullOrWhiteSpace(a.Country))
+                    return BadRequest("AddressLine1, City, PostalCode and Country are required.");
+
+                // use provided names if present, else fall back to customer's
+                shipFirst = string.IsNullOrWhiteSpace(a.FirstName) ? customer.FirstName : a.FirstName;
+                shipLast = string.IsNullOrWhiteSpace(a.LastName) ? customer.LastName : a.LastName;
+                shipLine1 = a.AddressLine1;
+                shipLine2 = a.AddressLine2;
+                shipCity = a.City;
+                shipState = a.State;
+                shipPostal = a.PostalCode;
+                shipCountry = a.Country;
+                shipPhone = string.IsNullOrWhiteSpace(a.Phone) ? customer.Phone : a.Phone;
+            }
+            // ----------------------------------------
 
             var order = new Order
             {
@@ -264,12 +305,20 @@ namespace CarPartsShop.API.Controllers
                 Items = orderItems,
                 StatusHistory = new List<OrderStatusHistory>
         {
-            new OrderStatusHistory
-            {
-                Status = OrderStatus.Pending,
-                ChangedAt = DateTime.UtcNow
-            }
-        }
+            new OrderStatusHistory { Status = OrderStatus.Pending, ChangedAt = DateTime.UtcNow }
+        },
+
+                // snapshot fields (must exist on Order model)
+                ShipFirstName = shipFirst,
+                ShipLastName = shipLast,
+                ShipAddressLine1 = shipLine1,
+                ShipAddressLine2 = shipLine2,
+                ShipCity = shipCity,
+                ShipState = shipState,
+                ShipPostalCode = shipPostal,
+                ShipCountry = shipCountry,
+                ShipPhone = shipPhone,
+                ShippingMethod = dto.ShippingMethod
             };
 
             order.Customer = customer;
@@ -287,7 +336,20 @@ namespace CarPartsShop.API.Controllers
                 throw;
             }
 
-            var (name, email, phone, addr) = MapCustomer(order.Customer);
+            // Build response – use snapshot for display
+            string SnapshotToString()
+            {
+                var segments = new[]
+                {
+            $"{order.ShipFirstName} {order.ShipLastName}".Trim(),
+            order.ShipAddressLine1,
+            order.ShipAddressLine2,
+            string.Join(", ", new[] { order.ShipCity, order.ShipState }.Where(s => !string.IsNullOrWhiteSpace(s))),
+            order.ShipPostalCode,
+            order.ShipCountry
+        }.Where(s => !string.IsNullOrWhiteSpace(s));
+                return string.Join(" • ", segments);
+            }
 
             var response = new OrderResponseDto
             {
@@ -307,14 +369,11 @@ namespace CarPartsShop.API.Controllers
                     Quantity = oi.Quantity,
                     LineTotal = oi.UnitPrice * oi.Quantity
                 }).ToList(),
-
-                // NEW
-                CustomerName = name,
-                CustomerEmail = email,
-                CustomerPhone = phone,
-                DeliveryAddress = addr
+                CustomerName = string.Join(" ", new[] { order.ShipFirstName, order.ShipLastName }.Where(s => !string.IsNullOrWhiteSpace(s))),
+                CustomerEmail = customer.Email!,
+                CustomerPhone = order.ShipPhone ?? customer.Phone ?? "-",
+                DeliveryAddress = SnapshotToString()
             };
-
 
             return CreatedAtAction(nameof(GetOrderById), new { id = order.Id }, response);
         }
@@ -345,7 +404,7 @@ namespace CarPartsShop.API.Controllers
 
         // GET: /api/orders/{id}?includeHistory=true
         [HttpGet("{id:int}")]
-        [Authorize(Roles = $"{Roles.Administrator},{Roles.SalesAssistant}")]
+        [Authorize(Roles = $"{Roles.Administrator},{Roles.SalesAssistant},{Roles.Customer}")]
         [ProducesResponseType(typeof(OrderResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<OrderResponseDto>> GetOrderById(int id, [FromQuery] bool includeHistory = false)
@@ -355,15 +414,23 @@ namespace CarPartsShop.API.Controllers
                 .Include(o => o.Items); // Always include Items
 
             if (includeHistory)
-                query = query.Include(o => o.StatusHistory); // Conditionally include StatusHistory
+                query = query.Include(o => o.StatusHistory);
 
             var order = await query.FirstOrDefaultAsync(o => o.Id == id);
             if (order == null) return NotFound();
 
+            // 🔒 If caller is a Customer, they can only access their own order
+            if (User.IsInRole(Roles.Customer))
+            {
+                var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId) || order.Customer?.UserId != userId)
+                    return Forbid(); // 403
+            }
+
+            // …build and return OrderResponseDto exactly as you already do…
+            // (no changes needed below this line)
             var partIds = order.Items.Select(i => i.PartId).Distinct().ToList();
-            var parts = await _db.Parts
-                .Where(p => partIds.Contains(p.Id))
-                .ToDictionaryAsync(p => p.Id);
+            var parts = await _db.Parts.Where(p => partIds.Contains(p.Id)).ToDictionaryAsync(p => p.Id);
 
             var (name, email, phone, addr) = MapCustomer(order.Customer);
 
@@ -392,16 +459,15 @@ namespace CarPartsShop.API.Controllers
                         ChangedAt = h.ChangedAt
                     }).ToList()
                     : null,
-
                 CustomerName = name,
                 CustomerEmail = email,
                 CustomerPhone = phone,
                 DeliveryAddress = addr
             };
 
-
             return Ok(dto);
         }
+
 
 
 

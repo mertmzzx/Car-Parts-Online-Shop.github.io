@@ -11,7 +11,9 @@ export default function Login() {
 
   const reason = new URLSearchParams(location.search).get("reason");
 
-  const redirectTo = location.state?.from?.pathname || "/account";
+  const params = new URLSearchParams(location.search);
+  const returnUrl = params.get("returnUrl");
+  const redirectTo = returnUrl || location.state?.from?.pathname || "/account";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

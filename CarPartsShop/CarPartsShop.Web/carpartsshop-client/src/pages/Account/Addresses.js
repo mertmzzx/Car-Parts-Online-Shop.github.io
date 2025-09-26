@@ -140,7 +140,7 @@ export default function Addresses() {
           </div>
         </div>
 
-        <div className="card-footer d-flex justify-content-end gap-2">
+        <div className="card-footer d-flex justify-content-center gap-2">
           <button type="submit" className="btn btn-primary" disabled={saving}>
             {saving ? "Saving…" : "Save changes"}
           </button>

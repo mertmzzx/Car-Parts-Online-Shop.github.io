@@ -1,4 +1,5 @@
-﻿namespace CarPartsShop.API.DTOs.Orders
+﻿// DTOs/Orders/CreateOrderDto.cs
+namespace CarPartsShop.API.DTOs.Orders
 {
     public class CreateOrderItemDto
     {
@@ -6,8 +7,31 @@
         public int Quantity { get; set; }
     }
 
+    // Address override ONLY when UseSavedAddress == false
+    public class CreateOrderAddressOverrideDto
+    {
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? AddressLine1 { get; set; }
+        public string? AddressLine2 { get; set; }
+        public string? City { get; set; }
+        public string? State { get; set; }
+        public string? PostalCode { get; set; }
+        public string? Country { get; set; }
+        public string? Phone { get; set; }
+    }
+
     public class CreateOrderDto
     {
         public List<CreateOrderItemDto> Items { get; set; } = new();
+
+        // tells backend where to take the shipping info from
+        public bool UseSavedAddress { get; set; } = true;
+
+        // required when UseSavedAddress == false
+        public CreateOrderAddressOverrideDto? ShippingAddressOverride { get; set; }
+
+        // simple selection for now
+        public string ShippingMethod { get; set; } = "Standard";
     }
 }

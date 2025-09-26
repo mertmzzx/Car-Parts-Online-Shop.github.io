@@ -8,6 +8,7 @@ const noopCart = Object.freeze({
   remove: () => {},
   setQty: () => {},
   clear: () => {},
+  clearCart: () => {}, // NEW: alias so consumers don't crash
   total: 0,
   count: 0,
 });
@@ -20,14 +21,12 @@ export function CartProvider({ children }) {
     try {
       const raw = localStorage.getItem(LS_KEY);
       const parsed = raw ? JSON.parse(raw) : [];
-      // Normalize anything legacy
       return Array.isArray(parsed)
         ? parsed.map((p) => ({
             id: p.id,
             name: p.name,
             price: Number(p.price) || 0,
             qty: Math.max(1, Number(p.qty) || 1),
-            // carry optional fields if present
             imageUrl: p.imageUrl ?? null,
             sku: p.sku ?? null,
             categoryName: p.categoryName ?? null,
@@ -42,7 +41,6 @@ export function CartProvider({ children }) {
     localStorage.setItem(LS_KEY, JSON.stringify(items));
   }, [items]);
 
-  // Add/increase quantity for a product
   const add = (product, qty = 1) => {
     const inc = Math.max(1, Number(qty) || 1);
     setItems((prev) => {
@@ -54,7 +52,6 @@ export function CartProvider({ children }) {
         copy[i] = { ...current, qty: nextQty };
         return copy;
       }
-      // When first adding, persist a few useful fields for UI
       return [
         ...prev,
         {
@@ -70,10 +67,8 @@ export function CartProvider({ children }) {
     });
   };
 
-  // Remove a line by id
-  const remove = (id) => setItems((prev) => prev.filter((p) => p.id === id ? false : true));
+  const remove = (id) => setItems((prev) => prev.filter((p) => (p.id === id ? false : true)));
 
-  // Set absolute quantity (clamped); if <=0, remove line
   const setQty = (id, qty) =>
     setItems((prev) =>
       prev
@@ -86,18 +81,18 @@ export function CartProvider({ children }) {
         .filter((p) => p.qty > 0)
     );
 
-  const clear = () => setItems([]);
+  const clear = () => setItems([]);         // existing
+  const clearCart = () => setItems([]);     // NEW: alias used by Checkout
 
   const total = useMemo(
     () => items.reduce((s, i) => s + (Number(i.price) || 0) * (Number(i.qty) || 0), 0),
     [items]
   );
 
-  // Total item count across lines (for cart badge)
   const count = useMemo(() => items.reduce((s, i) => s + (Number(i.qty) || 0), 0), [items]);
 
   const value = useMemo(
-    () => ({ items, add, remove, setQty, clear, total, count }),
+    () => ({ items, add, remove, setQty, clear, clearCart, total, count }), // NEW: expose clearCart
     [items, total, count]
   );
 

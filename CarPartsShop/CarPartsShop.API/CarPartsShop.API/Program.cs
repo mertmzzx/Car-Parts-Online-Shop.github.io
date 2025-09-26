@@ -1,7 +1,6 @@
 using System.Text;
 using CarPartsShop.API.Auth;                 // Roles constants 
-using CarPartsShop.API.Data;                 // AppDbContext + SeedAsync 
-using CarPartsShop.API.Data.Seed;
+using CarPartsShop.API.Data;                 // AppDbContext 
 using CarPartsShop.API.Models.Identity;      // AppUser/AppRole
 using CarPartsShop.API.Services;             // JwtTokenService 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
