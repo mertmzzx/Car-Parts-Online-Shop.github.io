@@ -49,5 +49,7 @@ namespace CarPartsShop.API.Models
         public string? ShipPhone { get; set; }
 
         public string ShippingMethod { get; set; } = "Standard";
+        public string PaymentMethod { get; set; } = "Cash";
+
     }
 }

@@ -242,6 +242,9 @@ namespace CarPartsShop.API.Controllers
             const decimal TAX_RATE = 0.20m;
             var tax = Math.Round(subtotal * TAX_RATE, 2, MidpointRounding.AwayFromZero);
             var total = subtotal + tax;
+            var pm = (dto.PaymentMethod ?? "Cash").Trim();
+            if (!string.Equals(pm, "Cash", StringComparison.OrdinalIgnoreCase))
+                return BadRequest("Unsupported payment method.");
 
             // -------- NEW: shipping snapshot --------
             string? shipFirst = null, shipLast = null, shipLine1 = null, shipLine2 = null,
@@ -304,9 +307,9 @@ namespace CarPartsShop.API.Controllers
                 Status = OrderStatus.Pending,
                 Items = orderItems,
                 StatusHistory = new List<OrderStatusHistory>
-        {
-            new OrderStatusHistory { Status = OrderStatus.Pending, ChangedAt = DateTime.UtcNow }
-        },
+                {
+                    new OrderStatusHistory { Status = OrderStatus.Pending, ChangedAt = DateTime.UtcNow }
+                },
 
                 // snapshot fields (must exist on Order model)
                 ShipFirstName = shipFirst,
@@ -318,7 +321,8 @@ namespace CarPartsShop.API.Controllers
                 ShipPostalCode = shipPostal,
                 ShipCountry = shipCountry,
                 ShipPhone = shipPhone,
-                ShippingMethod = dto.ShippingMethod
+                ShippingMethod = dto.ShippingMethod,
+                PaymentMethod = pm
             };
 
             order.Customer = customer;
@@ -372,7 +376,8 @@ namespace CarPartsShop.API.Controllers
                 CustomerName = string.Join(" ", new[] { order.ShipFirstName, order.ShipLastName }.Where(s => !string.IsNullOrWhiteSpace(s))),
                 CustomerEmail = customer.Email!,
                 CustomerPhone = order.ShipPhone ?? customer.Phone ?? "-",
-                DeliveryAddress = SnapshotToString()
+                DeliveryAddress = SnapshotToString(),
+                PaymentMethod = order.PaymentMethod
             };
 
             return CreatedAtAction(nameof(GetOrderById), new { id = order.Id }, response);

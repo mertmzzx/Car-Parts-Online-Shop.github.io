@@ -33,5 +33,8 @@ namespace CarPartsShop.API.DTOs.Orders
 
         // simple selection for now
         public string ShippingMethod { get; set; } = "Standard";
+
+        public string PaymentMethod { get; set; } = "Cash";
+
     }
 }
