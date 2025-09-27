@@ -2,6 +2,9 @@
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "../components/ProtectedRoute";
 
+import Home from "../pages/Home/Home";
+import About from "../pages/Home/About";
+import Contact from "../pages/Home/Contact";
 import Products from "../pages/Products/Products";
 import ProductDetail from "../pages/ProductDetail/ProductDetail";
 import Cart from "../pages/Cart/Cart";
@@ -20,9 +23,11 @@ export default function RoutesConfig() {
   return (
     <Routes>
       {/* Public pages */}
-      <Route path="/" element={<Products />} />
+      <Route path="/" element={<Home />} />
       <Route path="/products" element={<Products />} />
       <Route path="/products/:id" element={<ProductDetail />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/contact" element={<Contact />} />
       <Route path="/cart" element={<Cart />} />
 
       <Route

@@ -18,6 +18,99 @@ body {
   background: #fff;
 }
 
+/* ---- Header ---- */
+/* subtle frosted background + top accent line */
+.header-glass {
+  background: rgba(255,255,255,.92) !important;
+  backdrop-filter: saturate(180%) blur(10px);
+  box-shadow: 0 .25rem .9rem rgba(0,0,0,.06) !important;
+  position: sticky;
+  top: 0;
+}
+.header-glass::before {
+  content: "";
+  position: absolute; inset: 0 0 auto 0; height: 3px;
+  background: linear-gradient(90deg, #0d6efd, #20c997, #6f42c1);
+  opacity: .2;
+}
+
+/* Brand */
+.brand-badge {
+  width: 34px; height: 34px; border-radius: 999px;
+  background: linear-gradient(135deg, #0d6efd22, #20c99722);
+  border: 1px solid rgba(13,110,253,.15);
+  font-size: 18px;
+}
+.brand-text {
+  font-weight: 800;
+  letter-spacing: .2px;
+  background: linear-gradient(90deg, #1061d9, #c92020);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Pill nav links with animated underline */
+.nav-pill {
+  position: relative;
+  padding: .5rem .9rem !important;
+  border-radius: 999px;
+  color: #343a40 !important;
+  transition: background .2s ease, color .2s ease, transform .15s ease;
+}
+.nav-pill:hover { background: rgba(13,110,253,.06); transform: translateY(-1px); }
+.nav-pill.active { background: rgba(13,110,253,.12); color: #0d6efd !important; }
+.nav-pill::after {
+  content: ""; position: absolute; left: 16px; right: 16px; bottom: 6px;
+  height: 2px; background: linear-gradient(90deg, #0d6efd, #20c997);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .2s ease;
+}
+.nav-pill:hover::after, .nav-pill.active::after { transform: scaleX(1); }
+
+.navbar-brand {
+  text-decoration: none !important;
+  font-weight: 700;
+  color: #0d6efd; /* Bootstrap primary */
+}
+
+.navbar-brand:hover {
+  color: #f6f6f6; 
+  text-decoration: none !important;
+}
+
+
+/* Ghost link button for auth/account */
+.btn-ghost {
+  padding: .45rem .9rem !important;
+  border-radius: 999px;
+  color: #343a40 !important;
+  transition: background .2s ease, color .2s ease, transform .15s ease;
+}
+.btn-ghost:hover { background: rgba(0,0,0,.05); transform: translateY(-1px); }
+.btn-ghost.active { color: #0d6efd !important; background: rgba(13,110,253,.12); }
+
+/* Primary CTA for Register */
+.btn-cta {
+  padding: .5rem 1rem !important;
+  border-radius: 999px;
+  color: #fff !important;
+  background: linear-gradient(135deg, #0d6efd, #6f42c1);
+  box-shadow: 0 .35rem 1rem rgba(13,110,253,.18);
+  transition: transform .15s ease, box-shadow .2s ease, opacity .2s ease;
+}
+.btn-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 .6rem 1.25rem rgba(13,110,253,.22);
+  opacity: .95;
+}
+
+/* Logout button tweak */
+.btn-logout:hover { transform: translateY(-1px); }
+
+
+
+
 /* ---- Typography ---- */
 body, button, input, select, textarea {
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -368,4 +461,97 @@ table.table tr th {
   font-weight: 600;
 }
 
+/* Home */
+.object-fit-cover {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
 
+/* smooth hover lift */
+.tile-hover {
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.tile-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0.5rem 1.25rem rgba(0,0,0,.08) !important;
+}
+
+/* image zoom on hover */
+.img-zoom img {
+  transition: transform .4s ease;
+}
+.img-zoom:hover img {
+  transform: scale(1.05);
+}
+
+/* clamp long labels to 2 lines */
+.text-truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-clamp: 2;
+}
+
+/* horizontal scroll on mobile for category row */
+.scroll-x {
+  scrollbar-width: thin;
+}
+.scroll-x::-webkit-scrollbar {
+  height: 8px;
+}
+.scroll-x::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,.15);
+  border-radius: 8px;
+}
+
+/* price chip */
+.price-chip {
+  backdrop-filter: blur(6px);
+  background: rgba(255,255,255,.85) !important;
+  border: 1px solid rgba(0,0,0,.06);
+}
+
+/* --- Footer */
+/* Footer polished look */
+.footer-glass {
+  background: rgba(255,255,255,.92);
+  backdrop-filter: saturate(180%) blur(8px);
+  border-top: none;
+  box-shadow: 0 -0.25rem 1rem rgba(0,0,0,.04);
+  padding: 1rem 0;
+  position: relative;
+}
+
+.footer-glass::before {
+  content: "";
+  position: absolute; inset: auto 0 100% 0; height: 3px;
+  background: linear-gradient(90deg, #0d6efd, #20c997, #6f42c1);
+  opacity: .25;
+}
+
+/* Footer links */
+.footer-link {
+  font-size: 0.9rem;
+  color: #6c757d;
+  text-decoration: none;
+  position: relative;
+  transition: color .2s ease;
+}
+.footer-link:hover {
+  color: #0d6efd;
+}
+.footer-link::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -2px;
+  height: 2px;
+  background: linear-gradient(90deg, #0d6efd, #20c997);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .25s ease;
+}
+.footer-link:hover::after {
+  transform: scaleX(1);
+}

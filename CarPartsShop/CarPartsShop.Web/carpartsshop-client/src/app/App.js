@@ -20,7 +20,7 @@ export default function App() {
             <Footer />
             <CartFab /> {/* 👈 floating cart always visible */}
           </div>
-        </AuthProvider>F
+        </AuthProvider>
       </BrowserRouter>
     </Providers>
   );
