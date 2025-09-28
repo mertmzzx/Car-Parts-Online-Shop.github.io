@@ -1,0 +1,899 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\data\\identityseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\data\\identityseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\migrations\\20250927162519_order_addpaymentmethod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\migrations\\20250927162519_order_addpaymentmethod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\controllers\\orderscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\controllers\\orderscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\dtos\\orders\\orderresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\dtos\\orders\\orderresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\dtos\\orders\\createorderdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\dtos\\orders\\createorderdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\dtos\\users\\addressdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\dtos\\users\\addressdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\dtos\\orders\\ordercreatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\dtos\\orders\\ordercreatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\controllers\\addresscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\controllers\\addresscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\models\\part.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\models\\part.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\controllers\\partscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\controllers\\partscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\models\\orderstatushistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\models\\orderstatushistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\models\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\models\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\models\\identity\\appuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\models\\identity\\appuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\dtos\\users\\userlistitemdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\dtos\\users\\userlistitemdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\controllers\\adminuserscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\controllers\\adminuserscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\dtos\\admin\\changeroledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\dtos\\admin\\changeroledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\dtos\\admin\\lockdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\dtos\\admin\\lockdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\dtos\\orders\\updateorderstatusdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\dtos\\orders\\updateorderstatusdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\dtos\\parts\\createpartdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\dtos\\parts\\createpartdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\models\\identity\\approle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\models\\identity\\approle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\models\\admin\\adminlog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\models\\admin\\adminlog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\services\\jwttokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\services\\jwttokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\models\\orderitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\models\\orderitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\dtos\\auth\\authresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\dtos\\auth\\authresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\dtos\\auth\\registerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\dtos\\auth\\registerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\dtos\\categories\\categorydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\dtos\\categories\\categorydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\dtos\\parts\\updatepartdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\dtos\\parts\\updatepartdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\dtos\\parts\\partdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\dtos\\parts\\partdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\dtos\\admin\\adminstatsdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\dtos\\admin\\adminstatsdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\dtos\\admin\\adminlogdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\dtos\\admin\\adminlogdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\data\\seed\\dbinitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\data\\seed\\dbinitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\enums\\orderstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\enums\\orderstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\dtos\\orders\\orderqueryparameters.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\dtos\\orders\\orderqueryparameters.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\dtos\\orders\\orderitemcreatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\dtos\\orders\\orderitemcreatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Mert\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Migrations\\20250814081210_OrderStatusEnums.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\auth\\roles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\auth\\roles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Mert\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Migrations\\20250814070643_InitIdentityAndCustomerRefactor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\dtos\\auth\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\dtos\\auth\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\carpartsshop.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\carpartsshop.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\migrations\\20250814081441_initwithenumstringstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\migrations\\20250814081441_initwithenumstringstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\migrations\\20250814080554_addorderstatusenums.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\migrations\\20250814080554_addorderstatusenums.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\migrations\\20250814070856_init.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\migrations\\20250814070856_init.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\migrations\\20250815045958_t1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\migrations\\20250815045958_t1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\migrations\\20250818083226_logsandstats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\migrations\\20250818083226_logsandstats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\migrations\\20250827081121_addpartimageurl_v1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\migrations\\20250827081121_addpartimageurl_v1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\migrations\\20250827073619_addpartimageurl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\migrations\\20250827073619_addpartimageurl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|d:\\git\\car-parts-online-shop\\carpartsshop\\carpartsshop.api\\carpartsshop.api\\migrations\\20250926201507_order_addshippingsnapshot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5D6238F3-8869-4CE9-BF63-A0A338ADA119}|CarPartsShop.API\\CarPartsShop.API.csproj|solutionrelative:carpartsshop.api\\migrations\\20250926201507_order_addshippingsnapshot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "20250927162519_Order_AddPaymentMethod.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Migrations\\20250927162519_Order_AddPaymentMethod.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Migrations\\20250927162519_Order_AddPaymentMethod.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Migrations\\20250927162519_Order_AddPaymentMethod.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Migrations\\20250927162519_Order_AddPaymentMethod.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-27T16:25:19.234Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Program.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Program.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Program.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Program.cs",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAAAIkAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T07:03:53.178Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "OrdersController.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Controllers\\OrdersController.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Controllers\\OrdersController.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Controllers\\OrdersController.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Controllers\\OrdersController.cs",
+              "ViewState": "AgIAAG0BAAAAAAAAAAAmwHsBAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T07:36:51.369Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "CreateOrderDto.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Orders\\CreateOrderDto.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\DTOs\\Orders\\CreateOrderDto.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Orders\\CreateOrderDto.cs",
+              "RelativeToolTip": "CarPartsShop.API\\DTOs\\Orders\\CreateOrderDto.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAA8wCMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T08:54:30.557Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "AddressDto.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Users\\AddressDto.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\DTOs\\Users\\AddressDto.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Users\\AddressDto.cs",
+              "RelativeToolTip": "CarPartsShop.API\\DTOs\\Users\\AddressDto.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAxwAYAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-25T13:54:55.175Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IdentitySeeder.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Data\\IdentitySeeder.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Data\\IdentitySeeder.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Data\\IdentitySeeder.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Data\\IdentitySeeder.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAAiwAsAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T11:13:00.009Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Order.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Models\\Order.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Models\\Order.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Models\\Order.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Models\\Order.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAywDQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T07:15:51.684Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "OrderResponseDto.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Orders\\OrderResponseDto.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\DTOs\\Orders\\OrderResponseDto.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Orders\\OrderResponseDto.cs",
+              "RelativeToolTip": "CarPartsShop.API\\DTOs\\Orders\\OrderResponseDto.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAywCIAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T08:55:19.184Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 54,
+              "Title": "20250926201507_Order_AddShippingSnapshot.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Migrations\\20250926201507_Order_AddShippingSnapshot.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Migrations\\20250926201507_Order_AddShippingSnapshot.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Migrations\\20250926201507_Order_AddShippingSnapshot.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Migrations\\20250926201507_Order_AddShippingSnapshot.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-26T20:15:07.345Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "OrderCreateDto.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Orders\\OrderCreateDto.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\DTOs\\Orders\\OrderCreateDto.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Orders\\OrderCreateDto.cs",
+              "RelativeToolTip": "CarPartsShop.API\\DTOs\\Orders\\OrderCreateDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T07:33:12.253Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Controllers\\AuthController.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAAEoAAAAAAAAAAAAiwEoAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-14T04:55:16.43Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AddressController.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Controllers\\AddressController.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Controllers\\AddressController.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Controllers\\AddressController.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Controllers\\AddressController.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAAAcwCsAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-25T13:55:16.61Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "PartsController.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Controllers\\PartsController.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Controllers\\PartsController.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Controllers\\PartsController.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Controllers\\PartsController.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAowBkAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T08:44:53.335Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\appsettings.json",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\appsettings.json",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\appsettings.json",
+              "RelativeToolTip": "CarPartsShop.API\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-08-13T07:04:52.66Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Part.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Models\\Part.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Models\\Part.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Models\\Part.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Models\\Part.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAAwBcAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T07:03:30.469Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Controllers\\UsersController.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Controllers\\UsersController.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Controllers\\UsersController.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Controllers\\UsersController.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAQwBQAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-11T05:01:19.049Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "AppUser.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Models\\Identity\\AppUser.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Models\\Identity\\AppUser.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Models\\Identity\\AppUser.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Models\\Identity\\AppUser.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T11:16:13.765Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Data\\AppDbContext.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Data\\AppDbContext.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAqwCgAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T07:00:32.53Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "UserListItemDto.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Users\\UserListItemDto.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\DTOs\\Users\\UserListItemDto.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Users\\UserListItemDto.cs",
+              "RelativeToolTip": "CarPartsShop.API\\DTOs\\Users\\UserListItemDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-19T10:21:36.975Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Customer.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Models\\Customer.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Models\\Customer.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Models\\Customer.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Models\\Customer.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAA/wDAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T07:15:36.583Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "OrderStatusHistory.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Models\\OrderStatusHistory.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Models\\OrderStatusHistory.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Models\\OrderStatusHistory.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Models\\OrderStatusHistory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-14T08:27:17.215Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "AdminUsersController.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Controllers\\AdminUsersController.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Controllers\\AdminUsersController.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Controllers\\AdminUsersController.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Controllers\\AdminUsersController.cs",
+              "ViewState": "AgIAAGgAAAAAAAAAAAAwwH0AAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-18T05:52:35.374Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "ChangeRoleDto.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Admin\\ChangeRoleDto.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\DTOs\\Admin\\ChangeRoleDto.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Admin\\ChangeRoleDto.cs",
+              "RelativeToolTip": "CarPartsShop.API\\DTOs\\Admin\\ChangeRoleDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-18T11:05:57.181Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "LockDto.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Admin\\LockDto.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\DTOs\\Admin\\LockDto.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Admin\\LockDto.cs",
+              "RelativeToolTip": "CarPartsShop.API\\DTOs\\Admin\\LockDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-19T10:20:29.811Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "UpdateOrderStatusDto.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Orders\\UpdateOrderStatusDto.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\DTOs\\Orders\\UpdateOrderStatusDto.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Orders\\UpdateOrderStatusDto.cs",
+              "RelativeToolTip": "CarPartsShop.API\\DTOs\\Orders\\UpdateOrderStatusDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-14T08:20:26.652Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "CreatePartDto.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Parts\\CreatePartDto.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\DTOs\\Parts\\CreatePartDto.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Parts\\CreatePartDto.cs",
+              "RelativeToolTip": "CarPartsShop.API\\DTOs\\Parts\\CreatePartDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-14T05:09:49.638Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "AppRole.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Models\\Identity\\AppRole.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Models\\Identity\\AppRole.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Models\\Identity\\AppRole.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Models\\Identity\\AppRole.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T11:17:58.376Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "AdminLog.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Models\\Admin\\AdminLog.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Models\\Admin\\AdminLog.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Models\\Admin\\AdminLog.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Models\\Admin\\AdminLog.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-18T07:55:35.032Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "JwtTokenService.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Services\\JwtTokenService.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Services\\JwtTokenService.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Services\\JwtTokenService.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Services\\JwtTokenService.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAowBkAAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T13:03:18.127Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "OrderItem.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Models\\OrderItem.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Models\\OrderItem.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Models\\OrderItem.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Models\\OrderItem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T07:16:21.291Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "Category.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Models\\Category.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Models\\Category.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Models\\Category.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Models\\Category.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAwwA8AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T07:13:57.307Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "AuthResponseDto.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Auth\\AuthResponseDto.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\DTOs\\Auth\\AuthResponseDto.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Auth\\AuthResponseDto.cs",
+              "RelativeToolTip": "CarPartsShop.API\\DTOs\\Auth\\AuthResponseDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-14T04:50:34.213Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "RegisterDto.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Auth\\RegisterDto.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\DTOs\\Auth\\RegisterDto.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Auth\\RegisterDto.cs",
+              "RelativeToolTip": "CarPartsShop.API\\DTOs\\Auth\\RegisterDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-14T04:48:56.57Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "CategoryDto.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Categories\\CategoryDto.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\DTOs\\Categories\\CategoryDto.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Categories\\CategoryDto.cs",
+              "RelativeToolTip": "CarPartsShop.API\\DTOs\\Categories\\CategoryDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T08:50:11.835Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "UpdatePartDto.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Parts\\UpdatePartDto.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\DTOs\\Parts\\UpdatePartDto.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Parts\\UpdatePartDto.cs",
+              "RelativeToolTip": "CarPartsShop.API\\DTOs\\Parts\\UpdatePartDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-14T05:10:07.35Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "PartDto.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Parts\\PartDto.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\DTOs\\Parts\\PartDto.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Parts\\PartDto.cs",
+              "RelativeToolTip": "CarPartsShop.API\\DTOs\\Parts\\PartDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T08:44:18.478Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 53,
+              "Title": "20250827073619_AddPartImageUrl.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Migrations\\20250827073619_AddPartImageUrl.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Migrations\\20250827073619_AddPartImageUrl.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Migrations\\20250827073619_AddPartImageUrl.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Migrations\\20250827073619_AddPartImageUrl.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T07:36:19.64Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 52,
+              "Title": "20250827081121_AddPartImageUrl_v1.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Migrations\\20250827081121_AddPartImageUrl_v1.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Migrations\\20250827081121_AddPartImageUrl_v1.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Migrations\\20250827081121_AddPartImageUrl_v1.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Migrations\\20250827081121_AddPartImageUrl_v1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-27T08:11:21.262Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "AdminStatsDto.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Admin\\AdminStatsDto.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\DTOs\\Admin\\AdminStatsDto.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Admin\\AdminStatsDto.cs",
+              "RelativeToolTip": "CarPartsShop.API\\DTOs\\Admin\\AdminStatsDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-18T11:13:33.545Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "AdminLogDto.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Admin\\AdminLogDto.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\DTOs\\Admin\\AdminLogDto.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Admin\\AdminLogDto.cs",
+              "RelativeToolTip": "CarPartsShop.API\\DTOs\\Admin\\AdminLogDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-18T07:53:57.421Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 51,
+              "Title": "20250818083226_LogsAndStats.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Migrations\\20250818083226_LogsAndStats.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Migrations\\20250818083226_LogsAndStats.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Migrations\\20250818083226_LogsAndStats.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Migrations\\20250818083226_LogsAndStats.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-18T08:32:26.316Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "CategoriesController.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Controllers\\CategoriesController.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Controllers\\CategoriesController.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Controllers\\CategoriesController.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Controllers\\CategoriesController.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAAuwEIAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T08:50:36.781Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "DbInitializer.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Data\\Seed\\DbInitializer.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Data\\Seed\\DbInitializer.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Data\\Seed\\DbInitializer.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Data\\Seed\\DbInitializer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T07:50:38.57Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "OrderStatus.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Enums\\OrderStatus.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Enums\\OrderStatus.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Enums\\OrderStatus.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Enums\\OrderStatus.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-14T08:04:22.994Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "OrderQueryParameters.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Orders\\OrderQueryParameters.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\DTOs\\Orders\\OrderQueryParameters.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Orders\\OrderQueryParameters.cs",
+              "RelativeToolTip": "CarPartsShop.API\\DTOs\\Orders\\OrderQueryParameters.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-14T07:48:00.185Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "OrderItemCreateDto.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Orders\\OrderItemCreateDto.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\DTOs\\Orders\\OrderItemCreateDto.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Orders\\OrderItemCreateDto.cs",
+              "RelativeToolTip": "CarPartsShop.API\\DTOs\\Orders\\OrderItemCreateDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T07:31:06.953Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 50,
+              "Title": "20250815045958_T1.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Migrations\\20250815045958_T1.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Migrations\\20250815045958_T1.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Migrations\\20250815045958_T1.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Migrations\\20250815045958_T1.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAgwAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-15T04:59:58.719Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 47,
+              "Title": "20250814081441_InitWithEnumStringStatus.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Migrations\\20250814081441_InitWithEnumStringStatus.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Migrations\\20250814081441_InitWithEnumStringStatus.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Migrations\\20250814081441_InitWithEnumStringStatus.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Migrations\\20250814081441_InitWithEnumStringStatus.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-14T08:14:41.767Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "20250814081210_OrderStatusEnums.cs",
+              "DocumentMoniker": "C:\\Users\\Mert\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Migrations\\20250814081210_OrderStatusEnums.cs",
+              "ToolTip": "C:\\Users\\Mert\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Migrations\\20250814081210_OrderStatusEnums.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-14T08:12:10.162Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "Roles.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Auth\\Roles.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Auth\\Roles.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Auth\\Roles.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Auth\\Roles.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T11:06:50.32Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 48,
+              "Title": "20250814080554_AddOrderStatusEnums.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Migrations\\20250814080554_AddOrderStatusEnums.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Migrations\\20250814080554_AddOrderStatusEnums.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Migrations\\20250814080554_AddOrderStatusEnums.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Migrations\\20250814080554_AddOrderStatusEnums.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-14T08:05:54.554Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "20250814070643_InitIdentityAndCustomerRefactor.cs",
+              "DocumentMoniker": "C:\\Users\\Mert\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Migrations\\20250814070643_InitIdentityAndCustomerRefactor.cs",
+              "ToolTip": "C:\\Users\\Mert\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Migrations\\20250814070643_InitIdentityAndCustomerRefactor.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-14T07:06:43.41Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 49,
+              "Title": "20250814070856_Init.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Migrations\\20250814070856_Init.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\Migrations\\20250814070856_Init.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Migrations\\20250814070856_Init.cs",
+              "RelativeToolTip": "CarPartsShop.API\\Migrations\\20250814070856_Init.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-14T07:08:56.593Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 45,
+              "Title": "LoginDto.cs",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Auth\\LoginDto.cs",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\DTOs\\Auth\\LoginDto.cs",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\DTOs\\Auth\\LoginDto.cs",
+              "RelativeToolTip": "CarPartsShop.API\\DTOs\\Auth\\LoginDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-14T04:49:42.952Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "CarPartsShop.API.csproj",
+              "DocumentMoniker": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\CarPartsShop.API.csproj",
+              "RelativeDocumentMoniker": "CarPartsShop.API\\CarPartsShop.API.csproj",
+              "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\CarPartsShop.API.csproj",
+              "RelativeToolTip": "CarPartsShop.API\\CarPartsShop.API.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-08-13T06:48:56.763Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
