@@ -4,6 +4,25 @@ import http from "../api/http";
 
 const AuthContext = createContext(null);
 
+
+function parseRolesFromToken(jwt) {
+  try {
+    const payload = jwtDecode(jwt);
+    const roleCandidates = [
+      "role",
+      "roles",
+      "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+      "http://schemas.microsoft.com/ws/2008/06/identity/claims/roles",
+    ];
+    for (const k of roleCandidates) {
+      if (payload[k]) return Array.isArray(payload[k]) ? payload[k] : [payload[k]];
+    }
+    return [];
+  } catch {
+    return [];
+  }
+};
+
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => localStorage.getItem("auth_token"));
   const [user, setUser] = useState(() => {
@@ -60,56 +79,39 @@ export function AuthProvider({ children }) {
     }
   }, [token]); // eslint-disable-line
 
-  const parseRolesFromToken = (jwt) => {
-    try {
-      const payload = jwtDecode(jwt);
-      const roleCandidates = [
-        "role",
-        "roles",
-        "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
-        "http://schemas.microsoft.com/ws/2008/06/identity/claims/roles",
-      ];
-      for (const k of roleCandidates) {
-        if (payload[k]) return Array.isArray(payload[k]) ? payload[k] : [payload[k]];
-      }
-      return [];
-    } catch {
-      return [];
-    }
-  };
 
   const login = async (email, password) => {
-  setLoading(true);
-  try {
-    const { data } = await http.post("/api/auth/login", { email, password });
-    const jwt = data.token;
-    if (!jwt) throw new Error("No token in response");
+    setLoading(true);
+    try {
+      const { data } = await http.post("/api/auth/login", { email, password });
+      const jwt = data.token;
+      if (!jwt) throw new Error("No token in response");
 
-    const decodedRoles = parseRolesFromToken(jwt);
-    // FALLBACK: if token roles are empty, use role from body
-    const roles = decodedRoles?.length ? decodedRoles
-      : (data.role ? [data.role] : []);
+      const decodedRoles = parseRolesFromToken(jwt);
+      // FALLBACK: if token roles are empty, use role from body
+      const roles = decodedRoles?.length ? decodedRoles
+        : (data.role ? [data.role] : []);
 
-    const userObj = data.user
-      ? { ...data.user, roles }
-      : { email: data.email ?? email, roles };
+      const userObj = data.user
+        ? { ...data.user, roles }
+        : { email: data.email ?? email, roles };
 
-    setToken(jwt);
-    setUser(userObj);
-    localStorage.setItem("auth_user", JSON.stringify(userObj));
+      setToken(jwt);
+      setUser(userObj);
+      localStorage.setItem("auth_user", JSON.stringify(userObj));
 
-    return { ok: true, user: userObj };
-  } catch (err) {
-    console.error("Login failed:", err);
-    const msg =
-      err?.response?.status === 401
-        ? "Invalid email or password."
-        : err?.message || "Login failed.";
-    return { ok: false, error: msg };
-  } finally {
-    setLoading(false);
-  }
-};
+      return { ok: true, user: userObj };
+    } catch (err) {
+      console.error("Login failed:", err);
+      const msg =
+        err?.response?.status === 401
+          ? "Invalid email or password."
+          : err?.message || "Login failed.";
+      return { ok: false, error: msg };
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const logout = () => {
     setToken(null);

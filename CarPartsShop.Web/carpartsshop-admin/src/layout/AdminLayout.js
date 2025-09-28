@@ -1,7 +1,6 @@
 // src/layout/AdminLayout.jsx
 import { useMemo, useState } from "react";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
-import { Badge } from "react-bootstrap";
 import { useAuth } from "../auth/AuthContext";
 
 import {
