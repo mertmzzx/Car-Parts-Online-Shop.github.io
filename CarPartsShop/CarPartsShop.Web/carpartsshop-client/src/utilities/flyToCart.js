@@ -1,4 +1,3 @@
-// src/utils/flyToCart.js
 export function flyToCart(imgSrc, startEl, cartSelector = ".cart-fab") {
   const cartEl = document.querySelector(cartSelector);
   if (!cartEl || !startEl) return;
@@ -33,7 +32,7 @@ export function flyToCart(imgSrc, startEl, cartSelector = ".cart-fab") {
     "transitionend",
     () => {
       img.remove();
-      // 👇 trigger the cart pop animation
+      // trigger the cart pop animation
       cartEl.classList.add("cart-pop-anim");
       cartEl.addEventListener(
         "animationend",

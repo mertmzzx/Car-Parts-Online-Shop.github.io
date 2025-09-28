@@ -1,7 +1,6 @@
-// src/pages/Account/OrderDetail.js
 import { useEffect, useState, useMemo } from "react";
-import { Link, useNavigate, useParams, useLocation } from "react-router-dom"; // ✅ useParams, useLocation
-import { getOrderById } from "../../services/orderService";                   // ✅ use single-order API
+import { Link, useNavigate, useParams, useLocation } from "react-router-dom"; 
+import { getOrderById } from "../../services/orderService";                   
 import { Spinner, Alert, Badge, Table, Button, Row, Col, Card } from "react-bootstrap";
 
 const statusVariant = (s) => {
@@ -15,8 +14,8 @@ const statusVariant = (s) => {
 };
 
 export default function OrderDetail() {
-  const { id } = useParams();              // ✅ get id from URL
-  const location = useLocation();          // ✅ read optional state from navigation
+  const { id } = useParams();            
+  const location = useLocation();          
   const navigate = useNavigate();
 
   // Prefer order passed via location.state to avoid refetch on soft nav
@@ -26,13 +25,13 @@ export default function OrderDetail() {
 
   useEffect(() => {
     let ignore = false;
-    if (order) return; // already have it from state
+    if (order) return; 
 
     (async () => {
       setLoading(true);
       setErr("");
       try {
-        const data = await getOrderById(id);       // ✅ fetch by id
+        const data = await getOrderById(id);     
         if (!ignore) setOrder(data);
       } catch (e) {
         const status = e?.response?.status;

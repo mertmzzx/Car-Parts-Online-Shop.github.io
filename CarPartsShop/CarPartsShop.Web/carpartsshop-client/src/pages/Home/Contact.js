@@ -13,7 +13,7 @@ export default function Contact() {
     e.preventDefault();
     setOk(false); setErr(""); setSending(true);
     try {
-      // If you later add a backend endpoint, POST here:
+      // later add a backend endpoint, POST here:
       // await api.post("/api/contact", form);
       await new Promise((r) => setTimeout(r, 700)); // mock
       setOk(true);
@@ -34,7 +34,7 @@ export default function Contact() {
             <Col lg={7}>
               <h1 className="display-6 fw-bold mb-2">Contact us</h1>
               <p className="lead text-white-50 mb-0">
-                Need help with fitment, delivery, or returns? Send us a message—real people reply fast.
+                Need help with fitment, delivery, or returns? Send us a message — expect a reply soon!
               </p>
             </Col>
             <Col lg={5}>
@@ -131,18 +131,15 @@ export default function Contact() {
                 <Card.Body>
                   <h2 className="h5 mb-3">Our location</h2>
                   <div className="ratio ratio-16x9 rounded-3 overflow-hidden bg-light mb-3">
-                    {/* Replace src with your map embed when ready */}
                     <iframe
                       title="Map"
-                      src="about:blank"
-                      style={{ border: 0 }}
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4934.821789882864!2d23.354629086566785!3d42.65579046861966!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40aa842791548ce7%3A0x5c3a3691d990d279!2sTechnical%20University!5e0!3m2!1sen!2sbg!4v1759087844551!5m2!1sen!2sbg" 
                       allowFullScreen
                     />
                   </div>
                   <div className="small text-muted">
                     Sofia City, Bulgaria<br />
-                    Warehouse: Mladost 1A<br />
-                    Returns accepted within 14 days.
+                    Technical University of Sofia<br />
                   </div>
                 </Card.Body>
               </Card>

@@ -1,4 +1,3 @@
-// src/pages/ProductDetail/ProductDetail.js
 import { useEffect, useMemo, useState, useRef } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import {

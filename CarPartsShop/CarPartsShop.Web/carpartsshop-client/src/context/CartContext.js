@@ -1,4 +1,3 @@
-// src/context/CartContext.js
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 const CartCtx = createContext(null);
@@ -8,7 +7,7 @@ const noopCart = Object.freeze({
   remove: () => {},
   setQty: () => {},
   clear: () => {},
-  clearCart: () => {}, // NEW: alias so consumers don't crash
+  clearCart: () => {}, // alias so consumers don't crash
   total: 0,
   count: 0,
 });
@@ -82,7 +81,7 @@ export function CartProvider({ children }) {
     );
 
   const clear = () => setItems([]);         // existing
-  const clearCart = () => setItems([]);     // NEW: alias used by Checkout
+  const clearCart = () => setItems([]);     // alias used by Checkout
 
   const total = useMemo(
     () => items.reduce((s, i) => s + (Number(i.price) || 0) * (Number(i.qty) || 0), 0),
@@ -92,7 +91,7 @@ export function CartProvider({ children }) {
   const count = useMemo(() => items.reduce((s, i) => s + (Number(i.qty) || 0), 0), [items]);
 
   const value = useMemo(
-    () => ({ items, add, remove, setQty, clear, clearCart, total, count }), // NEW: expose clearCart
+    () => ({ items, add, remove, setQty, clear, clearCart, total, count }), // expose clearCart
     [items, total, count]
   );
 

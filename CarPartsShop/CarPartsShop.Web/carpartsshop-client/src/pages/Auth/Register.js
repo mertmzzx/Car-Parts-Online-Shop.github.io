@@ -1,4 +1,3 @@
-// src/pages/Auth/Register.js
 import { useState } from "react";
 import {
   Button,
@@ -51,7 +50,7 @@ export default function Register() {
 
     setSubmitting(true);
     try {
-      // Your API assigns role = Customer by default (as we set up)
+      // API assigns role = Customer by default 
       await register({
         firstName: form.firstName.trim(),
         lastName: form.lastName.trim(),

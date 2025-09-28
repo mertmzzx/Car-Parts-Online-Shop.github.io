@@ -1,4 +1,3 @@
-// src/services/authService.js
 import api from "./http";
 
 /** POST /api/Auth/login -> { Token, Role, UserName, FirstName?, LastName? } */

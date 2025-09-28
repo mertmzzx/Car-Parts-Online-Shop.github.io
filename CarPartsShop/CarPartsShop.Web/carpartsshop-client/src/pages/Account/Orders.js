@@ -1,4 +1,3 @@
-// src/pages/Account/Orders.js
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Alert, Badge, Button, Card, Col, Form, Row, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";

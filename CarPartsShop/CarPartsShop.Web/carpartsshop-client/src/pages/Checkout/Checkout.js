@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { placeOrder } from "../../services/orderService";
-import { getMyAddress } from "../../services/addressService"; // you already have this
-import { useCart } from "../../context/CartContext";           // your existing cart context
-import { useAuth } from "../../context/AuthContext";           // to ensure user is logged in
+import { getMyAddress } from "../../services/addressService"; 
+import { useCart } from "../../context/CartContext";         
+import { useAuth } from "../../context/AuthContext";           
 
 const emptyOverride = {
   firstName: "", lastName: "",
@@ -14,7 +14,7 @@ const emptyOverride = {
 
 export default function Checkout() {
   const navigate = useNavigate();
-  const { items, total, clearCart } = useCart(); // expect items like {id/partId, quantity, price, name}
+  const { items, total, clearCart } = useCart(); 
   const { isAuthenticated } = useAuth();
 
   const [loading, setLoading] = useState(true);
@@ -22,7 +22,7 @@ export default function Checkout() {
   const [useSaved, setUseSaved] = useState(true);
   const [override, setOverride] = useState(emptyOverride);
   const [shipping, setShipping] = useState("Standard");
-  const [paymentMethod, setPaymentMethod] = useState("Cash"); // ✅ NEW
+  const [paymentMethod, setPaymentMethod] = useState("Cash"); 
   const [placing, setPlacing] = useState(false);
   const [error, setError] = useState("");
 
@@ -85,7 +85,7 @@ export default function Checkout() {
         useSavedAddress: useSaved,
         addressOverride: useSaved ? null : override,
         shippingMethod: shipping,
-        paymentMethod, // ✅ NEW
+        paymentMethod, 
       });
       clearCart();
       navigate("/account/orders", { replace: true, state: { placedOrderId: res?.id } });
@@ -243,7 +243,7 @@ export default function Checkout() {
             </div>
           </div>
 
-          {/* ✅ Payment Method */}
+          {/* Payment Method */}
           <div className="card mt-3">
             <div className="card-header">Payment Method</div>
             <div className="card-body">

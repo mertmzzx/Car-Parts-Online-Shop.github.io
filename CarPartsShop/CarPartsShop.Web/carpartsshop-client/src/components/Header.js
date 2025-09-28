@@ -1,4 +1,3 @@
-// src/components/Header.js
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";

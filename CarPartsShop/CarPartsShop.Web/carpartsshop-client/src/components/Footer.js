@@ -1,4 +1,3 @@
-// src/components/Footer.js
 import { Container } from "react-bootstrap";
 
 export default function Footer() {
@@ -6,11 +5,11 @@ export default function Footer() {
     <footer className="footer-glass mt-auto">
       <Container fluid className="px-3 px-md-4 d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
         <small className="text-muted">
-          © {new Date().getFullYear()} <span className="fw-semibold">CarPartsShop</span>
+          © {new Date().getFullYear()} <span className="fw-semibold">Silver Star Parts</span>
         </small>
         <nav className="d-flex gap-3">
-          <a href="#" className="footer-link">Privacy</a>
-          <a href="#" className="footer-link">Terms</a>
+          <button type="button" className="btn btn-link p-0 text-muted me-3">Privacy</button>
+          <button type="button" className="btn btn-link p-0 text-muted">Terms</button>
         </nav>
       </Container>
     </footer>

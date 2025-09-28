@@ -1,4 +1,3 @@
-// src/pages/Account/AccountOverview.js
 import { Card, Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";

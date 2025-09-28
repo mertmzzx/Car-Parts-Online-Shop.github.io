@@ -1,4 +1,3 @@
-// src/services/orderService.js
 import api from "./http";
 
 // Robust mapper: supports {id|partId} and {quantity|qty}, coerces to positive ints
@@ -80,7 +79,7 @@ export async function getMyOrders() {
   }
 }
 
-// ✅ NEW: fetch a single order by id (customers can access their own order)
+// fetch a single order by id (customers can access their own order)
 export async function getOrderById(id) {
   const { data } = await api.get(`/api/orders/${id}`);
   return normalizeOrder(data);

@@ -1,5 +1,4 @@
-// src/pages/Products/Products.js
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import {
   Row, Col, Form, InputGroup, Button, Pagination, Spinner, Badge, Stack,
 } from "react-bootstrap";
@@ -11,6 +10,9 @@ import { useCart } from "../../context/CartContext";
 
 export default function Products() {
   const { add } = useCart();
+
+  const allCatsRef = useRef(new Map());   // cache of all categories encountered 
+  const [allCategories, setAllCategories] = useState([]); // array for rendering
 
   // data & ui
   const [items, setItems] = useState([]);
@@ -29,7 +31,6 @@ export default function Products() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // ✅ load now accepts overrides so we don't race with setState
   async function load(overrides = {}) {
     setLoading(true);
     setError("");
@@ -42,11 +43,11 @@ export default function Products() {
         minPrice: minPrice === "" ? null : minPrice,
         maxPrice: maxPrice === "" ? null : maxPrice,
         sort,
-        ...overrides, // ← new values win
+        ...overrides, 
       });
       setItems(data.items || []);
       setTotal(data.total || 0);
-      // if overrides changed page, sync local state
+
       if (overrides.page != null) setPage(overrides.page);
       if (overrides.categoryId !== undefined) setCategoryId(overrides.categoryId);
       if (overrides.sort !== undefined) setSort(overrides.sort);
@@ -67,26 +68,41 @@ export default function Products() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, categoryId, sort]);
 
-  const totalPages = Math.max(1, Math.ceil(total / size));
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    // ✅ call with overrides so search is applied immediately
-    load({ page: 1, search });
-  }
-
-  // categories derived from current page
-  const categories = useMemo(() => {
-    const m = new Map();
+  // keep a growing set of categories (does not shrink on filter)
+  useEffect(() => {
+    let changed = false;
     for (const it of items) {
       if (!it) continue;
       const id = it.categoryId;
       const name = it.categoryName || "Other";
-      if (!m.has(id)) m.set(id, { id, name, count: 1 });
-      else m.get(id).count++;
+      if (!allCatsRef.current.has(id)) {
+        allCatsRef.current.set(id, { id, name });
+        changed = true;
+      }
     }
-    return Array.from(m.values()).sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+    if (changed) {
+      const next = Array.from(allCatsRef.current.values())
+        .sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+      setAllCategories(next);
+    }
   }, [items]);
+
+  const totalPages = Math.max(1, Math.ceil(total / size));
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    load({ page: 1, search });
+  }
+
+  const categories = useMemo(() => {
+    const counts = new Map();
+    for (const it of items) {
+      if (!it) continue;
+      const id = it.categoryId;
+      counts.set(id, (counts.get(id) || 0) + 1);
+    }
+    return allCategories.map(c => ({ ...c, count: counts.get(c.id) || 0 }));
+  }, [allCategories, items]);
 
   const selectedCategoryName = useMemo(
     () => categories.find((c) => c.id === categoryId)?.name || null,
@@ -110,7 +126,6 @@ export default function Products() {
     (sort && sort !== "newest");
 
   function clearFilters() {
-    // ✅ also call load with cleared values to apply immediately
     load({ page: 1, search: "", categoryId: null, minPrice: null, maxPrice: null, sort: "newest" });
   }
 
@@ -264,7 +279,6 @@ export default function Products() {
                     // treat full-range as "no filter"
                     const minParam = lo <= SLIDER_MIN ? null : Number(lo);
                     const maxParam = hi >= SLIDER_MAX ? null : Number(hi);
-                    // ✅ apply immediately with overrides
                     load({ page: 1, minPrice: minParam, maxPrice: maxParam });
                   }}
                 />

@@ -4,7 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 import { getMe, updateProfile as apiUpdateProfile, changePassword } from "../../services/userService";
 
 export default function Profile() {
-  const { user, updateUser, token } = useAuth(); // ⬅️ also get token
+  const { user, updateUser, token } = useAuth(); // get token
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState("");
 
@@ -24,7 +24,7 @@ export default function Profile() {
   useEffect(() => {
     let ignore = false;
 
-    // ⬇️ wait until the token is mounted by AuthContext
+    // wait until the token is mounted by AuthContext
     if (!token) {
       setLoading(false);
       return;
@@ -51,7 +51,7 @@ export default function Profile() {
     return () => {
       ignore = true;
     };
-  }, [token, user?.email]); // ⬅️ run when token becomes available
+  }, [token, user?.email]); // run when token becomes available
 
   async function onSaveProfile(e) {
     e.preventDefault();

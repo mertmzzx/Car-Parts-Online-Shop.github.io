@@ -1,11 +1,10 @@
-// src/services/http.js
 import axios from "axios";
 
 const api = axios.create({
   baseURL: "https://localhost:7127",
 });
 
-// Always attach token (you already added this request interceptor earlier)
+// Always attach token 
 api.interceptors.request.use((config) => {
   try {
     const raw = localStorage.getItem("cps_auth_client_v1");
@@ -19,7 +18,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// NEW: auto-logout on expired/invalid token
+// auto-logout on expired/invalid token
 api.interceptors.response.use(
   (res) => res,
   (err) => {

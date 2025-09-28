@@ -1,4 +1,3 @@
-// src/pages/Auth/Login.js
 import { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Form, InputGroup, Row, Spinner, Alert } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";

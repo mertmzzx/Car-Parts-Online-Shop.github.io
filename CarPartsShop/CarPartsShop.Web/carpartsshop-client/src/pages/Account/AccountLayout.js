@@ -1,4 +1,3 @@
-// src/pages/Account/AccountLayout.js
 import { Container, Row, Col, Nav } from "react-bootstrap";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";

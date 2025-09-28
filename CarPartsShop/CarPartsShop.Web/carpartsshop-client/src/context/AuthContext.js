@@ -1,4 +1,3 @@
-// src/context/AuthContext.js
 import { createContext, useContext, useEffect, useMemo, useState, useCallback } from "react";
 import api from "../services/http";
 import { login as apiLogin, register as apiRegister } from "../services/authService";
@@ -117,7 +116,7 @@ export function AuthProvider({ children }) {
     setAuth((a) => (a ? { ...a, user: { ...a.user, ...patch } } : a));
   }, []);
 
-  // --- NEW: auto-logout when token expires (timer-based) -------------------
+  // auto-logout when token expires (timer-based) 
   useEffect(() => {
     if (!auth?.token) return;
 
@@ -135,7 +134,7 @@ export function AuthProvider({ children }) {
     return () => clearTimeout(timer);
   }, [auth?.token, logout]);
 
-  // --- NEW: auto-logout on 401 invalid/expired token (response interceptor)
+  // auto-logout on 401 invalid/expired token (response interceptor)
   useEffect(() => {
     const id = api.interceptors.response.use(
       (resp) => resp,

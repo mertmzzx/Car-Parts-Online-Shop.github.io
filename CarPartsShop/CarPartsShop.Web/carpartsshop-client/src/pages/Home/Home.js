@@ -13,9 +13,8 @@ export default function Home() {
     let alive = true;
     (async () => {
       try {
-        // Keep this simple & compatible with your existing /api/Parts
         const { data } = await api.get("/api/Parts", {
-          params: { page: 1, pageSize: 8 }, // default sort from your API
+          params: { page: 1, pageSize: 8 }, 
         });
         const list = Array.isArray(data?.items) ? data.items : Array.isArray(data) ? data : [];
         if (alive) setFeatured(list);
@@ -75,12 +74,12 @@ export default function Home() {
                     </div>
                     <div>
                       <div className="fw-semibold">Fast delivery</div>
-                      <div className="text-white-50 small">Reliable couriers across the EU</div>
+                      <div className="text-white-50 small">Reliable couriers across the country</div>
                     </div>
                   </div>
                   <div className="d-flex align-items-center gap-3">
                     <div className="bg-primary bg-opacity-25 rounded-circle p-3">
-                      <span role="img" aria-label="shield" className="fs-3">🛡️</span>
+                      <span role="img" aria-label="shield" className="fs-3">📦</span>
                     </div>
                     <div>
                       <div className="fw-semibold">Easy returns</div>

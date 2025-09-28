@@ -16,9 +16,9 @@ export default function About() {
   ];
 
   const team = [
-    { name: "Mert", role: "Founder / CTO" },
-    { name: "N. Stoyanov", role: "Operations" },
-    { name: "I. Petrov", role: "Support Lead" },
+    { name: "Mert Myumyun", role: "Founder / CTO", photo: "/images/team/profilePicture.png" },
+    { name: "N. Stoyanov", role: "Operations", photo: "/images/team/profilePicture.png" },
+    { name: "I. Petrov", role: "Support Lead", photo: "/images/team/profilePicture.png" },
   ];
 
   return (
@@ -102,7 +102,12 @@ export default function About() {
               <Col key={i} sm={6} lg={4}>
                 <Card className="border-0 shadow-sm h-100 tile-hover">
                   <Card.Body className="d-flex align-items-center gap-3">
-                    <div className="rounded-circle bg-light" style={{ width: 56, height: 56 }} />
+                    <img
+                      src={m.photo}
+                      alt={m.name}
+                      className="rounded-circle object-fit-cover"
+                      style={{ width: 56, height: 56 }}
+                    />
                     <div>
                       <div className="fw-semibold">{m.name}</div>
                       <div className="text-muted small">{m.role}</div>
