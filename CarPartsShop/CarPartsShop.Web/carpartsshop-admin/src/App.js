@@ -13,7 +13,7 @@ import Login from "./pages/Login";
 function App() {
   return (
     <AuthProvider>
-      <Router>
+      <Router basename="/admin">
         <Routes>
           {/* Public: no layout here */}
           <Route path="/login" element={<Login />} />

@@ -70,6 +70,12 @@ builder.Services.AddCors(opt =>
             .AllowCredentials()
             .WithExposedHeaders("X-Total-Count");
     });
+    opt.AddPolicy("FrontEnd", p => p
+        .WithOrigins(
+            "https://mertmzzx.github.io" // Pages domain
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod());
 });
 
 builder.Services.AddControllers();
@@ -129,6 +135,7 @@ if (app.Environment.IsDevelopment())
 
 // Order of middleware matters:
 app.UseCors("DevCors");
+app.UseCors("FrontEnd");
 app.UseAuthentication();
 app.UseAuthorization();
 
