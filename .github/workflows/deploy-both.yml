@@ -1,12 +1,12 @@
-name: Deploy Shop to GitHub Pages
+# .github/workflows/deploy-both.yml
+name: Deploy shop + admin to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
-    paths:
-      - 'CarPartsShop.Web/**'
-      - '.github/workflows/deploy-pages.yml'
+    branches: [main]
+  workflow_dispatch:
 
+# required for the Pages deploy action
 permissions:
   contents: read
   pages: write
@@ -16,52 +16,77 @@ concurrency:
   group: "pages"
   cancel-in-progress: true
 
+env:
+  SHOP_DIR: CarPartsShop.Web/carpartsshop-client
+  ADMIN_DIR: CarPartsShop.Web/carpartsshop-admin
+  OUT_DIR: out
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
+          # cache both lockfiles (if you commit them)
+          cache-dependency-path: |
+            ${{ env.SHOP_DIR }}/package-lock.json
+            ${{ env.ADMIN_DIR }}/package-lock.json
 
-      # ---- SHOP in CarPartsShop.Web ----
+      # ---- Shop (client) ----
       - name: Install (shop)
-        working-directory: CarPartsShop.Web
-        run: npm ci
+        working-directory: ${{ env.SHOP_DIR }}
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install --no-audit --no-fund
+          fi
 
-      - name: Build (shop at repo base)
-        working-directory: CarPartsShop.Web
-        env:
-          # change to your actual API when ready
-          REACT_APP_API_BASE_URL: https://YOUR-API-HOST
-          # project pages base path
-          PUBLIC_URL: /Car-Parts-Online-Shop.github.io
+      - name: Build (shop)
+        working-directory: ${{ env.SHOP_DIR }}
         run: npm run build
 
-      # Optional: 404 for SPA fallback
-      - name: Add 404.html for SPA
-        working-directory: CarPartsShop.Web
+      # ---- Admin ----
+      - name: Install (admin)
+        working-directory: ${{ env.ADMIN_DIR }}
         run: |
-          if [ -f public/404.html ]; then
-            cp public/404.html build/404.html
+          if [ -f package-lock.json ]; then
+            npm ci
           else
-            echo '<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=/Car-Parts-Online-Shop.github.io/"></head><body></body></html>' > build/404.html
+            npm install --no-audit --no-fund
           fi
+
+      - name: Build (admin)
+        working-directory: ${{ env.ADMIN_DIR }}
+        run: npm run build
+
+      # ---- Prepare artifact for Pages ----
+      - name: Prepare Pages artifact
+        run: |
+          rm -rf $OUT_DIR
+          mkdir -p $OUT_DIR/repo/admin
+          cp -r $SHOP_DIR/build/* $OUT_DIR/
+          cp -r $ADMIN_DIR/build/* $OUT_DIR/repo/admin/
+          # optional SPA 404 fallback if you keep one in public/
+          if [ -f "$SHOP_DIR/public/404.html" ]; then cp "$SHOP_DIR/public/404.html" "$OUT_DIR/"; fi
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: CarPartsShop.Web/build
+          path: ${{ env.OUT_DIR }}
 
   deploy:
-    runs-on: ubuntu-latest
     needs: build
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deploy.outputs.page_url }}
     steps:
-      - id: deployment
+      - id: deploy
         uses: actions/deploy-pages@v4
-
