@@ -5,10 +5,12 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import CartFab from "../components/CartFab";
 
+const BASE = "/Car-Parts-Online-Shop.github.io";
+
 export default function App() {
   return (
     <Providers>
-      <BrowserRouter>
+      <BrowserRouter basename={BASE}>
         <div className="min-vh-100 d-flex flex-column">
           <Header />
 

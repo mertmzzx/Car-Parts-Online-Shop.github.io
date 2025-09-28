@@ -10,10 +10,12 @@ import Products from "./pages/Products";
 import Users from "./pages/Users";
 import Login from "./pages/Login";
 
+const BASE = "/Car-Parts-Online-Shop.github.io/admin";
+
 function App() {
   return (
     <AuthProvider>
-      <Router basename="/admin">
+      <Router basename={BASE}>
         <Routes>
           {/* Public: no layout here */}
           <Route path="/login" element={<Login />} />

@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <script>
-      (function () {
-        var p = window.location.pathname || "/";
-        // If the path starts with /admin, send visitors to /admin/
-        if (p.startsWith("/admin")) {
-          window.location.replace("/admin/");
-        } else {
-          // Otherwise send to shop root
-          window.location.replace("/");
-        }
-      })();
-    </script>
-  </head>
-  <body></body>
+<head>
+  <meta charset="utf-8" />
+  <script>
+    (function () {
+      // Project base path:
+      var BASE = "/Car-Parts-Online-Shop.github.io";
+
+      var p = window.location.pathname || "/";
+      if (p.startsWith(BASE + "/admin")) {
+        // deep link into admin → send to admin app entry
+        window.location.replace(BASE + "/admin/");
+      } else {
+        // otherwise → send to shop entry
+        window.location.replace(BASE + "/");
+      }
+    })();
+  </script>
+</head>
+<body></body>
 </html>

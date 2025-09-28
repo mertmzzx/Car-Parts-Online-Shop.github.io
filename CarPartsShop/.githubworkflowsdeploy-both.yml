@@ -27,38 +27,38 @@ jobs:
         with:
           node-version: 20
 
-      # -------- SHOP --------
+      # ---- SHOP ----
       - name: Install (shop)
         working-directory: carpartsshop-client
         run: npm ci
 
-      - name: Build (shop)
+      - name: Build (shop at repo base)
         working-directory: carpartsshop-client
         env:
-          # 👇 put your deployed API URL here
-          REACT_APP_API_BASE_URL: https://mertmzzx.github.io/Car-Parts-Online-Shop.github.io/
+          # 👇 your API base URL for production
+          REACT_APP_API_BASE_URL: https://YOUR-API-HOST
+          # IMPORTANT for project pages: PUBLIC_URL must include the repo name
+          PUBLIC_URL: /Car-Parts-Online-Shop.github.io
         run: npm run build
 
-      # Ensure SPA fallback for deep links (root 404)
       - name: Copy 404.html to shop build
         working-directory: carpartsshop-client
         run: cp public/404.html build/404.html
 
-      # -------- ADMIN --------
+      # ---- ADMIN ----
       - name: Install (admin)
         working-directory: carpartsshop-admin
         run: npm ci
 
-      - name: Build (admin under /admin)
+      - name: Build (admin under /repo/admin)
         working-directory: carpartsshop-admin
         env:
-          REACT_APP_API_BASE_URL: https://mertmzzx.github.io/Car-Parts-Online-Shop.github.io/
-          # PUBLIC_URL ensures CRA asset paths are rooted under /admin
-          PUBLIC_URL: /admin
+          REACT_APP_API_BASE_URL: https://YOUR-API-HOST
+          PUBLIC_URL: /Car-Parts-Online-Shop.github.io/admin
         run: npm run build
 
-      # -------- Assemble single artifact --------
-      - name: Assemble dist for Pages
+      # ---- Assemble single artifact ----
+      - name: Assemble dist
         run: |
           mkdir -p dist
           cp -r carpartsshop-client/build/* dist/
