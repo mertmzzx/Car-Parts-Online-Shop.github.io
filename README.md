@@ -4,50 +4,50 @@ It simulates a real online shop for car parts, designed to showcase modern web d
 
 ## 🚀 Features
 
-● User-facing store
-Browse, search, and filter car parts by category and price
+### 🛒 User-facing store
+- Browse, search, and filter car parts by category and price
 
-Product detail pages with SKU, pricing, and images
+- Product detail pages with SKU, pricing, and images
 
-Shopping cart with live updates and checkout flow
+- Shopping cart with live updates and checkout flow
 
-Order placement with shipping address snapshots & payment method 
+- Order placement with shipping address snapshots & payment method 
 
-User account: login, register, profile dashboard -> orders, addresses
+- User account: login, register, profile dashboard -> orders, addresses
 
-● Admin panel
-Dashboard with quick stats and recent actions
+### 📊 Admin panel
+- Dashboard with quick stats and recent actions
 
-Manage users (roles, block, delete)
+- Manage users (roles, block, delete)
 
-Track and update order status with history logging
+- Track and update order status with history logging
 
-View admin activity logs
+- View admin activity logs
 
 ## 🛠️ Tech Stack
-### Frontend
-⚛️ React (with React Router)
+### ⚛️ Frontend
+- React (with React Router)
 
-🎨 Bootstrap 5 (React-Bootstrap)
+- Bootstrap 5 (React-Bootstrap)
 
-📦 Context API (Auth & Cart state management)
+- Context API (Auth & Cart state management)
 
 
-### Backend
-🖥 ASP.NET Core Web API (C#)
+### 🖥 Backend
+- ASP.NET Core Web API (C#)
 
-🗄 Entity Framework Core (Code-First Migrations)
+- Entity Framework Core (Code-First Migrations)
 
-🔑 Identity + JWT Authentication
+- Identity + JWT Authentication
 
-🛡 Role-based Authorization (Admin, Sales Assistant, Customer)
+- Role-based Authorization (Admin, Sales Assistant, Customer)
 
-### Database
-📘 SQL Server (local via Docker, can run on cloud DB)
+### 💾 Database
+- SQL Server (local via Docker, can run on cloud DB)
 
-### Other Tools & Libraries
-🔍 Swagger (API documentation)
+### 🔧 Other Tools & Libraries
+- Swagger (API documentation)
 
-🔧 Axios (API calls in frontend)
+- Axios (API calls in frontend)
 
-📊 ESLint + Prettier (code quality & formatting)
+- ESLint + Prettier (code quality & formatting)
