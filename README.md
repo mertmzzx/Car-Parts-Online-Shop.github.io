@@ -1,4 +1,4 @@
-# 🔧 Silver Star Parts – Full-Stack Web App for Car Parts
+# 🚘 Silver Star Parts – Full-Stack Web App for Car Parts
 Silver Star Parts is a full-stack demo web application built with ASP.NET Core(C#) for the backend and React (Bootstrap) for the frontend.
 It simulates a real online shop for car parts, designed to showcase modern web development, clean architecture, and e-commerce features.
 
