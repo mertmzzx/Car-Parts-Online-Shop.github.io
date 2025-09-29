@@ -5,7 +5,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import CartFab from "../components/CartFab";
 
-const BASE = "/Car-Parts-Online-Shop.github.io";
+const BASE = "/Car-Parts-Shop.github.io";
 
 export default function App() {
   return (
