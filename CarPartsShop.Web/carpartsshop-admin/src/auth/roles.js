@@ -1,4 +1,3 @@
-// src/auth/roles.js
 export const Roles = {
   Administrator: "Administrator",
   SalesAssistant: "Sales Assistant",

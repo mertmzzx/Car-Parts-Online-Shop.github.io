@@ -25,16 +25,14 @@ export default function Orders() {
           const customerFirst = o.customerFirstName ?? c.firstName ?? "";
           const customerLast = o.customerLastName ?? c.lastName ?? "";
 
-          // build a full name safely
           const fullName = [customerFirst, customerLast].filter(Boolean).join(" ").trim();
 
-          // prefer explicit name from API, otherwise our fullName, then fallback to c.name, then ""
           const customerName = o.customerName ?? (fullName || c.name || "");
 
           const customerEmail = o.customerEmail ?? c.email ?? "";
           const customerPhone = o.customerPhone ?? c.phone ?? c.phoneNumber ?? "";
 
-          // Delivery info: use combined field if present, else stitch from parts
+          // Delivery info
           const deliveryAddress =
             o.deliveryAddress ??
             o.shippingAddress ??
@@ -95,7 +93,7 @@ export default function Orders() {
     }
   };
 
-  // helper to show meaningful API errors
+  // helper to show API errors
   const readApiError = (err) => {
     const r = err?.response;
     if (!r) return err?.message || "Network error";
@@ -106,14 +104,13 @@ export default function Orders() {
     try { return JSON.stringify(r.data); } catch { return `HTTP ${r.status}`; }
   };
 
-  // Persist status change to API (optimistic UI with revert on error)
   const handleStatusChange = async (orderId, newStatus) => {
     const prev = orders;
     setOrders(prev => prev.map(o => (o.id === orderId ? { ...o, status: newStatus } : o)));
     try {
       await http.patch(`/api/orders/${orderId}/status`, { status: newStatus });
     } catch (err) {
-      setOrders(prev); // revert
+      setOrders(prev); 
       alert(`Failed to update status: ${readApiError(err)}`);
     }
   };

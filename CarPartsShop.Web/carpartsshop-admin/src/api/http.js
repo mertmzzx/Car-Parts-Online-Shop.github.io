@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const http = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL || "https://localhost:7127", // your API origin (match Swagger)
+  baseURL: process.env.REACT_APP_API_BASE_URL || "https://localhost:7127", 
   withCredentials: false,
 });
 

@@ -1,4 +1,3 @@
-// src/App.js
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./auth/AuthContext";
 import RequireRole from "./auth/RequireRole";

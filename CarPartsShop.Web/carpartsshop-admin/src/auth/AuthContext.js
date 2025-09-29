@@ -88,7 +88,6 @@ export function AuthProvider({ children }) {
       if (!jwt) throw new Error("No token in response");
 
       const decodedRoles = parseRolesFromToken(jwt);
-      // FALLBACK: if token roles are empty, use role from body
       const roles = decodedRoles?.length ? decodedRoles
         : (data.role ? [data.role] : []);
 

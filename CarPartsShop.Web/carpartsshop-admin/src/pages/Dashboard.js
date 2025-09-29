@@ -1,4 +1,3 @@
-// src/pages/Dashboard.jsx
 import { useEffect, useState } from "react";
 import { Card, Row, Col, Button, Table, Badge } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";

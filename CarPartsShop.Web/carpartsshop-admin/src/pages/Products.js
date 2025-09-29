@@ -1,4 +1,3 @@
-// src/pages/Products.js
 import { useEffect, useMemo, useState } from "react";
 import { Table, Button, Modal, Form, InputGroup, Pagination, Card } from "react-bootstrap";
 import { useAuth } from "../auth/AuthContext";

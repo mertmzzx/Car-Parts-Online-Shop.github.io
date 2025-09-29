@@ -1,4 +1,3 @@
-// src/pages/Register.js
 import { useState } from "react";
 import { Card, Form, Button, Alert, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -23,7 +22,6 @@ export default function Register() {
   };
 
   const normalizeError = (err) => {
-    // Try to extract a helpful message from typical ASP.NET Core responses
     const r = err?.response;
     if (!r) return err?.message || "Network error";
 

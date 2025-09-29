@@ -228,8 +228,12 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 2,
@@ -250,7 +254,7 @@
               "RelativeDocumentMoniker": "CarPartsShop.API\\Program.cs",
               "ToolTip": "D:\\Git\\Car-Parts-Online-Shop\\CarPartsShop\\CarPartsShop.API\\CarPartsShop.API\\Program.cs",
               "RelativeToolTip": "CarPartsShop.API\\Program.cs",
-              "ViewState": "AgIAACwAAAAAAAAAAAAiwDYAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAAAIkAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-13T07:03:53.178Z",
               "EditorCaption": ""
@@ -301,12 +305,7 @@
               "RelativeToolTip": "CarPartsShop.API\\Data\\IdentitySeeder.cs",
               "ViewState": "AgIAABcAAAAAAAAAAAAiwAsAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-13T11:13:00.009Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+              "WhenOpened": "2025-08-13T11:13:00.009Z"
             },
             {
               "$type": "Document",

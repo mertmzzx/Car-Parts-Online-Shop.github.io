@@ -1,4 +1,3 @@
-// src/pages/Login.js
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Form, Button, Card, Alert, Spinner } from "react-bootstrap";
@@ -9,22 +8,20 @@ export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // if you came from a protected page, RequireRole should have set this
   const from = location.state?.from?.pathname || "/";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  // ✅ Redirect whenever we actually have a logged-in user
   useEffect(() => {
     if (!user) return;
 
     const roles = user.roles || [];
     if (roles.includes("Administrator") || roles.includes("SalesAssistant")) {
-      navigate(from, { replace: true });      // to admin home ("/")
+      navigate(from, { replace: true });      
     } else {
-      navigate("/403", { replace: true });    // customers not allowed in admin
+      navigate("/403", { replace: true });    
     }
   }, [user, from, navigate]);
 
@@ -45,8 +42,6 @@ export default function Login() {
       return;
     }
 
-    // Optional immediate nudge; the effect above will also catch it
-    // (Sometimes helps with React timing in dev)
     setTimeout(() => {
       const roles = res.user?.roles || [];
       if (roles.includes("Administrator") || roles.includes("SalesAssistant")) {

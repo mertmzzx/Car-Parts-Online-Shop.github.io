@@ -1,4 +1,3 @@
-// src/auth/RequireRole.jsx
 import { useEffect, useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
@@ -34,12 +33,10 @@ export default function RequireRole({ allowed, children }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn, hasRole]);
 
-  // Not logged in? go to login
   if (!isLoggedIn) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  // Logged in but not allowed → modal will handle logout & redirect
   if (!hasRole) {
     return (
       <Modal show={showDenied} backdrop="static" centered>
@@ -66,6 +63,5 @@ export default function RequireRole({ allowed, children }) {
     );
   }
 
-  // Authorized
   return children;
 }

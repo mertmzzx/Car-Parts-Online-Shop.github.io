@@ -71,16 +71,14 @@ builder.Services.AddCors(opt =>
             .WithExposedHeaders("X-Total-Count");
     });
     opt.AddPolicy("FrontEnd", p => p
-        .WithOrigins(
-            "https://mertmzzx.github.io" // Pages domain
-        )
+        .WithOrigins("https://mertmzzx.github.io", "https://mertmzzx.github.io/Car-Parts-Online-Shop.github.io")
         .AllowAnyHeader()
         .AllowAnyMethod());
 });
 
 builder.Services.AddControllers();
 
-// Optional (nice for dev): Swagger
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -133,9 +131,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
+
 // Order of middleware matters:
-app.UseCors("DevCors");
-app.UseCors("FrontEnd");
+app.UseCors(app.Environment.IsDevelopment() ? "DevCors" : "FrontEnd");
 app.UseAuthentication();
 app.UseAuthorization();
 

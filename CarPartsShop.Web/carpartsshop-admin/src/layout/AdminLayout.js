@@ -1,4 +1,3 @@
-// src/layout/AdminLayout.jsx
 import { useMemo, useState } from "react";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
@@ -13,7 +12,6 @@ import {
   FiUser,
 } from "react-icons/fi";
 
-// tiny, inline color-coded role pill
 const RolePill = ({ role }) => {
   if (!role) return null;
   const key = String(role).toLowerCase(); // "administrator" | "salesassistant" | "customer"

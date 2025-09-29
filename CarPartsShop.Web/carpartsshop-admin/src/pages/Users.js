@@ -1,4 +1,3 @@
-// src/pages/Users.js
 import { Table, Button, Form, InputGroup, Pagination, Card } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import http from "../api/http";
