@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // 1) DbContext
 builder.Services.AddDbContext<AppDbContext>(opt =>
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // 2) Identity (AppUser/AppRole with int keys)
 builder.Services
@@ -115,11 +115,6 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddScoped<JwtTokenService>();
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
-// Optional: see EF Core SQL
-builder.Services.AddDbContext<AppDbContext>(opt =>
-    opt.UseSqlServer("Server=localhost,1433;Database=CarPartsShopDb;User Id=sa;Password=P@rola123;TrustServerCertificate=True;")
-       .EnableSensitiveDataLogging()
-       .EnableDetailedErrors());
 
 var app = builder.Build();
 
