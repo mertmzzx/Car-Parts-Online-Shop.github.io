@@ -29,13 +29,6 @@ logs/
 *.seed
 *.bak
 
-# ---- Environment & Secrets ----
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
 # Keep example env files
 !.env.example
 
