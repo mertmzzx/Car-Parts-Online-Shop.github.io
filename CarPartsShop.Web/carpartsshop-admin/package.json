@@ -1,5 +1,6 @@
 {
   "name": "carpartsshop-admin",
+  "homepage": "/Car-Parts-Shop.github.io/admin",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
