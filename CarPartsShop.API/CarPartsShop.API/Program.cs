@@ -75,6 +75,7 @@ builder.Services.AddCors(options =>
         .WithOrigins("https://mertmzzx.github.io")
         .AllowAnyHeader()
         .AllowAnyMethod()
+        .AllowCredentials()
         .WithExposedHeaders("X-Total-Count"));
 });
 
