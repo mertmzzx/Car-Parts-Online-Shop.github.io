@@ -118,13 +118,24 @@ builder.Logging.AddConsole();
 
 var app = builder.Build();
 
+app.MapGet("/", () => Results.Redirect("/swagger"));
+/*
 // Swagger in Development
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+} */
+
+// Swagger in Production
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarPartsShop API v1");
+    c.RoutePrefix = "swagger"; // makes it available at /swagger
+});
+
 
 using (var scope = app.Services.CreateScope())
 {
