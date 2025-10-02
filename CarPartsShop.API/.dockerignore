@@ -1,0 +1,8 @@
+.vs/
+bin/
+obj/
+.git/
+*.user
+*.suo
+Dockerfile
+CarPartsShop.API.sln
