@@ -66,27 +66,24 @@ jobs:
         working-directory: ${{ env.ADMIN_DIR }}
         run: npm run build
 
-      # ---- Prepare artifact for Pages ----
+          # ---- Prepare artifact for Pages ----
       - name: Prepare Pages artifact
         run: |
-          rm -rf $OUT_DIR
-          mkdir -p $OUT_DIR/repo/admin
-          cp -r $SHOP_DIR/build/* $OUT_DIR/
-          cp -r $ADMIN_DIR/build/* $OUT_DIR/repo/admin/
-          # optional SPA 404 fallback if you keep one in public/
-          if [ -f "$SHOP_DIR/public/404.html" ]; then cp "$SHOP_DIR/public/404.html" "$OUT_DIR/"; fi
+          rm -rf "$OUT_DIR"
+          mkdir -p "$OUT_DIR"
+          # copy shop build to the site root
+          cp -r "$SHOP_DIR/build/"* "$OUT_DIR/"
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ${{ env.OUT_DIR }}
+          # copy admin build into /admin
+          mkdir -p "$OUT_DIR/admin"
+          cp -r "$ADMIN_DIR/build/"* "$OUT_DIR/admin/"
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
-    steps:
-      - id: deploy
-        uses: actions/deploy-pages@v4
+          # SPA fallbacks:
+          # root: optional, if you ship a 404.html in shop/public
+          if [ -f "$SHOP_DIR/public/404.html" ]; then
+            cp "$SHOP_DIR/public/404.html" "$OUT_DIR/404.html"
+          fi
+          # admin: ensure deep links under /admin work
+          if [ -f "$OUT_DIR/admin/index.html" ]; then
+            cp "$OUT_DIR/admin/index.html" "$OUT_DIR/admin/404.html"
+          fi
