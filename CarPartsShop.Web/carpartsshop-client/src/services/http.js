@@ -1,7 +1,11 @@
 import axios from "axios";
 
+const base = (process.env.REACT_APP_API_BASE_URL || "").replace(/\/$/, ""); // strip trailing /
+const baseURL = base || "https://car-parts-shop.onrender.com/api";
+
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL,
+  baseURL,
+  withCredentials: true,
 });
 
 // Always attach token 
