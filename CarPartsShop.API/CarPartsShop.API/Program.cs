@@ -10,11 +10,11 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1) DbContext
+// DbContext
 builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// 2) Identity (AppUser/AppRole with int keys)
+// Identity 
 builder.Services
     .AddIdentityCore<AppUser>(opt =>
     {
@@ -30,7 +30,7 @@ builder.Services
     .AddEntityFrameworkStores<AppDbContext>()
     .AddSignInManager<SignInManager<AppUser>>();
 
-// 3) JWT authentication
+// JWT authentication
 var jwt = builder.Configuration.GetSection("Jwt");
 var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt["Key"]!));
 
@@ -50,7 +50,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-// 4) Authorization policies for your 3 roles
+// Authorization policies for roles
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("RequireAdmin", p => p.RequireRole(Roles.Administrator));
@@ -58,22 +58,18 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("ManageCatalog", p => p.RequireRole(Roles.Administrator));
 });
 
-// 5) CORS for your dev frontends
+// CORS for frontends
 builder.Services.AddCors(opt =>
 {
-    opt.AddPolicy("DevCors", policy =>
-    {
-        policy
-            .WithOrigins("http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:3000") 
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials()
-            .WithExposedHeaders("X-Total-Count");
-    });
-    opt.AddPolicy("FrontEnd", p => p
-        .WithOrigins("https://mertmzzx.github.io", "https://mertmzzx.github.io/Car-Parts-Online-Shop.github.io")
+    opt.AddPolicy("WebClients", p => p
+        .WithOrigins(
+            "https://mertmzzx.github.io",                     // GitHub Pages
+            "https://car-parts-shop.onrender.com"             // self
+        )
         .AllowAnyHeader()
-        .AllowAnyMethod());
+        .AllowAnyMethod()
+        .AllowCredentials()
+        .WithExposedHeaders("X-Total-Count"));
 });
 
 builder.Services.AddControllers();
