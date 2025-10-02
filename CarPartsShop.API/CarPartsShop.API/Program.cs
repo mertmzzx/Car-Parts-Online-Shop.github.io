@@ -59,18 +59,25 @@ builder.Services.AddAuthorization(options =>
 });
 
 // CORS for frontends
-builder.Services.AddCors(opt =>
+builder.Services.AddCors(options =>
 {
-    opt.AddPolicy("WebClients", p => p
+    options.AddPolicy("Dev", p => p
         .WithOrigins(
-            "https://mertmzzx.github.io",                     // GitHub Pages
-            "https://car-parts-shop.onrender.com"             // self
+            "http://localhost:5173", "http://127.0.0.1:5173",
+            "http://localhost:3000"
         )
         .AllowAnyHeader()
         .AllowAnyMethod()
         .AllowCredentials()
         .WithExposedHeaders("X-Total-Count"));
+
+    options.AddPolicy("Pages", p => p
+        .WithOrigins("https://mertmzzx.github.io")
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .WithExposedHeaders("X-Total-Count"));
 });
+
 
 builder.Services.AddControllers();
 
@@ -138,9 +145,16 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
 }
+// Order matters: CORS must be before auth
+if (app.Environment.IsDevelopment())
+{
+    app.UseCors("Dev");
+}
+else
+{
+    app.UseCors("Pages");
+}
 
-// Order of middleware matters:
-app.UseCors(app.Environment.IsDevelopment() ? "DevCors" : "FrontEnd");
 app.UseAuthentication();
 app.UseAuthorization();
 
