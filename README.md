@@ -43,7 +43,8 @@ It simulates a real online shop for car parts, designed to showcase modern web d
 - Role-based Authorization (Admin, Sales Assistant, Customer)
 
 ### 💾 Database
-- SQL Server (local via Docker, can run on cloud DB)
+- Used SQL Server in Development
+- Switched to PostgreSQL in Production
 
 ### 🔧 Other Tools & Libraries
 - Swagger (API documentation)
