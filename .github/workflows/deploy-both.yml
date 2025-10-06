@@ -70,31 +70,19 @@ jobs:
       - name: Prepare Pages artifact
         run: |
           set -e
-
-          # fresh output folder
           rm -rf "$OUT_DIR"
-          mkdir -p "$OUT_DIR"
-
-          # copy shop to site root (note the trailing /. so *everything* copies)
-          cp -r "$SHOP_DIR/build/." "$OUT_DIR/"
-
-          # copy admin into /admin (again, trailing /. matters)
           mkdir -p "$OUT_DIR/admin"
-          cp -r "$ADMIN_DIR/build/." "$OUT_DIR/admin/"
 
-          # make sure Jekyll doesn't interfere
-          touch "$OUT_DIR/.nojekyll"
+          cp -r "$SHOP_DIR/build/"* "$OUT_DIR/"
 
-          # SPA fallbacks
-          # root SPA 404 (optional, if you keep one in client/public)
-          if [ -f "$SHOP_DIR/public/404.html" ]; then
-            cp "$SHOP_DIR/public/404.html" "$OUT_DIR/404.html"
+          cp -r "$ADMIN_DIR/build/"* "$OUT_DIR/admin/"
+
+          if [ -f "$OUT_DIR/index.html" ]; then
+            cp "$OUT_DIR/index.html" "$OUT_DIR/404.html"
           fi
-          # admin SPA 404 (serve admin index for deep links)
+          
           if [ -f "$OUT_DIR/admin/index.html" ]; then
             cp "$OUT_DIR/admin/index.html" "$OUT_DIR/admin/404.html"
           fi
 
-          echo "==== OUT_DIR (first 2 levels) ===="
-          find "$OUT_DIR" -maxdepth 2 -type f | sed "s|$OUT_DIR|.|"
 
