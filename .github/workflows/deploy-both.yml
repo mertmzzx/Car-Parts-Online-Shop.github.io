@@ -6,14 +6,14 @@ on:
     branches: [main]
   workflow_dispatch:
 
-# required for the Pages deploy action
+# Required by Pages actions
 permissions:
   contents: read
   pages: write
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: true
 
 env:
@@ -32,58 +32,52 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
-          # cache both lockfiles (if you commit them)
+          cache: npm
           cache-dependency-path: |
             ${{ env.SHOP_DIR }}/package-lock.json
             ${{ env.ADMIN_DIR }}/package-lock.json
 
-      # ---- Shop (client) ----
+      # --- shop ---
       - name: Install (shop)
         working-directory: ${{ env.SHOP_DIR }}
         run: |
-          if [ -f package-lock.json ]; then
-            npm ci
-          else
-            npm install --no-audit --no-fund
-          fi
-
+          if [ -f package-lock.json ]; then npm ci; else npm i --no-audit --no-fund; fi
       - name: Build (shop)
         working-directory: ${{ env.SHOP_DIR }}
         run: npm run build
 
-      # ---- Admin ----
+      # --- admin ---
       - name: Install (admin)
         working-directory: ${{ env.ADMIN_DIR }}
         run: |
-          if [ -f package-lock.json ]; then
-            npm ci
-          else
-            npm install --no-audit --no-fund
-          fi
-
+          if [ -f package-lock.json ]; then npm ci; else npm i --no-audit --no-fund; fi
       - name: Build (admin)
         working-directory: ${{ env.ADMIN_DIR }}
         run: npm run build
 
-          # ---- Prepare artifact for Pages ----
+      # --- assemble Pages artifact ---
       - name: Prepare Pages artifact
         run: |
           set -e
           rm -rf "$OUT_DIR"
           mkdir -p "$OUT_DIR/admin"
-
-          cp -r "$SHOP_DIR/build/"* "$OUT_DIR/"
-
+          cp -r "$SHOP_DIR/build/"*  "$OUT_DIR/"
           cp -r "$ADMIN_DIR/build/"* "$OUT_DIR/admin/"
+          # optional SPA fallbacks
+          if [ -f "$SHOP_DIR/public/404.html" ]; then cp "$SHOP_DIR/public/404.html" "$OUT_DIR/"; fi
+          if [ -f "$ADMIN_DIR/public/404.html" ]; then cp "$ADMIN_DIR/public/404.html" "$OUT_DIR/admin/"; fi
 
-          if [ -f "$OUT_DIR/index.html" ]; then
-            cp "$OUT_DIR/index.html" "$OUT_DIR/404.html"
-          fi
-          
-          if [ -f "$OUT_DIR/admin/index.html" ]; then
-            cp "$OUT_DIR/admin/index.html" "$OUT_DIR/admin/404.html"
-          fi
+      - name: Debug artifact content
+        run: |
+          echo "Files that will be deployed:"
+          find "$OUT_DIR" -maxdepth 3 -type f -print
+
+      # IMPORTANT: this must run, and it uploads an artifact named "github-pages"
+      - name: Upload artifact to Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ env.OUT_DIR }}
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -93,6 +87,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4  
-
-
+        uses: actions/deploy-pages@v4
